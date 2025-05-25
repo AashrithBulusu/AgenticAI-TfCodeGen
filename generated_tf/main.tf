@@ -1,203 +1,83 @@
 module "network_security_group" {
-  source = "Azure/avm-res-network-networksecuritygroup/azurerm"
+  source  = "Azure/avm-res-network-networksecuritygroup/azurerm"
   version = "0.4.0"
-  lock = var.network_security_group_vars.lock
-  diagnostic_settings = var.network_security_group_vars.diagnostic_settings
-  location = var.network_security_group_vars.location
-  security_rules = var.network_security_group_vars.security_rules
-  enable_telemetry = var.network_security_group_vars.enable_telemetry
-  role_assignments = var.network_security_group_vars.role_assignments
-  timeouts = var.network_security_group_vars.timeouts
-  tags = var.network_security_group_vars.tags
-  name = var.network_security_group_vars.name
-  resource_group_name = var.network_security_group_vars.resource_group_name
-}
 
+  name                = var.network_security_group_config.name
+  resource_group_name = var.network_security_group_config.resource_group_name
+  location            = var.network_security_group_config.location
+  security_rules      = var.network_security_group_config.security_rules
+  tags                = var.network_security_group_config.tags
+}
 module "network_interface" {
-  source = "Azure/avm-res-network-networkinterface/azurerm"
+  source  = "Azure/avm-res-network-networkinterface/azurerm"
   version = "0.1.0"
-  nat_rule_association = var.network_interface_vars.nat_rule_association
-  lock = var.network_interface_vars.lock
-  dns_servers = var.network_interface_vars.dns_servers
-  accelerated_networking_enabled = var.network_interface_vars.accelerated_networking_enabled
-  location = var.network_interface_vars.location
-  ip_configurations = var.network_interface_vars.ip_configurations
-  edge_zone = var.network_interface_vars.edge_zone
-  application_gateway_backend_address_pool_association = var.network_interface_vars.application_gateway_backend_address_pool_association
-  enable_telemetry = var.network_interface_vars.enable_telemetry
-  application_security_group_ids = var.network_interface_vars.application_security_group_ids
-  internal_dns_name_label = var.network_interface_vars.internal_dns_name_label
-  ip_forwarding_enabled = var.network_interface_vars.ip_forwarding_enabled
-  load_balancer_backend_address_pool_association = var.network_interface_vars.load_balancer_backend_address_pool_association
-  network_security_group_ids = var.network_interface_vars.network_security_group_ids
-  tags = var.network_interface_vars.tags
-  name = var.network_interface_vars.name
-  resource_group_name = var.network_interface_vars.resource_group_name
-}
 
+  name                = var.network_interface_config.name
+  location            = var.network_interface_config.location
+  resource_group_name = var.network_interface_config.resource_group_name
+  subnet_id           = var.network_interface_config.subnet_id
+  private_ip_address  = var.network_interface_config.private_ip_address
+  enable_ip_forwarding = var.network_interface_config.enable_ip_forwarding
+  dns_servers         = var.network_interface_config.dns_servers
+  tags                = var.network_interface_config.tags
+}
 module "virtual_machine" {
-  source = "Azure/avm-res-azurestackhci-virtualmachineinstance/azurerm"
+  source  = "Azure/avm-res-azurestackhci-virtualmachineinstance/azurerm"
   version = "2.0.0"
-  type_handler_version = var.virtual_machine_vars.type_handler_version
-  nic_tags = var.virtual_machine_vars.nic_tags
-  admin_password = var.virtual_machine_vars.admin_password
-  enable_telemetry = var.virtual_machine_vars.enable_telemetry
-  dynamic_memory_max = var.virtual_machine_vars.dynamic_memory_max
-  custom_location_id = var.virtual_machine_vars.custom_location_id
-  user_storage_id = var.virtual_machine_vars.user_storage_id
-  domain_join_password = var.virtual_machine_vars.domain_join_password
-  auto_upgrade_minor_version = var.virtual_machine_vars.auto_upgrade_minor_version
-  domain_join_user_name = var.virtual_machine_vars.domain_join_user_name
-  os_type = var.virtual_machine_vars.os_type
-  linux_ssh_config = var.virtual_machine_vars.linux_ssh_config
-  https_proxy = var.virtual_machine_vars.https_proxy
-  v_cpu_count = var.virtual_machine_vars.v_cpu_count
-  domain_join_extension_tags = var.virtual_machine_vars.domain_join_extension_tags
-  resource_group_name = var.virtual_machine_vars.resource_group_name
-  managed_identities = var.virtual_machine_vars.managed_identities
-  domain_to_join = var.virtual_machine_vars.domain_to_join
-  dynamic_memory = var.virtual_machine_vars.dynamic_memory
-  secure_boot_enabled = var.virtual_machine_vars.secure_boot_enabled
-  location = var.virtual_machine_vars.location
-  memory_mb = var.virtual_machine_vars.memory_mb
-  no_proxy = var.virtual_machine_vars.no_proxy
-  private_ip_address = var.virtual_machine_vars.private_ip_address
-  http_proxy = var.virtual_machine_vars.http_proxy
-  image_id = var.virtual_machine_vars.image_id
-  logical_network_id = var.virtual_machine_vars.logical_network_id
-  data_disk_params = var.virtual_machine_vars.data_disk_params
-  dynamic_memory_buffer = var.virtual_machine_vars.dynamic_memory_buffer
-  role_assignments = var.virtual_machine_vars.role_assignments
-  dynamic_memory_min = var.virtual_machine_vars.dynamic_memory_min
-  admin_username = var.virtual_machine_vars.admin_username
-  lock = var.virtual_machine_vars.lock
-  domain_target_ou = var.virtual_machine_vars.domain_target_ou
-  trusted_ca = var.virtual_machine_vars.trusted_ca
-  windows_ssh_config = var.virtual_machine_vars.windows_ssh_config
-  tags = var.virtual_machine_vars.tags
-  name = var.virtual_machine_vars.name
-}
 
+  name                        = var.virtual_machine_config.name
+  location                    = var.virtual_machine_config.location
+  resource_group_name         = var.virtual_machine_config.resource_group_name
+  vm_size                     = var.virtual_machine_config.vm_size
+  admin_username              = var.virtual_machine_config.admin_username
+  admin_password              = var.virtual_machine_config.admin_password
+  network_interface_ids       = var.virtual_machine_config.network_interface_ids
+  os_disk_size_gb             = var.virtual_machine_config.os_disk_size_gb
+  os_disk_type                = var.virtual_machine_config.os_disk_type
+  image_reference             = var.virtual_machine_config.image_reference
+  tags                        = var.virtual_machine_config.tags
+}
 module "load_balancer" {
-  source = "Azure/avm-res-network-loadbalancer/azurerm"
+  source  = "Azure/avm-res-network-loadbalancer/azurerm"
   version = "0.4.0"
-  lb_probes = var.load_balancer_vars.lb_probes
-  backend_address_pools = var.load_balancer_vars.backend_address_pools
-  enable_telemetry = var.load_balancer_vars.enable_telemetry
-  backend_address_pool_addresses = var.load_balancer_vars.backend_address_pool_addresses
-  lb_outbound_rules = var.load_balancer_vars.lb_outbound_rules
-  diagnostic_settings = var.load_balancer_vars.diagnostic_settings
-  lb_rules = var.load_balancer_vars.lb_rules
-  public_ip_address_configuration = var.load_balancer_vars.public_ip_address_configuration
-  resource_group_name = var.load_balancer_vars.resource_group_name
-  sku_tier = var.load_balancer_vars.sku_tier
-  backend_address_pool_network_interfaces = var.load_balancer_vars.backend_address_pool_network_interfaces
-  location = var.load_balancer_vars.location
-  edge_zone = var.load_balancer_vars.edge_zone
-  frontend_subnet_resource_id = var.load_balancer_vars.frontend_subnet_resource_id
-  role_assignments = var.load_balancer_vars.role_assignments
-  frontend_ip_configurations = var.load_balancer_vars.frontend_ip_configurations
-  lock = var.load_balancer_vars.lock
-  backend_address_pool_configuration = var.load_balancer_vars.backend_address_pool_configuration
-  sku = var.load_balancer_vars.sku
-  lb_nat_pools = var.load_balancer_vars.lb_nat_pools
-  lb_nat_rules = var.load_balancer_vars.lb_nat_rules
-  tags = var.load_balancer_vars.tags
-  name = var.load_balancer_vars.name
-}
 
+  name                = var.load_balancer_config.name
+  location            = var.load_balancer_config.location
+  resource_group_name = var.load_balancer_config.resource_group_name
+  frontend_ip_config  = var.load_balancer_config.frontend_ip_config
+  backend_address_pool = var.load_balancer_config.backend_address_pool
+  probes              = var.load_balancer_config.probes
+  rules               = var.load_balancer_config.rules
+  tags                = var.load_balancer_config.tags
+}
 module "storage_account" {
-  source = "Azure/avm-res-storage-storageaccount/azurerm"
+  source  = "Azure/avm-res-storage-storageaccount/azurerm"
   version = "0.6.2"
-  account_kind = var.storage_account_vars.account_kind
-  infrastructure_encryption_enabled = var.storage_account_vars.infrastructure_encryption_enabled
-  network_rules = var.storage_account_vars.network_rules
-  static_website = var.storage_account_vars.static_website
-  diagnostic_settings_blob = var.storage_account_vars.diagnostic_settings_blob
-  storage_management_policy_rule = var.storage_account_vars.storage_management_policy_rule
-  table_encryption_key_type = var.storage_account_vars.table_encryption_key_type
-  private_endpoints = var.storage_account_vars.private_endpoints
-  queue_encryption_key_type = var.storage_account_vars.queue_encryption_key_type
-  enable_telemetry = var.storage_account_vars.enable_telemetry
-  customer_managed_key = var.storage_account_vars.customer_managed_key
-  custom_domain = var.storage_account_vars.custom_domain
-  account_replication_type = var.storage_account_vars.account_replication_type
-  timeouts = var.storage_account_vars.timeouts
-  queue_properties = var.storage_account_vars.queue_properties
-  azure_files_authentication = var.storage_account_vars.azure_files_authentication
-  storage_data_lake_gen2_filesystem = var.storage_account_vars.storage_data_lake_gen2_filesystem
-  diagnostic_settings_table = var.storage_account_vars.diagnostic_settings_table
-  account_tier = var.storage_account_vars.account_tier
-  https_traffic_only_enabled = var.storage_account_vars.https_traffic_only_enabled
-  blob_properties = var.storage_account_vars.blob_properties
-  is_hns_enabled = var.storage_account_vars.is_hns_enabled
-  allowed_copy_scope = var.storage_account_vars.allowed_copy_scope
-  local_user = var.storage_account_vars.local_user
-  shares = var.storage_account_vars.shares
-  routing = var.storage_account_vars.routing
-  access_tier = var.storage_account_vars.access_tier
-  shared_access_key_enabled = var.storage_account_vars.shared_access_key_enabled
-  resource_group_name = var.storage_account_vars.resource_group_name
-  managed_identities = var.storage_account_vars.managed_identities
-  diagnostic_settings_queue = var.storage_account_vars.diagnostic_settings_queue
-  min_tls_version = var.storage_account_vars.min_tls_version
-  location = var.storage_account_vars.location
-  edge_zone = var.storage_account_vars.edge_zone
-  tags = var.storage_account_vars.tags
-  public_network_access_enabled = var.storage_account_vars.public_network_access_enabled
-  role_assignments = var.storage_account_vars.role_assignments
-  share_properties = var.storage_account_vars.share_properties
-  sftp_enabled = var.storage_account_vars.sftp_enabled
-  storage_management_policy_timeouts = var.storage_account_vars.storage_management_policy_timeouts
-  diagnostic_settings_file = var.storage_account_vars.diagnostic_settings_file
-  large_file_share_enabled = var.storage_account_vars.large_file_share_enabled
-  sas_policy = var.storage_account_vars.sas_policy
-  lock = var.storage_account_vars.lock
-  containers = var.storage_account_vars.containers
-  storage_data_lake_gen2_filesystems = var.storage_account_vars.storage_data_lake_gen2_filesystems
-  queues = var.storage_account_vars.queues
-  diagnostic_settings_storage_account = var.storage_account_vars.diagnostic_settings_storage_account
-  nfsv3_enabled = var.storage_account_vars.nfsv3_enabled
-  allow_nested_items_to_be_public = var.storage_account_vars.allow_nested_items_to_be_public
-  cross_tenant_replication_enabled = var.storage_account_vars.cross_tenant_replication_enabled
-  default_to_oauth_authentication = var.storage_account_vars.default_to_oauth_authentication
-  tables = var.storage_account_vars.tables
-  private_endpoints_manage_dns_zone_group = var.storage_account_vars.private_endpoints_manage_dns_zone_group
-  name = var.storage_account_vars.name
-  immutability_policy = var.storage_account_vars.immutability_policy
-}
 
+  name                = var.storage_account_config.name
+  resource_group_name = var.storage_account_config.resource_group_name
+  location            = var.storage_account_config.location
+  account_tier        = var.storage_account_config.account_tier
+  account_replication_type = var.storage_account_config.account_replication_type
+  tags                = var.storage_account_config.tags
+}
 module "sql_server" {
-  source = "Azure/avm-res-sql-server/azurerm"
+  source  = "Azure/avm-res-sql-server/azurerm"
   version = "0.1.4"
-  administrator_login_password = var.sql_server_vars.administrator_login_password
-  private_endpoints = var.sql_server_vars.private_endpoints
-  enable_telemetry = var.sql_server_vars.enable_telemetry
-  firewall_rules = var.sql_server_vars.firewall_rules
-  diagnostic_settings = var.sql_server_vars.diagnostic_settings
-  connection_policy = var.sql_server_vars.connection_policy
-  administrator_login = var.sql_server_vars.administrator_login
-  server_version = var.sql_server_vars.server_version
-  resource_group_name = var.sql_server_vars.resource_group_name
-  managed_identities = var.sql_server_vars.managed_identities
-  outbound_network_restriction_enabled = var.sql_server_vars.outbound_network_restriction_enabled
-  elastic_pools = var.sql_server_vars.elastic_pools
-  location = var.sql_server_vars.location
-  tags = var.sql_server_vars.tags
-  transparent_data_encryption_key_vault_key_id = var.sql_server_vars.transparent_data_encryption_key_vault_key_id
-  public_network_access_enabled = var.sql_server_vars.public_network_access_enabled
-  role_assignments = var.sql_server_vars.role_assignments
-  primary_user_assigned_identity_id = var.sql_server_vars.primary_user_assigned_identity_id
-  lock = var.sql_server_vars.lock
-  azuread_administrator = var.sql_server_vars.azuread_administrator
-  private_endpoints_manage_dns_zone_group = var.sql_server_vars.private_endpoints_manage_dns_zone_group
-  name = var.sql_server_vars.name
-  databases = var.sql_server_vars.databases
-}
 
-resource "azurerm_subnet" "subnet" {
-  name = var.subnet_vars.name
-  resource_group_name = var.subnet_vars.resource_group_name
-  location = var.subnet_vars.location
+  name                = var.sql_server_config.name
+  resource_group_name = var.sql_server_config.resource_group_name
+  location            = var.sql_server_config.location
+  administrator_login = var.sql_server_config.administrator_login
+  administrator_password = var.sql_server_config.administrator_password
+  tags                = var.sql_server_config.tags
 }
-
+module "subnet" {
+  source              = "module_source_here"
+  version             = "module_version_here"
+  name                = var.subnet_config.name
+  address_prefix      = var.subnet_config.address_prefix
+  resource_group_name = var.subnet_config.resource_group_name
+  virtual_network_name = var.subnet_config.virtual_network_name
+  additional_tags     = var.subnet_config.additional_tags
+}

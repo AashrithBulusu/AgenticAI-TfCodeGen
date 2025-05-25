@@ -1,35 +1,35 @@
-network_security_group_vars = {
-  name = "<value>"
-  location = "<value>"
+# Fill in values for network_security_group_config in terraform.tfvars
+network_security_group_config = {
+  # ...
 }
 
-network_interface_vars = {
-  name = "<value>"
-  location = "<value>"
+# Fill in values for network_interface_config in terraform.tfvars
+network_interface_config = {
+  # ...
 }
 
-virtual_machine_vars = {
-  name = "<value>"
-  location = "<value>"
+# Fill in values for virtual_machine_config in terraform.tfvars
+virtual_machine_config = {
+  # ...
 }
 
-load_balancer_vars = {
-  name = "<value>"
-  location = "<value>"
+# Fill in values for load_balancer_config in terraform.tfvars
+load_balancer_config = {
+  # ...
 }
 
-storage_account_vars = {
-  name = "<value>"
-  location = "<value>"
+# Fill in values for storage_account_config in terraform.tfvars
+storage_account_config = {
+  # ...
 }
 
-sql_server_vars = {
-  name = "<value>"
-  location = "<value>"
+# Fill in values for sql_server_config in terraform.tfvars
+sql_server_config = {
+  # ...
 }
 
-subnet_vars = {
-  name = "<value>"
-  location = "<value>"
+# Fill in values for subnet_config in terraform.tfvars
+subnet_config = {
+  # ...
 }
 
