@@ -782,3 +782,655 @@ sql_server_vars = {
 [31m│[0m [0mVariable names must be unique within a module.
 [31m╵[0m[0m
 
+2025-05-25 23:31:38,097 [INFO] __main__: Running main pipeline entry point
+2025-05-25 23:31:38,097 [INFO] __main__: Starting pipeline with md_file=resources.md, output_dir=generated_tf
+2025-05-25 23:31:38,098 [INFO] __main__: Adding AzureChatCompletion service to kernel
+2025-05-25 23:31:38,138 [INFO] __main__: Adding plugins to kernel
+2025-05-25 23:31:38,228 [INFO] __main__: Extracting resources from markdown file: resources.md
+2025-05-25 23:31:38,228 [INFO] semantic_kernel.functions.kernel_function: Function ResourceExtractor-extract invoking.
+2025-05-25 23:31:38,230 [INFO] semantic_kernel.functions.kernel_function: Function ResourceExtractor-extract succeeded.
+2025-05-25 23:31:38,230 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.001348s
+2025-05-25 23:31:38,230 [INFO] __main__: Extracted resources: ['network_security_group', 'network_interface', 'virtual_machine', 'load_balancer', 'storage_account', 'sql_server', 'subnet']
+2025-05-25 23:31:38,230 [INFO] __main__: Processing resource: network_security_group
+2025-05-25 23:31:38,230 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module invoking.
+2025-05-25 23:31:38,230 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module succeeded.
+2025-05-25 23:31:38,230 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000102s
+2025-05-25 23:31:38,230 [INFO] __main__: Discovered module for network_security_group: {'name': 'avm-res-network-networksecuritygroup', 'display_name': 'Network Security Group', 'version': '0.4.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-network-networksecuritygroup/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-network-networksecuritygroup', 'status': 'Available'}
+2025-05-25 23:31:38,230 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_main_tf invoking.
+2025-05-25 23:31:40,596 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_main_tf succeeded.
+2025-05-25 23:31:40,596 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 2.366272s
+2025-05-25 23:31:40,596 [INFO] __main__: Generated main.tf code for network_security_group
+2025-05-25 23:31:40,596 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_variables_tf invoking.
+2025-05-25 23:31:40,596 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_variables_tf succeeded.
+2025-05-25 23:31:40,596 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000081s
+2025-05-25 23:31:40,596 [INFO] __main__: Generated variables.tf for network_security_group
+2025-05-25 23:31:40,597 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_outputs_tf invoking.
+2025-05-25 23:31:40,597 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_outputs_tf succeeded.
+2025-05-25 23:31:40,597 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000038s
+2025-05-25 23:31:40,597 [INFO] __main__: Generated outputs.tf for network_security_group
+2025-05-25 23:31:40,597 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars invoking.
+2025-05-25 23:31:40,597 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars succeeded.
+2025-05-25 23:31:40,597 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000041s
+2025-05-25 23:31:40,597 [INFO] __main__: Generated tfvars for network_security_group
+2025-05-25 23:31:40,597 [INFO] __main__: Processing resource: network_interface
+2025-05-25 23:31:40,597 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module invoking.
+2025-05-25 23:31:40,597 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module succeeded.
+2025-05-25 23:31:40,597 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000131s
+2025-05-25 23:31:40,597 [INFO] __main__: Discovered module for network_interface: {'name': 'avm-res-network-networkinterface', 'display_name': 'Network Interface', 'version': '0.1.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-network-networkinterface/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-network-networkinterface', 'status': 'Available'}
+2025-05-25 23:31:40,597 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_main_tf invoking.
+2025-05-25 23:31:42,703 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_main_tf succeeded.
+2025-05-25 23:31:42,703 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 2.106365s
+2025-05-25 23:31:42,703 [INFO] __main__: Generated main.tf code for network_interface
+2025-05-25 23:31:42,703 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_variables_tf invoking.
+2025-05-25 23:31:42,704 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_variables_tf succeeded.
+2025-05-25 23:31:42,704 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000086s
+2025-05-25 23:31:42,704 [INFO] __main__: Generated variables.tf for network_interface
+2025-05-25 23:31:42,704 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_outputs_tf invoking.
+2025-05-25 23:31:42,704 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_outputs_tf succeeded.
+2025-05-25 23:31:42,704 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000026s
+2025-05-25 23:31:42,704 [INFO] __main__: Generated outputs.tf for network_interface
+2025-05-25 23:31:42,704 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars invoking.
+2025-05-25 23:31:42,704 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars succeeded.
+2025-05-25 23:31:42,704 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000041s
+2025-05-25 23:31:42,704 [INFO] __main__: Generated tfvars for network_interface
+2025-05-25 23:31:42,704 [INFO] __main__: Processing resource: virtual_machine
+2025-05-25 23:31:42,704 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module invoking.
+2025-05-25 23:31:42,704 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module succeeded.
+2025-05-25 23:31:42,704 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000088s
+2025-05-25 23:31:42,704 [INFO] __main__: Discovered module for virtual_machine: {'name': 'avm-res-azurestackhci-virtualmachineinstance', 'display_name': 'Stack HCI Virtual Machine Instance', 'version': '2.0.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-azurestackhci-virtualmachineinstance/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-azurestackhci-virtualmachineinstance', 'status': 'Available'}
+2025-05-25 23:31:42,704 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_main_tf invoking.
+2025-05-25 23:31:44,838 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_main_tf succeeded.
+2025-05-25 23:31:44,838 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 2.134042s
+2025-05-25 23:31:44,838 [INFO] __main__: Generated main.tf code for virtual_machine
+2025-05-25 23:31:44,838 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_variables_tf invoking.
+2025-05-25 23:31:44,838 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_variables_tf succeeded.
+2025-05-25 23:31:44,838 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000084s
+2025-05-25 23:31:44,838 [INFO] __main__: Generated variables.tf for virtual_machine
+2025-05-25 23:31:44,838 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_outputs_tf invoking.
+2025-05-25 23:31:44,838 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_outputs_tf succeeded.
+2025-05-25 23:31:44,838 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000031s
+2025-05-25 23:31:44,838 [INFO] __main__: Generated outputs.tf for virtual_machine
+2025-05-25 23:31:44,839 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars invoking.
+2025-05-25 23:31:44,839 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars succeeded.
+2025-05-25 23:31:44,839 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000100s
+2025-05-25 23:31:44,839 [INFO] __main__: Generated tfvars for virtual_machine
+2025-05-25 23:31:44,839 [INFO] __main__: Processing resource: load_balancer
+2025-05-25 23:31:44,839 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module invoking.
+2025-05-25 23:31:44,839 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module succeeded.
+2025-05-25 23:31:44,839 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000105s
+2025-05-25 23:31:44,839 [INFO] __main__: Discovered module for load_balancer: {'name': 'avm-res-network-loadbalancer', 'display_name': 'Loadbalancer', 'version': '0.4.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-network-loadbalancer/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-network-loadbalancer', 'status': 'Available'}
+2025-05-25 23:31:44,839 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_main_tf invoking.
+2025-05-25 23:31:47,495 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_main_tf succeeded.
+2025-05-25 23:31:47,495 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 2.655986s
+2025-05-25 23:31:47,495 [INFO] __main__: Generated main.tf code for load_balancer
+2025-05-25 23:31:47,495 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_variables_tf invoking.
+2025-05-25 23:31:47,495 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_variables_tf succeeded.
+2025-05-25 23:31:47,495 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000059s
+2025-05-25 23:31:47,495 [INFO] __main__: Generated variables.tf for load_balancer
+2025-05-25 23:31:47,495 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_outputs_tf invoking.
+2025-05-25 23:31:47,495 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_outputs_tf succeeded.
+2025-05-25 23:31:47,495 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000031s
+2025-05-25 23:31:47,495 [INFO] __main__: Generated outputs.tf for load_balancer
+2025-05-25 23:31:47,495 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars invoking.
+2025-05-25 23:31:47,495 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars succeeded.
+2025-05-25 23:31:47,495 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000038s
+2025-05-25 23:31:47,495 [INFO] __main__: Generated tfvars for load_balancer
+2025-05-25 23:31:47,495 [INFO] __main__: Processing resource: storage_account
+2025-05-25 23:31:47,495 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module invoking.
+2025-05-25 23:31:47,495 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module succeeded.
+2025-05-25 23:31:47,495 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000085s
+2025-05-25 23:31:47,495 [INFO] __main__: Discovered module for storage_account: {'name': 'avm-res-storage-storageaccount', 'display_name': 'Storage Account', 'version': '0.6.2', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-storage-storageaccount/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-storage-storageaccount', 'status': 'Available'}
+2025-05-25 23:31:47,495 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_main_tf invoking.
+2025-05-25 23:31:49,690 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_main_tf succeeded.
+2025-05-25 23:31:49,690 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 2.194922s
+2025-05-25 23:31:49,690 [INFO] __main__: Generated main.tf code for storage_account
+2025-05-25 23:31:49,691 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_variables_tf invoking.
+2025-05-25 23:31:49,691 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_variables_tf succeeded.
+2025-05-25 23:31:49,691 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000057s
+2025-05-25 23:31:49,691 [INFO] __main__: Generated variables.tf for storage_account
+2025-05-25 23:31:49,691 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_outputs_tf invoking.
+2025-05-25 23:31:49,691 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_outputs_tf succeeded.
+2025-05-25 23:31:49,691 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000028s
+2025-05-25 23:31:49,691 [INFO] __main__: Generated outputs.tf for storage_account
+2025-05-25 23:31:49,691 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars invoking.
+2025-05-25 23:31:49,691 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars succeeded.
+2025-05-25 23:31:49,691 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000037s
+2025-05-25 23:31:49,691 [INFO] __main__: Generated tfvars for storage_account
+2025-05-25 23:31:49,691 [INFO] __main__: Processing resource: sql_server
+2025-05-25 23:31:49,691 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module invoking.
+2025-05-25 23:31:49,691 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module succeeded.
+2025-05-25 23:31:49,691 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000076s
+2025-05-25 23:31:49,691 [INFO] __main__: Discovered module for sql_server: {'name': 'avm-res-sql-server', 'display_name': 'Azure SQL Server', 'version': '0.1.4', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-sql-server/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-sql-server', 'status': 'Available'}
+2025-05-25 23:31:49,691 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_main_tf invoking.
+2025-05-25 23:31:51,694 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_main_tf succeeded.
+2025-05-25 23:31:51,694 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 2.002765s
+2025-05-25 23:31:51,694 [INFO] __main__: Generated main.tf code for sql_server
+2025-05-25 23:31:51,694 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_variables_tf invoking.
+2025-05-25 23:31:51,694 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_variables_tf succeeded.
+2025-05-25 23:31:51,694 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000060s
+2025-05-25 23:31:51,694 [INFO] __main__: Generated variables.tf for sql_server
+2025-05-25 23:31:51,694 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_outputs_tf invoking.
+2025-05-25 23:31:51,694 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_outputs_tf succeeded.
+2025-05-25 23:31:51,694 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000030s
+2025-05-25 23:31:51,694 [INFO] __main__: Generated outputs.tf for sql_server
+2025-05-25 23:31:51,694 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars invoking.
+2025-05-25 23:31:51,694 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars succeeded.
+2025-05-25 23:31:51,694 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000036s
+2025-05-25 23:31:51,694 [INFO] __main__: Generated tfvars for sql_server
+2025-05-25 23:31:51,694 [INFO] __main__: Processing resource: subnet
+2025-05-25 23:31:51,694 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module invoking.
+2025-05-25 23:31:51,694 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module succeeded.
+2025-05-25 23:31:51,694 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000089s
+2025-05-25 23:31:51,694 [INFO] __main__: Discovered module for subnet: {}
+2025-05-25 23:31:51,694 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_main_tf invoking.
+2025-05-25 23:31:51,694 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_main_tf succeeded.
+2025-05-25 23:31:51,694 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000039s
+2025-05-25 23:31:51,694 [INFO] __main__: Generated main.tf code for subnet
+2025-05-25 23:31:51,694 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_variables_tf invoking.
+2025-05-25 23:31:51,694 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_variables_tf succeeded.
+2025-05-25 23:31:51,694 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000026s
+2025-05-25 23:31:51,694 [INFO] __main__: Generated variables.tf for subnet
+2025-05-25 23:31:51,694 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_outputs_tf invoking.
+2025-05-25 23:31:51,694 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_outputs_tf succeeded.
+2025-05-25 23:31:51,694 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000024s
+2025-05-25 23:31:51,694 [INFO] __main__: Generated outputs.tf for subnet
+2025-05-25 23:31:51,694 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars invoking.
+2025-05-25 23:31:51,695 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars succeeded.
+2025-05-25 23:31:51,695 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000024s
+2025-05-25 23:31:51,695 [INFO] __main__: Generated tfvars for subnet
+2025-05-25 23:31:51,695 [INFO] __main__: Writing main.tf to generated_tf/main.tf
+2025-05-25 23:31:51,697 [INFO] __main__: Writing variables.tf to generated_tf/variables.tf
+2025-05-25 23:31:51,699 [INFO] __main__: Writing outputs.tf to generated_tf/outputs.tf
+2025-05-25 23:31:51,701 [INFO] __main__: Writing terraform.tfvars to generated_tf/terraform.tfvars
+2025-05-25 23:31:51,703 [INFO] semantic_kernel.functions.kernel_function: Function Validator-validate_code invoking.
+2025-05-25 23:31:51,895 [INFO] semantic_kernel.functions.kernel_function: Function Validator-validate_code succeeded.
+2025-05-25 23:31:51,895 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.191509s
+2025-05-25 23:31:51,895 [INFO] __main__: Validation Result: [31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate output definition[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on outputs.tf line 4:
+[31m│[0m [0m   4: [4moutput "id"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mAn output named "id" was already defined at outputs.tf:1,1-12. Output names
+[31m│[0m [0mmust be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate output definition[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on outputs.tf line 7:
+[31m│[0m [0m   7: [4moutput "id"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mAn output named "id" was already defined at outputs.tf:4,1-12. Output names
+[31m│[0m [0mmust be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate output definition[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on outputs.tf line 10:
+[31m│[0m [0m  10: [4moutput "id"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mAn output named "id" was already defined at outputs.tf:7,1-12. Output names
+[31m│[0m [0mmust be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate output definition[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on outputs.tf line 13:
+[31m│[0m [0m  13: [4moutput "id"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mAn output named "id" was already defined at outputs.tf:10,1-12. Output
+[31m│[0m [0mnames must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate output definition[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on outputs.tf line 16:
+[31m│[0m [0m  16: [4moutput "id"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mAn output named "id" was already defined at outputs.tf:13,1-12. Output
+[31m│[0m [0mnames must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate output definition[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on outputs.tf line 19:
+[31m│[0m [0m  19: [4moutput "id"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mAn output named "id" was already defined at outputs.tf:16,1-12. Output
+[31m│[0m [0mnames must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate variable declaration[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on variables.tf line 8:
+[31m│[0m [0m   8: [4mvariable "name"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mA variable named "name" was already declared at variables.tf:1,1-16.
+[31m│[0m [0mVariable names must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate variable declaration[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on variables.tf line 12:
+[31m│[0m [0m  12: [4mvariable "location"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mA variable named "location" was already declared at variables.tf:5,1-20.
+[31m│[0m [0mVariable names must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate variable declaration[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on variables.tf line 15:
+[31m│[0m [0m  15: [4mvariable "name"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mA variable named "name" was already declared at variables.tf:8,1-16.
+[31m│[0m [0mVariable names must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate variable declaration[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on variables.tf line 19:
+[31m│[0m [0m  19: [4mvariable "location"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mA variable named "location" was already declared at variables.tf:12,1-20.
+[31m│[0m [0mVariable names must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate variable declaration[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on variables.tf line 22:
+[31m│[0m [0m  22: [4mvariable "name"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mA variable named "name" was already declared at variables.tf:15,1-16.
+[31m│[0m [0mVariable names must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate variable declaration[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on variables.tf line 26:
+[31m│[0m [0m  26: [4mvariable "location"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mA variable named "location" was already declared at variables.tf:19,1-20.
+[31m│[0m [0mVariable names must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate variable declaration[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on variables.tf line 29:
+[31m│[0m [0m  29: [4mvariable "name"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mA variable named "name" was already declared at variables.tf:22,1-16.
+[31m│[0m [0mVariable names must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate variable declaration[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on variables.tf line 33:
+[31m│[0m [0m  33: [4mvariable "location"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mA variable named "location" was already declared at variables.tf:26,1-20.
+[31m│[0m [0mVariable names must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate variable declaration[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on variables.tf line 36:
+[31m│[0m [0m  36: [4mvariable "name"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mA variable named "name" was already declared at variables.tf:29,1-16.
+[31m│[0m [0mVariable names must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate variable declaration[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on variables.tf line 40:
+[31m│[0m [0m  40: [4mvariable "location"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mA variable named "location" was already declared at variables.tf:33,1-20.
+[31m│[0m [0mVariable names must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate variable declaration[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on variables.tf line 43:
+[31m│[0m [0m  43: [4mvariable "name"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mA variable named "name" was already declared at variables.tf:36,1-16.
+[31m│[0m [0mVariable names must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate variable declaration[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on variables.tf line 47:
+[31m│[0m [0m  47: [4mvariable "location"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mA variable named "location" was already declared at variables.tf:40,1-20.
+[31m│[0m [0mVariable names must be unique within a module.
+[31m╵[0m[0m
+
+2025-05-25 23:40:48,016 [INFO] __main__: Running main pipeline entry point
+2025-05-25 23:40:48,018 [INFO] __main__: Starting pipeline with md_file=resources.md, output_dir=generated_tf
+2025-05-25 23:40:48,018 [INFO] __main__: Adding AzureChatCompletion service to kernel
+2025-05-25 23:40:48,213 [INFO] __main__: Adding plugins to kernel
+2025-05-25 23:40:48,813 [INFO] __main__: Extracting resources from markdown file: resources.md
+2025-05-25 23:40:48,815 [INFO] semantic_kernel.functions.kernel_function: Function ResourceExtractor-extract invoking.
+2025-05-25 23:40:48,821 [INFO] semantic_kernel.functions.kernel_function: Function ResourceExtractor-extract succeeded.
+2025-05-25 23:40:48,821 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.005329s
+2025-05-25 23:40:48,821 [INFO] __main__: Extracted resources: ['network_security_group', 'network_interface', 'virtual_machine', 'load_balancer', 'storage_account', 'sql_server', 'subnet']
+2025-05-25 23:40:48,821 [INFO] __main__: Processing resource: network_security_group
+2025-05-25 23:40:48,821 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module invoking.
+2025-05-25 23:40:48,821 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module succeeded.
+2025-05-25 23:40:48,821 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000112s
+2025-05-25 23:40:48,821 [INFO] __main__: Discovered module for network_security_group: {'name': 'avm-res-network-networksecuritygroup', 'display_name': 'Network Security Group', 'version': '0.4.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-network-networksecuritygroup/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-network-networksecuritygroup', 'status': 'Available'}
+2025-05-25 23:40:48,821 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_main_tf invoking.
+2025-05-25 23:40:50,953 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_main_tf succeeded.
+2025-05-25 23:40:50,954 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 2.132538s
+2025-05-25 23:40:50,954 [INFO] __main__: Generated main.tf code for network_security_group
+2025-05-25 23:40:50,954 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_variables_tf invoking.
+2025-05-25 23:40:50,954 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_variables_tf succeeded.
+2025-05-25 23:40:50,954 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000063s
+2025-05-25 23:40:50,954 [INFO] __main__: Generated variables.tf for network_security_group
+2025-05-25 23:40:50,954 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_outputs_tf invoking.
+2025-05-25 23:40:50,954 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_outputs_tf succeeded.
+2025-05-25 23:40:50,954 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000027s
+2025-05-25 23:40:50,954 [INFO] __main__: Generated outputs.tf for network_security_group
+2025-05-25 23:40:50,954 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars invoking.
+2025-05-25 23:40:50,954 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars succeeded.
+2025-05-25 23:40:50,954 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000036s
+2025-05-25 23:40:50,954 [INFO] __main__: Generated tfvars for network_security_group
+2025-05-25 23:40:50,954 [INFO] __main__: Processing resource: network_interface
+2025-05-25 23:40:50,954 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module invoking.
+2025-05-25 23:40:50,954 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module succeeded.
+2025-05-25 23:40:50,954 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000096s
+2025-05-25 23:40:50,954 [INFO] __main__: Discovered module for network_interface: {'name': 'avm-res-network-networkinterface', 'display_name': 'Network Interface', 'version': '0.1.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-network-networkinterface/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-network-networkinterface', 'status': 'Available'}
+2025-05-25 23:40:50,954 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_main_tf invoking.
+2025-05-25 23:40:52,997 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_main_tf succeeded.
+2025-05-25 23:40:52,998 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 2.043311s
+2025-05-25 23:40:52,998 [INFO] __main__: Generated main.tf code for network_interface
+2025-05-25 23:40:52,998 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_variables_tf invoking.
+2025-05-25 23:40:52,998 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_variables_tf succeeded.
+2025-05-25 23:40:52,998 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000092s
+2025-05-25 23:40:52,998 [INFO] __main__: Generated variables.tf for network_interface
+2025-05-25 23:40:52,998 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_outputs_tf invoking.
+2025-05-25 23:40:52,998 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_outputs_tf succeeded.
+2025-05-25 23:40:52,998 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000034s
+2025-05-25 23:40:52,998 [INFO] __main__: Generated outputs.tf for network_interface
+2025-05-25 23:40:52,998 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars invoking.
+2025-05-25 23:40:52,998 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars succeeded.
+2025-05-25 23:40:52,998 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000068s
+2025-05-25 23:40:52,998 [INFO] __main__: Generated tfvars for network_interface
+2025-05-25 23:40:52,998 [INFO] __main__: Processing resource: virtual_machine
+2025-05-25 23:40:52,998 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module invoking.
+2025-05-25 23:40:52,998 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module succeeded.
+2025-05-25 23:40:52,998 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000108s
+2025-05-25 23:40:52,998 [INFO] __main__: Discovered module for virtual_machine: {'name': 'avm-res-azurestackhci-virtualmachineinstance', 'display_name': 'Stack HCI Virtual Machine Instance', 'version': '2.0.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-azurestackhci-virtualmachineinstance/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-azurestackhci-virtualmachineinstance', 'status': 'Available'}
+2025-05-25 23:40:52,998 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_main_tf invoking.
+2025-05-25 23:40:55,049 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_main_tf succeeded.
+2025-05-25 23:40:55,049 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 2.051149s
+2025-05-25 23:40:55,050 [INFO] __main__: Generated main.tf code for virtual_machine
+2025-05-25 23:40:55,050 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_variables_tf invoking.
+2025-05-25 23:40:55,050 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_variables_tf succeeded.
+2025-05-25 23:40:55,050 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000064s
+2025-05-25 23:40:55,050 [INFO] __main__: Generated variables.tf for virtual_machine
+2025-05-25 23:40:55,050 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_outputs_tf invoking.
+2025-05-25 23:40:55,050 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_outputs_tf succeeded.
+2025-05-25 23:40:55,050 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000032s
+2025-05-25 23:40:55,050 [INFO] __main__: Generated outputs.tf for virtual_machine
+2025-05-25 23:40:55,050 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars invoking.
+2025-05-25 23:40:55,050 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars succeeded.
+2025-05-25 23:40:55,050 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000033s
+2025-05-25 23:40:55,050 [INFO] __main__: Generated tfvars for virtual_machine
+2025-05-25 23:40:55,050 [INFO] __main__: Processing resource: load_balancer
+2025-05-25 23:40:55,050 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module invoking.
+2025-05-25 23:40:55,050 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module succeeded.
+2025-05-25 23:40:55,050 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000086s
+2025-05-25 23:40:55,050 [INFO] __main__: Discovered module for load_balancer: {'name': 'avm-res-network-loadbalancer', 'display_name': 'Loadbalancer', 'version': '0.4.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-network-loadbalancer/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-network-loadbalancer', 'status': 'Available'}
+2025-05-25 23:40:55,050 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_main_tf invoking.
+2025-05-25 23:40:57,072 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_main_tf succeeded.
+2025-05-25 23:40:57,073 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 2.022525s
+2025-05-25 23:40:57,073 [INFO] __main__: Generated main.tf code for load_balancer
+2025-05-25 23:40:57,073 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_variables_tf invoking.
+2025-05-25 23:40:57,073 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_variables_tf succeeded.
+2025-05-25 23:40:57,073 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000073s
+2025-05-25 23:40:57,073 [INFO] __main__: Generated variables.tf for load_balancer
+2025-05-25 23:40:57,073 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_outputs_tf invoking.
+2025-05-25 23:40:57,073 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_outputs_tf succeeded.
+2025-05-25 23:40:57,073 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000042s
+2025-05-25 23:40:57,073 [INFO] __main__: Generated outputs.tf for load_balancer
+2025-05-25 23:40:57,073 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars invoking.
+2025-05-25 23:40:57,073 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars succeeded.
+2025-05-25 23:40:57,073 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000034s
+2025-05-25 23:40:57,073 [INFO] __main__: Generated tfvars for load_balancer
+2025-05-25 23:40:57,073 [INFO] __main__: Processing resource: storage_account
+2025-05-25 23:40:57,073 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module invoking.
+2025-05-25 23:40:57,073 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module succeeded.
+2025-05-25 23:40:57,073 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000086s
+2025-05-25 23:40:57,073 [INFO] __main__: Discovered module for storage_account: {'name': 'avm-res-storage-storageaccount', 'display_name': 'Storage Account', 'version': '0.6.2', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-storage-storageaccount/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-storage-storageaccount', 'status': 'Available'}
+2025-05-25 23:40:57,073 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_main_tf invoking.
+2025-05-25 23:40:59,161 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_main_tf succeeded.
+2025-05-25 23:40:59,161 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 2.088069s
+2025-05-25 23:40:59,161 [INFO] __main__: Generated main.tf code for storage_account
+2025-05-25 23:40:59,161 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_variables_tf invoking.
+2025-05-25 23:40:59,161 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_variables_tf succeeded.
+2025-05-25 23:40:59,162 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000064s
+2025-05-25 23:40:59,162 [INFO] __main__: Generated variables.tf for storage_account
+2025-05-25 23:40:59,162 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_outputs_tf invoking.
+2025-05-25 23:40:59,162 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_outputs_tf succeeded.
+2025-05-25 23:40:59,162 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000028s
+2025-05-25 23:40:59,162 [INFO] __main__: Generated outputs.tf for storage_account
+2025-05-25 23:40:59,162 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars invoking.
+2025-05-25 23:40:59,162 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars succeeded.
+2025-05-25 23:40:59,162 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000035s
+2025-05-25 23:40:59,162 [INFO] __main__: Generated tfvars for storage_account
+2025-05-25 23:40:59,162 [INFO] __main__: Processing resource: sql_server
+2025-05-25 23:40:59,162 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module invoking.
+2025-05-25 23:40:59,162 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module succeeded.
+2025-05-25 23:40:59,162 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000076s
+2025-05-25 23:40:59,162 [INFO] __main__: Discovered module for sql_server: {'name': 'avm-res-sql-server', 'display_name': 'Azure SQL Server', 'version': '0.1.4', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-sql-server/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-sql-server', 'status': 'Available'}
+2025-05-25 23:40:59,162 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_main_tf invoking.
+2025-05-25 23:41:01,274 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_main_tf succeeded.
+2025-05-25 23:41:01,274 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 2.112004s
+2025-05-25 23:41:01,274 [INFO] __main__: Generated main.tf code for sql_server
+2025-05-25 23:41:01,274 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_variables_tf invoking.
+2025-05-25 23:41:01,274 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_variables_tf succeeded.
+2025-05-25 23:41:01,274 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000072s
+2025-05-25 23:41:01,274 [INFO] __main__: Generated variables.tf for sql_server
+2025-05-25 23:41:01,274 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_outputs_tf invoking.
+2025-05-25 23:41:01,274 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_outputs_tf succeeded.
+2025-05-25 23:41:01,274 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000028s
+2025-05-25 23:41:01,274 [INFO] __main__: Generated outputs.tf for sql_server
+2025-05-25 23:41:01,274 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars invoking.
+2025-05-25 23:41:01,274 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars succeeded.
+2025-05-25 23:41:01,274 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000043s
+2025-05-25 23:41:01,274 [INFO] __main__: Generated tfvars for sql_server
+2025-05-25 23:41:01,274 [INFO] __main__: Processing resource: subnet
+2025-05-25 23:41:01,274 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module invoking.
+2025-05-25 23:41:01,274 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module succeeded.
+2025-05-25 23:41:01,274 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000089s
+2025-05-25 23:41:01,274 [INFO] __main__: Discovered module for subnet: {}
+2025-05-25 23:41:01,274 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_main_tf invoking.
+2025-05-25 23:41:01,606 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_main_tf succeeded.
+2025-05-25 23:41:01,606 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.331482s
+2025-05-25 23:41:01,606 [INFO] __main__: Generated main.tf code for subnet
+2025-05-25 23:41:01,606 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_variables_tf invoking.
+2025-05-25 23:41:01,606 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_variables_tf succeeded.
+2025-05-25 23:41:01,606 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000132s
+2025-05-25 23:41:01,607 [INFO] __main__: Generated variables.tf for subnet
+2025-05-25 23:41:01,607 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_outputs_tf invoking.
+2025-05-25 23:41:01,607 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_outputs_tf succeeded.
+2025-05-25 23:41:01,607 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000105s
+2025-05-25 23:41:01,607 [INFO] __main__: Generated outputs.tf for subnet
+2025-05-25 23:41:01,607 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars invoking.
+2025-05-25 23:41:01,607 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars succeeded.
+2025-05-25 23:41:01,607 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000111s
+2025-05-25 23:41:01,607 [INFO] __main__: Generated tfvars for subnet
+2025-05-25 23:41:01,607 [INFO] __main__: Writing main.tf to generated_tf/main.tf
+2025-05-25 23:41:01,610 [INFO] __main__: Writing variables.tf to generated_tf/variables.tf
+2025-05-25 23:41:01,614 [INFO] __main__: Writing outputs.tf to generated_tf/outputs.tf
+2025-05-25 23:41:01,616 [INFO] __main__: Writing terraform.tfvars to generated_tf/terraform.tfvars
+2025-05-25 23:41:01,618 [INFO] semantic_kernel.functions.kernel_function: Function Validator-validate_code invoking.
+2025-05-25 23:41:01,806 [INFO] semantic_kernel.functions.kernel_function: Function Validator-validate_code succeeded.
+2025-05-25 23:41:01,806 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.187996s
+2025-05-25 23:41:01,806 [INFO] __main__: Validation Result: [31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate output definition[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on outputs.tf line 4:
+[31m│[0m [0m   4: [4moutput "id"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mAn output named "id" was already defined at outputs.tf:1,1-12. Output names
+[31m│[0m [0mmust be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate output definition[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on outputs.tf line 7:
+[31m│[0m [0m   7: [4moutput "id"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mAn output named "id" was already defined at outputs.tf:4,1-12. Output names
+[31m│[0m [0mmust be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate output definition[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on outputs.tf line 10:
+[31m│[0m [0m  10: [4moutput "id"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mAn output named "id" was already defined at outputs.tf:7,1-12. Output names
+[31m│[0m [0mmust be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate output definition[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on outputs.tf line 13:
+[31m│[0m [0m  13: [4moutput "id"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mAn output named "id" was already defined at outputs.tf:10,1-12. Output
+[31m│[0m [0mnames must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate output definition[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on outputs.tf line 16:
+[31m│[0m [0m  16: [4moutput "id"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mAn output named "id" was already defined at outputs.tf:13,1-12. Output
+[31m│[0m [0mnames must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate output definition[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on outputs.tf line 19:
+[31m│[0m [0m  19: [4moutput "id"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mAn output named "id" was already defined at outputs.tf:16,1-12. Output
+[31m│[0m [0mnames must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate variable declaration[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on variables.tf line 8:
+[31m│[0m [0m   8: [4mvariable "name"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mA variable named "name" was already declared at variables.tf:1,1-16.
+[31m│[0m [0mVariable names must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate variable declaration[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on variables.tf line 12:
+[31m│[0m [0m  12: [4mvariable "location"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mA variable named "location" was already declared at variables.tf:5,1-20.
+[31m│[0m [0mVariable names must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate variable declaration[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on variables.tf line 15:
+[31m│[0m [0m  15: [4mvariable "name"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mA variable named "name" was already declared at variables.tf:8,1-16.
+[31m│[0m [0mVariable names must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate variable declaration[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on variables.tf line 19:
+[31m│[0m [0m  19: [4mvariable "location"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mA variable named "location" was already declared at variables.tf:12,1-20.
+[31m│[0m [0mVariable names must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate variable declaration[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on variables.tf line 22:
+[31m│[0m [0m  22: [4mvariable "name"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mA variable named "name" was already declared at variables.tf:15,1-16.
+[31m│[0m [0mVariable names must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate variable declaration[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on variables.tf line 26:
+[31m│[0m [0m  26: [4mvariable "location"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mA variable named "location" was already declared at variables.tf:19,1-20.
+[31m│[0m [0mVariable names must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate variable declaration[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on variables.tf line 29:
+[31m│[0m [0m  29: [4mvariable "name"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mA variable named "name" was already declared at variables.tf:22,1-16.
+[31m│[0m [0mVariable names must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate variable declaration[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on variables.tf line 33:
+[31m│[0m [0m  33: [4mvariable "location"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mA variable named "location" was already declared at variables.tf:26,1-20.
+[31m│[0m [0mVariable names must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate variable declaration[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on variables.tf line 36:
+[31m│[0m [0m  36: [4mvariable "name"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mA variable named "name" was already declared at variables.tf:29,1-16.
+[31m│[0m [0mVariable names must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate variable declaration[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on variables.tf line 40:
+[31m│[0m [0m  40: [4mvariable "location"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mA variable named "location" was already declared at variables.tf:33,1-20.
+[31m│[0m [0mVariable names must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate variable declaration[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on variables.tf line 43:
+[31m│[0m [0m  43: [4mvariable "name"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mA variable named "name" was already declared at variables.tf:36,1-16.
+[31m│[0m [0mVariable names must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate variable declaration[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on variables.tf line 47:
+[31m│[0m [0m  47: [4mvariable "location"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mA variable named "location" was already declared at variables.tf:40,1-20.
+[31m│[0m [0mVariable names must be unique within a module.
+[31m╵[0m[0m
+

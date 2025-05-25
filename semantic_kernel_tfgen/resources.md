@@ -6,3 +6,4 @@
 - load_balancer
 - storage_account
 - sql_server
+- subnet

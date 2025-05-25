@@ -114,11 +114,51 @@ class TerraformCodeGenerationAgent:
                     var_blocks += re.findall(r'variable\s+"([^"]+)"', uncommented_content)
             return [{"name": v} for v in set(var_blocks)]
 
-        # Helper to parse resource arguments from registry (module dict)
-        def parse_resource_inputs(module):
+
+        # Helper to fetch and parse argument list from Terraform Registry docs
+        def fetch_registry_args(resource_type):
+            import requests
+            import re
+            # Map resource_type to registry doc URL
+            # e.g. azurerm_subnet -> https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet
+            if not resource_type.startswith("azurerm_"):
+                return []
+            slug = resource_type[len("azurerm_"):]
+            url = f"https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/{slug}"
+            try:
+                resp = requests.get(url, timeout=20)
+                resp.raise_for_status()
+                html = resp.text
+            except Exception as e:
+                print(f"[WARN] Could not fetch registry doc for {resource_type}: {e}")
+                return []
+            # Find the Argument Reference section
+            arg_section = ""
+            m = re.search(r'<h2.*?>Argument Reference</h2>(.*?)<h2', html, re.DOTALL)
+            if m:
+                arg_section = m.group(1)
+            else:
+                # fallback: try to find <ul> after Argument Reference
+                m = re.search(r'Argument Reference</h2>(.*?)</ul>', html, re.DOTALL)
+                if m:
+                    arg_section = m.group(1)
+            if not arg_section:
+                print(f"[WARN] Could not find Argument Reference for {resource_type}")
+                return []
+            # Find all argument names: <code>name</code> - (Required|Optional)
+            arg_matches = re.findall(r'<li>\s*<code>([\w_]+)</code>\s*-\s*\((Required|Optional)', arg_section)
+            args = []
+            for name, req in arg_matches:
+                args.append({"name": name, "required": req == "Required"})
+            return args
+
+        def parse_resource_inputs(module, resource_type=None):
             # If module has 'inputs' key, use it; else fallback to variables param
             if "inputs" in module and isinstance(module["inputs"], list):
                 return [{"name": v} if isinstance(v, str) else v for v in module["inputs"]]
+            # If resource_type is provided, fetch from registry
+            if resource_type:
+                return fetch_registry_args(resource_type)
             return variables if variables else []
 
         # Determine if this is a module or a resource (module if registry is not a resource type)
@@ -160,10 +200,21 @@ class TerraformCodeGenerationAgent:
             # Not a module, generate resource block
             resource_type = module.get("type", "")
             if not resource_type:
-                print(f"[WARN] No resource type specified for {resource_name}")
-                return f"# No resource type specified for {resource_name}\n"
+                # Try to infer resource type from resource_name (e.g., subnet -> azurerm_subnet)
+                inferred_type = f"azurerm_{resource_name}"
+                # Fetch argument schema from Terraform Registry dynamically
+                resource_inputs = parse_resource_inputs(module, resource_type=inferred_type)
+                if not resource_inputs:
+                    # fallback to minimal
+                    resource_inputs = [{"name": "name"}, {"name": "resource_group_name"}, {"name": "location"}]
+                var_lines = "\n".join([
+                    f'  {v["name"]} = var.{resource_name}_vars.{v["name"]}' for v in resource_inputs if "name" in v
+                ])
+                code = f'resource "{inferred_type}" "{resource_name}" {{\n{var_lines}\n}}\n'
+                print(f"[INFO] Generated resource block for {resource_name} (inferred {inferred_type}):\n{code}")
+                return code
             # Get all possible inputs for the resource
-            resource_inputs = parse_resource_inputs(module)
+            resource_inputs = parse_resource_inputs(module, resource_type=resource_type)
             var_lines = "\n".join([
                 f'  {v["name"]} = var.{v["name"]}' for v in resource_inputs if "name" in v
             ])

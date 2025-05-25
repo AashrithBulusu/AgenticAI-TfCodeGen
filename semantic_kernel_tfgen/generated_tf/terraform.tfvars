@@ -28,3 +28,8 @@ sql_server_vars = {
   location = "<value>"
 }
 
+subnet_vars = {
+  name = "<value>"
+  location = "<value>"
+}
+

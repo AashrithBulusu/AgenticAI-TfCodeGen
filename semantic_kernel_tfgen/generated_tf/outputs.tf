@@ -16,3 +16,6 @@ output "id" {
 output "id" {
   value = module.sql_server.id
 }
+output "id" {
+  value = module.subnet.id
+}
