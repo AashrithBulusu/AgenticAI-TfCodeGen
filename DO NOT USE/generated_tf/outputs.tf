@@ -33,6 +33,10 @@ output "resource_group_name" {
   value = module.network_interface.resource_group_name
 }
 
+output "mac_address" {
+  value = module.network_interface.mac_address
+}
+
 output "private_ip_address" {
   value = module.network_interface.private_ip_address
 }
@@ -41,20 +45,16 @@ output "private_ip_addresses" {
   value = module.network_interface.private_ip_addresses
 }
 
-output "mac_address" {
-  value = module.network_interface.mac_address
-}
-
 output "dns_servers" {
   value = module.network_interface.dns_servers
 }
 
-output "internal_dns_name_label" {
-  value = module.network_interface.internal_dns_name_label
+output "enable_accelerated_networking" {
+  value = module.network_interface.enable_accelerated_networking
 }
 
-output "internal_fqdn" {
-  value = module.network_interface.internal_fqdn
+output "enable_ip_forwarding" {
+  value = module.network_interface.enable_ip_forwarding
 }
 
 output "tags" {
@@ -96,10 +96,6 @@ output "admin_password" {
   value = module.virtual_machine.admin_password
 }
 
-output "custom_data" {
-  value = module.virtual_machine.custom_data
-}
-
 output "tags" {
   value = module.virtual_machine.tags
 }
@@ -107,28 +103,36 @@ output "id" {
   value = module.load_balancer.id
 }
 
-output "frontend_ip_configuration" {
-  value = module.load_balancer.frontend_ip_configuration
+output "name" {
+  value = module.load_balancer.name
 }
 
-output "backend_address_pool" {
-  value = module.load_balancer.backend_address_pool
+output "resource_group_name" {
+  value = module.load_balancer.resource_group_name
 }
 
-output "load_balancing_rules" {
-  value = module.load_balancer.load_balancing_rules
+output "frontend_ip_configuration_ids" {
+  value = module.load_balancer.frontend_ip_configuration_ids
 }
 
-output "probes" {
-  value = module.load_balancer.probes
+output "backend_address_pool_ids" {
+  value = module.load_balancer.backend_address_pool_ids
 }
 
-output "inbound_nat_rules" {
-  value = module.load_balancer.inbound_nat_rules
+output "load_balancing_rule_ids" {
+  value = module.load_balancer.load_balancing_rule_ids
 }
 
-output "outbound_rules" {
-  value = module.load_balancer.outbound_rules
+output "probe_ids" {
+  value = module.load_balancer.probe_ids
+}
+
+output "inbound_nat_rule_ids" {
+  value = module.load_balancer.inbound_nat_rule_ids
+}
+
+output "inbound_nat_pool_ids" {
+  value = module.load_balancer.inbound_nat_pool_ids
 }
 
 output "tags" {
@@ -142,20 +146,16 @@ output "name" {
   value = module.storage_account.name
 }
 
+output "primary_endpoint" {
+  value = module.storage_account.primary_endpoint
+}
+
 output "primary_blob_endpoint" {
   value = module.storage_account.primary_blob_endpoint
 }
 
 output "primary_file_endpoint" {
   value = module.storage_account.primary_file_endpoint
-}
-
-output "primary_location" {
-  value = module.storage_account.primary_location
-}
-
-output "primary_web_endpoint" {
-  value = module.storage_account.primary_web_endpoint
 }
 
 output "primary_queue_endpoint" {
@@ -166,12 +166,12 @@ output "primary_table_endpoint" {
   value = module.storage_account.primary_table_endpoint
 }
 
-output "primary_dfs_endpoint" {
-  value = module.storage_account.primary_dfs_endpoint
+output "primary_location" {
+  value = module.storage_account.primary_location
 }
 
-output "primary_sftp_endpoint" {
-  value = module.storage_account.primary_sftp_endpoint
+output "secondary_endpoint" {
+  value = module.storage_account.secondary_endpoint
 }
 
 output "secondary_blob_endpoint" {
@@ -182,14 +182,6 @@ output "secondary_file_endpoint" {
   value = module.storage_account.secondary_file_endpoint
 }
 
-output "secondary_location" {
-  value = module.storage_account.secondary_location
-}
-
-output "secondary_web_endpoint" {
-  value = module.storage_account.secondary_web_endpoint
-}
-
 output "secondary_queue_endpoint" {
   value = module.storage_account.secondary_queue_endpoint
 }
@@ -198,12 +190,24 @@ output "secondary_table_endpoint" {
   value = module.storage_account.secondary_table_endpoint
 }
 
-output "secondary_dfs_endpoint" {
-  value = module.storage_account.secondary_dfs_endpoint
+output "secondary_location" {
+  value = module.storage_account.secondary_location
 }
 
-output "secondary_sftp_endpoint" {
-  value = module.storage_account.secondary_sftp_endpoint
+output "resource_group_name" {
+  value = module.storage_account.resource_group_name
+}
+
+output "account_tier" {
+  value = module.storage_account.account_tier
+}
+
+output "account_replication_type" {
+  value = module.storage_account.account_replication_type
+}
+
+output "identity" {
+  value = module.storage_account.identity
 }
 output "id" {
   value = module.sql_server.id
@@ -221,12 +225,16 @@ output "resource_group_name" {
   value = module.sql_server.resource_group_name
 }
 
+output "fqdn" {
+  value = module.sql_server.fqdn
+}
+
 output "administrator_login" {
   value = module.sql_server.administrator_login
 }
 
-output "fqdn" {
-  value = module.sql_server.fqdn
+output "administrator_login_password" {
+  value = module.sql_server.administrator_login_password
 }
 
 output "identity" {
@@ -248,12 +256,12 @@ output "address_prefix" {
   value = module.subnet.address_prefix
 }
 
-output "resource_group_name" {
-  value = module.subnet.resource_group_name
-}
-
 output "virtual_network_name" {
   value = module.subnet.virtual_network_name
+}
+
+output "resource_group_name" {
+  value = module.subnet.resource_group_name
 }
 
 output "delegation" {

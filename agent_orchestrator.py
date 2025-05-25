@@ -123,5 +123,5 @@ class AgentOrchestrator:
             logger.error(f"[Orchestrator] LLM validation failed: {e}")
 
 if __name__ == "__main__":
-    orchestrator = AgentOrchestrator(md_file="../resources.md", output_dir="../generated_tf")
+    orchestrator = AgentOrchestrator(md_file="./resources.md", output_dir="./generated_tf")
     asyncio.run(orchestrator.run())
