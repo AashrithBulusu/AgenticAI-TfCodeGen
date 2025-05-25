@@ -1,6 +1,11 @@
+
 import re
 import requests
+import logging
 from semantic_kernel.functions import kernel_function
+
+logger = logging.getLogger(__name__)
+
 
 class AVMModuleCatalogFetcher:
     TERRAFORM_URL = "https://azure.github.io/Azure-Verified-Modules/indexes/terraform/tf-resource-modules/"
@@ -10,10 +15,10 @@ class AVMModuleCatalogFetcher:
         try:
             resp = requests.get(url, timeout=30)
             resp.raise_for_status()
-            print(f"Fetched {url} ({len(resp.content)//1024} KB)")
+            logger.info(f"Fetched {url} ({len(resp.content)//1024} KB)")
             return resp.text
         except Exception as e:
-            print(f"Error fetching {url}: {e}")
+            logger.error(f"Error fetching {url}: {e}")
             return ""
 
     @classmethod
@@ -49,20 +54,25 @@ class AVMModuleCatalogFetcher:
                     }
         return modules
 
+
 class ModuleDiscoveryAgent:
     def __init__(self):
-        print("Fetching AVM Terraform module catalog from public index ...")
+        logger.info("Fetching AVM Terraform module catalog from public index ...")
         self.module_map = AVMModuleCatalogFetcher.get_terraform_modules()
 
     @kernel_function(name="find_module", description="Map resource to AVM module")
     def find_module(self, resource: str) -> dict:
+        logger.info(f"Finding AVM module for resource: {resource}")
         resource_key = resource.replace('_', '').replace('-', '').lower()
         for mod in self.module_map.values():
             mod_key = mod['name'].replace('avm-res-', '').replace('-', '').replace('_', '').lower()
             if resource_key == mod_key:
+                logger.info(f"Found exact match for {resource}: {mod}")
                 return mod
         for mod in self.module_map.values():
             mod_key = mod['name'].replace('avm-res-', '').replace('-', '').replace('_', '').lower()
             if resource_key in mod_key or mod_key in resource_key:
+                logger.info(f"Found partial match for {resource}: {mod}")
                 return mod
+        logger.warning(f"No module found for resource: {resource}")
         return {}

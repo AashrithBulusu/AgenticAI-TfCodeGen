@@ -1,9 +1,12 @@
+
 import os
 import asyncio
+import logging
 from dotenv import load_dotenv
 from semantic_kernel import Kernel
 from semantic_kernel.connectors.ai.open_ai import AzureChatCompletion
 from semantic_kernel.functions.kernel_arguments import KernelArguments
+
 
 from plugins.resource_extraction import ResourceExtractionAgent
 from plugins.module_discovery import ModuleDiscoveryAgent
@@ -11,13 +14,24 @@ from plugins.code_generation import TerraformCodeGenerationAgent
 from plugins.tfvars_generator import TFVarsGeneratorAgent
 from plugins.validation import ValidationAgent
 
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s [%(levelname)s] %(name)s: %(message)s'
+)
+logger = logging.getLogger(__name__)
+
 # Load environment variables from .env
 load_dotenv()
 
+
 async def run_pipeline(md_file: str, output_dir: str):
+    logger.info(f"Starting pipeline with md_file={md_file}, output_dir={output_dir}")
     os.makedirs(output_dir, exist_ok=True)
 
     kernel = Kernel()
+    logger.info("Adding AzureChatCompletion service to kernel")
     kernel.add_service(AzureChatCompletion(
         deployment_name=os.environ["AZURE_OPENAI_DEPLOYMENT_NAME"],
         api_key=os.environ["AZURE_OPENAI_API_KEY"],
@@ -26,6 +40,7 @@ async def run_pipeline(md_file: str, output_dir: str):
     ))
 
     # Add plugins
+    logger.info("Adding plugins to kernel")
     kernel.add_plugin(ResourceExtractionAgent(), "ResourceExtractor")
     kernel.add_plugin(ModuleDiscoveryAgent(), "ModuleDiscoverer")
     kernel.add_plugin(TerraformCodeGenerationAgent(), "CodeGenerator")
@@ -33,17 +48,20 @@ async def run_pipeline(md_file: str, output_dir: str):
     kernel.add_plugin(TFVarsGeneratorAgent(), "TFVarsGen")
 
     # Extract resource names from the markdown file
+    logger.info(f"Extracting resources from markdown file: {md_file}")
     extract_result = await kernel.invoke(
         plugin_name="ResourceExtractor",
         function_name="extract",
         arguments=KernelArguments(md_path=md_file)
     )
     resources = extract_result.value
+    logger.info(f"Extracted resources: {resources}")
 
     main_tf = ""
     tfvars = ""
 
     for res in resources:
+        logger.info(f"Processing resource: {res}")
         # Find AVM module for each resource
         module_result = await kernel.invoke(
             plugin_name="ModuleDiscoverer",
@@ -51,6 +69,7 @@ async def run_pipeline(md_file: str, output_dir: str):
             arguments=KernelArguments(resource=res)
         )
         module = module_result.value
+        logger.info(f"Discovered module for {res}: {module}")
 
         variables = [{"name": "name"}, {"name": "location"}]  # Stubbed, customize as needed
 
@@ -60,6 +79,7 @@ async def run_pipeline(md_file: str, output_dir: str):
             function_name="generate_code",
             arguments=KernelArguments(resource_name=res, module=module, variables=variables)
         )
+        logger.info(f"Generated main.tf code for {res}")
         main_tf += code_result.value + "\n"
 
         # Generate terraform.tfvars
@@ -68,12 +88,17 @@ async def run_pipeline(md_file: str, output_dir: str):
             function_name="generate_tfvars",
             arguments=KernelArguments(resource_name=res, variables=variables)
         )
+        logger.info(f"Generated tfvars for {res}")
         tfvars += tfvars_result.value + "\n"
 
     # Write files
-    with open(os.path.join(output_dir, 'main.tf'), 'w') as f:
+    main_tf_path = os.path.join(output_dir, 'main.tf')
+    tfvars_path = os.path.join(output_dir, 'terraform.tfvars')
+    logger.info(f"Writing main.tf to {main_tf_path}")
+    with open(main_tf_path, 'w') as f:
         f.write(main_tf)
-    with open(os.path.join(output_dir, 'terraform.tfvars'), 'w') as f:
+    logger.info(f"Writing terraform.tfvars to {tfvars_path}")
+    with open(tfvars_path, 'w') as f:
         f.write(tfvars)
 
     # Validate generated Terraform config
@@ -82,7 +107,9 @@ async def run_pipeline(md_file: str, output_dir: str):
     #     function_name="validate_code",
     #     arguments=KernelArguments(directory=output_dir)
     # )
-    # print("Validation Result:", validation_result.value)
+    # logger.info(f"Validation Result: {validation_result.value}")
+
 
 if __name__ == "__main__":
+    logger.info("Running main pipeline entry point")
     asyncio.run(run_pipeline("resources.md", "generated_tf"))
