@@ -33,6 +33,10 @@ output "resource_group_name" {
   value = module.network_interface.resource_group_name
 }
 
+output "mac_address" {
+  value = module.network_interface.mac_address
+}
+
 output "private_ip_address" {
   value = module.network_interface.private_ip_address
 }
@@ -41,20 +45,20 @@ output "private_ip_addresses" {
   value = module.network_interface.private_ip_addresses
 }
 
-output "mac_address" {
-  value = module.network_interface.mac_address
+output "private_ip_address_allocation" {
+  value = module.network_interface.private_ip_address_allocation
 }
 
 output "dns_servers" {
   value = module.network_interface.dns_servers
 }
 
-output "internal_dns_name_label" {
-  value = module.network_interface.internal_dns_name_label
+output "enable_accelerated_networking" {
+  value = module.network_interface.enable_accelerated_networking
 }
 
-output "internal_fqdn" {
-  value = module.network_interface.internal_fqdn
+output "enable_ip_forwarding" {
+  value = module.network_interface.enable_ip_forwarding
 }
 
 output "tags" {
@@ -76,18 +80,6 @@ output "resource_group_name" {
   value = module.virtual_machine.resource_group_name
 }
 
-output "vm_size" {
-  value = module.virtual_machine.vm_size
-}
-
-output "os_disk_id" {
-  value = module.virtual_machine.os_disk_id
-}
-
-output "network_interface_ids" {
-  value = module.virtual_machine.network_interface_ids
-}
-
 output "admin_username" {
   value = module.virtual_machine.admin_username
 }
@@ -96,8 +88,28 @@ output "admin_password" {
   value = module.virtual_machine.admin_password
 }
 
-output "custom_data" {
-  value = module.virtual_machine.custom_data
+output "private_ip_address" {
+  value = module.virtual_machine.private_ip_address
+}
+
+output "public_ip_address" {
+  value = module.virtual_machine.public_ip_address
+}
+
+output "os_disk_id" {
+  value = module.virtual_machine.os_disk_id
+}
+
+output "data_disk_ids" {
+  value = module.virtual_machine.data_disk_ids
+}
+
+output "network_interface_ids" {
+  value = module.virtual_machine.network_interface_ids
+}
+
+output "provisioning_state" {
+  value = module.virtual_machine.provisioning_state
 }
 
 output "tags" {
@@ -115,20 +127,24 @@ output "backend_address_pool" {
   value = module.load_balancer.backend_address_pool
 }
 
-output "load_balancing_rules" {
-  value = module.load_balancer.load_balancing_rules
+output "load_balancing_rule" {
+  value = module.load_balancer.load_balancing_rule
 }
 
-output "probes" {
-  value = module.load_balancer.probes
+output "probe" {
+  value = module.load_balancer.probe
 }
 
-output "inbound_nat_rules" {
-  value = module.load_balancer.inbound_nat_rules
+output "inbound_nat_rule" {
+  value = module.load_balancer.inbound_nat_rule
 }
 
-output "outbound_rules" {
-  value = module.load_balancer.outbound_rules
+output "inbound_nat_pool" {
+  value = module.load_balancer.inbound_nat_pool
+}
+
+output "outbound_rule" {
+  value = module.load_balancer.outbound_rule
 }
 
 output "tags" {
@@ -146,6 +162,14 @@ output "primary_blob_endpoint" {
   value = module.storage_account.primary_blob_endpoint
 }
 
+output "primary_queue_endpoint" {
+  value = module.storage_account.primary_queue_endpoint
+}
+
+output "primary_table_endpoint" {
+  value = module.storage_account.primary_table_endpoint
+}
+
 output "primary_file_endpoint" {
   value = module.storage_account.primary_file_endpoint
 }
@@ -158,24 +182,44 @@ output "primary_web_endpoint" {
   value = module.storage_account.primary_web_endpoint
 }
 
-output "primary_queue_endpoint" {
-  value = module.storage_account.primary_queue_endpoint
-}
-
-output "primary_table_endpoint" {
-  value = module.storage_account.primary_table_endpoint
-}
-
 output "primary_dfs_endpoint" {
   value = module.storage_account.primary_dfs_endpoint
 }
 
-output "primary_sftp_endpoint" {
-  value = module.storage_account.primary_sftp_endpoint
+output "primary_blob_connection_string" {
+  value = module.storage_account.primary_blob_connection_string
+}
+
+output "primary_queue_connection_string" {
+  value = module.storage_account.primary_queue_connection_string
+}
+
+output "primary_table_connection_string" {
+  value = module.storage_account.primary_table_connection_string
+}
+
+output "primary_file_connection_string" {
+  value = module.storage_account.primary_file_connection_string
+}
+
+output "primary_web_connection_string" {
+  value = module.storage_account.primary_web_connection_string
+}
+
+output "primary_dfs_connection_string" {
+  value = module.storage_account.primary_dfs_connection_string
 }
 
 output "secondary_blob_endpoint" {
   value = module.storage_account.secondary_blob_endpoint
+}
+
+output "secondary_queue_endpoint" {
+  value = module.storage_account.secondary_queue_endpoint
+}
+
+output "secondary_table_endpoint" {
+  value = module.storage_account.secondary_table_endpoint
 }
 
 output "secondary_file_endpoint" {
@@ -190,20 +234,32 @@ output "secondary_web_endpoint" {
   value = module.storage_account.secondary_web_endpoint
 }
 
-output "secondary_queue_endpoint" {
-  value = module.storage_account.secondary_queue_endpoint
-}
-
-output "secondary_table_endpoint" {
-  value = module.storage_account.secondary_table_endpoint
-}
-
 output "secondary_dfs_endpoint" {
   value = module.storage_account.secondary_dfs_endpoint
 }
 
-output "secondary_sftp_endpoint" {
-  value = module.storage_account.secondary_sftp_endpoint
+output "secondary_blob_connection_string" {
+  value = module.storage_account.secondary_blob_connection_string
+}
+
+output "secondary_queue_connection_string" {
+  value = module.storage_account.secondary_queue_connection_string
+}
+
+output "secondary_table_connection_string" {
+  value = module.storage_account.secondary_table_connection_string
+}
+
+output "secondary_file_connection_string" {
+  value = module.storage_account.secondary_file_connection_string
+}
+
+output "secondary_web_connection_string" {
+  value = module.storage_account.secondary_web_connection_string
+}
+
+output "secondary_dfs_connection_string" {
+  value = module.storage_account.secondary_dfs_connection_string
 }
 output "id" {
   value = module.sql_server.id
@@ -256,18 +312,37 @@ output "virtual_network_name" {
   value = module.subnet.virtual_network_name
 }
 
-output "delegation" {
-  value = module.subnet.delegation
-}
-
 output "service_endpoints" {
   value = module.subnet.service_endpoints
 }
 
-output "private_endpoint_network_policies" {
-  value = module.subnet.private_endpoint_network_policies
+output "delegation" {
+  value = module.subnet.delegation
 }
 
-output "private_link_service_network_policies" {
-  value = module.subnet.private_link_service_network_policies
+output "network_security_group_id" {
+  value = module.subnet.network_security_group_id
+}
+
+output "route_table_id" {
+  value = module.subnet.route_table_id
+}
+output "id" {
+  value = module.private_dns_zone.id
+}
+
+output "name" {
+  value = module.private_dns_zone.name
+}
+
+output "resource_group_name" {
+  value = module.private_dns_zone.resource_group_name
+}
+
+output "tags" {
+  value = module.private_dns_zone.tags
+}
+
+output "zone_name" {
+  value = module.private_dns_zone.zone_name
 }

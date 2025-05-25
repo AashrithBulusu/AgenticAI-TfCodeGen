@@ -1,4 +1,4 @@
-from llm_utils import AzureOpenAIChat
+from utils.llm_utils import AzureOpenAIChat
 import os
 
 class LLMValidationAgent:
@@ -6,7 +6,6 @@ class LLMValidationAgent:
         self.llm = AzureOpenAIChat()
 
     def validate_code(self, directory: str) -> str:
-        # Read all .tf files in the directory and send to LLM for review
         tf_files = [f for f in os.listdir(directory) if f.endswith('.tf') or f.endswith('.tfvars')]
         code_blocks = []
         for fname in tf_files:

@@ -7,3 +7,4 @@
 - storage_account
 - sql_server
 - subnet
+- private_dns_zone

@@ -6,7 +6,7 @@ class AzureOpenAIChat:
         self.api_key = os.environ["AZURE_OPENAI_API_KEY"]
         self.endpoint = os.environ["AZURE_OPENAI_ENDPOINT"]
         self.deployment = os.environ["AZURE_OPENAI_DEPLOYMENT_NAME"]
-        self.api_version = "2024-05-01-preview"  # Update if needed
+        self.api_version = "2024-05-01-preview"
 
     def chat(self, messages, temperature=0.2, max_tokens=1024):
         url = f"{self.endpoint}openai/deployments/{self.deployment}/chat/completions?api-version={self.api_version}"

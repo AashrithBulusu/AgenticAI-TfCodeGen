@@ -1,15 +1,10 @@
-
-from llm_utils import AzureOpenAIChat
-
+from utils.llm_utils import AzureOpenAIChat
 
 class CodeGenerationAgent:
     def __init__(self):
         self.llm = AzureOpenAIChat()
 
     def generate_main_tf(self, resource_name: str, module: dict, variables: list) -> str:
-        """
-        Use LLM to generate main.tf code for a resource/module, using a consolidated config variable for each module.
-        """
         prompt = f"""
 You are a Terraform expert. For the given Azure resource module, generate a main.tf block that:
 - Uses a single object variable (e.g., {resource_name}_config) for all module inputs.
@@ -25,14 +20,11 @@ Module: {module}
             {"role": "user", "content": prompt}
         ]
         code = self.llm.chat(messages)
-        # Remove any markdown, triple backticks, or comments if present
         code = code.strip()
         if code.startswith('```'):
             code = code.strip('`').replace('hcl', '').strip()
-        # Remove lines starting with # or containing 'Notes:'
         code = '\n'.join([line for line in code.splitlines() if not line.strip().startswith('#') and 'Notes:' not in line and '<module-source>' not in line and '<module-version>' not in line])
         return code.strip()
-
 
     def generate_variables_tf(self, resource_name: str, module: dict) -> str:
         prompt = f"""
@@ -54,7 +46,6 @@ Module: {module}
             code = code.strip('`').replace('hcl', '').strip()
         code = '\n'.join([line for line in code.splitlines() if not line.strip().startswith('#') and 'Notes:' not in line])
         return code.strip()
-
 
     def generate_outputs_tf(self, resource_name: str, module: dict) -> str:
         prompt = f"""

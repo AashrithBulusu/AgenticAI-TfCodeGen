@@ -9,10 +9,8 @@ class AVMModuleCatalogFetcher:
         try:
             resp = requests.get(url, timeout=30)
             resp.raise_for_status()
-            print(f"[AVMModuleCatalogFetcher] Fetched {url} ({len(resp.content)//1024} KB)")
             return resp.text
-        except Exception as e:
-            print(f"[AVMModuleCatalogFetcher] Error fetching {url}: {e}")
+        except Exception:
             return ""
 
     @classmethod
@@ -50,21 +48,16 @@ class AVMModuleCatalogFetcher:
 
 class ModuleDiscoveryAgent:
     def __init__(self):
-        print("[ModuleDiscoveryAgent] Fetching AVM Terraform module catalog from public index ...")
         self.module_map = AVMModuleCatalogFetcher.get_terraform_modules()
 
     def find_module(self, resource: str) -> dict:
-        print(f"[ModuleDiscoveryAgent] Finding AVM module for resource: {resource}")
         resource_key = resource.replace('_', '').replace('-', '').lower()
         for mod in self.module_map.values():
             mod_key = mod['name'].replace('avm-res-', '').replace('-', '').replace('_', '').lower()
             if resource_key == mod_key:
-                print(f"[ModuleDiscoveryAgent] Found exact match for {resource}: {mod}")
                 return mod
         for mod in self.module_map.values():
             mod_key = mod['name'].replace('avm-res-', '').replace('-', '').replace('_', '').lower()
             if resource_key in mod_key or mod_key in resource_key:
-                print(f"[ModuleDiscoveryAgent] Found partial match for {resource}: {mod}")
                 return mod
-        print(f"[ModuleDiscoveryAgent] No module found for resource: {resource}")
         return {}

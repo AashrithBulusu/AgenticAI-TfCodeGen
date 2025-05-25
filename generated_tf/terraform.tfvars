@@ -33,3 +33,8 @@ subnet_config = {
   # ...
 }
 
+# Fill in values for private_dns_zone_config in terraform.tfvars
+private_dns_zone_config = {
+  # ...
+}
+
