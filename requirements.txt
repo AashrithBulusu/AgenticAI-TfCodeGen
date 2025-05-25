@@ -1,0 +1,7 @@
+semantic-kernel[all]
+## To install all optional dependencies for semantic-kernel, run:
+# python -m pip install --upgrade semantic-kernel[all]
+openai
+pydantic>=2.0,<3.0
+requests
+python-dotenv
