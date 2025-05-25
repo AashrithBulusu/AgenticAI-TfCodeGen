@@ -1,0 +1,390 @@
+2025-05-25 21:31:13,391 [INFO] __main__: Running main pipeline entry point
+2025-05-25 21:31:13,391 [INFO] __main__: Starting pipeline with md_file=resources.md, output_dir=generated_tf
+2025-05-25 21:31:13,392 [INFO] __main__: Adding AzureChatCompletion service to kernel
+2025-05-25 21:31:13,680 [INFO] __main__: Adding plugins to kernel
+2025-05-25 21:31:13,682 [INFO] plugins.module_discovery: Fetching AVM Terraform module catalog from public index ...
+2025-05-25 21:31:13,738 [INFO] plugins.module_discovery: Fetched https://azure.github.io/Azure-Verified-Modules/indexes/terraform/tf-resource-modules/ (318 KB)
+2025-05-25 21:31:13,742 [INFO] __main__: Extracting resources from markdown file: resources.md
+2025-05-25 21:31:13,743 [INFO] semantic_kernel.functions.kernel_function: Function ResourceExtractor-extract invoking.
+2025-05-25 21:31:13,743 [INFO] plugins.resource_extraction: Extracting resources from markdown file: resources.md
+2025-05-25 21:31:13,745 [INFO] plugins.resource_extraction: Extracted resources: ['network_security_group', 'network_interface', 'virtual_machine', 'load_balancer', 'storage_account', 'sql_server']
+2025-05-25 21:31:13,745 [INFO] semantic_kernel.functions.kernel_function: Function ResourceExtractor-extract succeeded.
+2025-05-25 21:31:13,745 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.002394s
+2025-05-25 21:31:13,745 [INFO] __main__: Extracted resources: ['network_security_group', 'network_interface', 'virtual_machine', 'load_balancer', 'storage_account', 'sql_server']
+2025-05-25 21:31:13,745 [INFO] __main__: Processing resource: network_security_group
+2025-05-25 21:31:13,745 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module invoking.
+2025-05-25 21:31:13,745 [INFO] plugins.module_discovery: Finding AVM module for resource: network_security_group
+2025-05-25 21:31:13,745 [INFO] plugins.module_discovery: Found partial match for network_security_group: {'name': 'avm-res-network-networksecuritygroup', 'display_name': 'Network Security Group', 'version': '0.4.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-network-networksecuritygroup/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-network-networksecuritygroup', 'status': 'Available'}
+2025-05-25 21:31:13,746 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module succeeded.
+2025-05-25 21:31:13,746 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000138s
+2025-05-25 21:31:13,746 [INFO] __main__: Discovered module for network_security_group: {'name': 'avm-res-network-networksecuritygroup', 'display_name': 'Network Security Group', 'version': '0.4.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-network-networksecuritygroup/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-network-networksecuritygroup', 'status': 'Available'}
+2025-05-25 21:31:13,746 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_code invoking.
+2025-05-25 21:31:13,746 [INFO] plugins.code_generation: Generating main.tf code for resource: network_security_group, module: {'name': 'avm-res-network-networksecuritygroup', 'display_name': 'Network Security Group', 'version': '0.4.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-network-networksecuritygroup/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-network-networksecuritygroup', 'status': 'Available'}
+2025-05-25 21:31:13,746 [INFO] plugins.code_generation: Generated code for network_security_group:
+module "network_security_group" {
+  source = "Azure/avm-res-network-networksecuritygroup/azurerm"
+  version = "0.4.0"
+  name = var.network_security_group_vars.name
+  location = var.network_security_group_vars.location
+}
+2025-05-25 21:31:13,746 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_code succeeded.
+2025-05-25 21:31:13,746 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000075s
+2025-05-25 21:31:13,746 [INFO] __main__: Generated main.tf code for network_security_group
+2025-05-25 21:31:13,746 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars invoking.
+2025-05-25 21:31:13,746 [INFO] plugins.tfvars_generator: Generating tfvars for resource: network_security_group with variables: [{'name': 'name'}, {'name': 'location'}]
+2025-05-25 21:31:13,746 [INFO] plugins.tfvars_generator: Generated tfvars for network_security_group:
+network_security_group_vars = {
+  name = "<value>"
+  location = "<value>"
+}
+
+2025-05-25 21:31:13,746 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars succeeded.
+2025-05-25 21:31:13,746 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000054s
+2025-05-25 21:31:13,746 [INFO] __main__: Generated tfvars for network_security_group
+2025-05-25 21:31:13,746 [INFO] __main__: Processing resource: network_interface
+2025-05-25 21:31:13,746 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module invoking.
+2025-05-25 21:31:13,746 [INFO] plugins.module_discovery: Finding AVM module for resource: network_interface
+2025-05-25 21:31:13,746 [INFO] plugins.module_discovery: Found partial match for network_interface: {'name': 'avm-res-network-networkinterface', 'display_name': 'Network Interface', 'version': '0.1.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-network-networkinterface/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-network-networkinterface', 'status': 'Available'}
+2025-05-25 21:31:13,746 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module succeeded.
+2025-05-25 21:31:13,746 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000102s
+2025-05-25 21:31:13,746 [INFO] __main__: Discovered module for network_interface: {'name': 'avm-res-network-networkinterface', 'display_name': 'Network Interface', 'version': '0.1.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-network-networkinterface/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-network-networkinterface', 'status': 'Available'}
+2025-05-25 21:31:13,746 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_code invoking.
+2025-05-25 21:31:13,746 [INFO] plugins.code_generation: Generating main.tf code for resource: network_interface, module: {'name': 'avm-res-network-networkinterface', 'display_name': 'Network Interface', 'version': '0.1.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-network-networkinterface/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-network-networkinterface', 'status': 'Available'}
+2025-05-25 21:31:13,746 [INFO] plugins.code_generation: Generated code for network_interface:
+module "network_interface" {
+  source = "Azure/avm-res-network-networkinterface/azurerm"
+  version = "0.1.0"
+  name = var.network_interface_vars.name
+  location = var.network_interface_vars.location
+}
+2025-05-25 21:31:13,746 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_code succeeded.
+2025-05-25 21:31:13,746 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000056s
+2025-05-25 21:31:13,746 [INFO] __main__: Generated main.tf code for network_interface
+2025-05-25 21:31:13,746 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars invoking.
+2025-05-25 21:31:13,746 [INFO] plugins.tfvars_generator: Generating tfvars for resource: network_interface with variables: [{'name': 'name'}, {'name': 'location'}]
+2025-05-25 21:31:13,746 [INFO] plugins.tfvars_generator: Generated tfvars for network_interface:
+network_interface_vars = {
+  name = "<value>"
+  location = "<value>"
+}
+
+2025-05-25 21:31:13,746 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars succeeded.
+2025-05-25 21:31:13,746 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000047s
+2025-05-25 21:31:13,746 [INFO] __main__: Generated tfvars for network_interface
+2025-05-25 21:31:13,746 [INFO] __main__: Processing resource: virtual_machine
+2025-05-25 21:31:13,746 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module invoking.
+2025-05-25 21:31:13,746 [INFO] plugins.module_discovery: Finding AVM module for resource: virtual_machine
+2025-05-25 21:31:13,746 [INFO] plugins.module_discovery: Found partial match for virtual_machine: {'name': 'avm-res-azurestackhci-virtualmachineinstance', 'display_name': 'Stack HCI Virtual Machine Instance', 'version': '2.0.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-azurestackhci-virtualmachineinstance/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-azurestackhci-virtualmachineinstance', 'status': 'Available'}
+2025-05-25 21:31:13,746 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module succeeded.
+2025-05-25 21:31:13,746 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000156s
+2025-05-25 21:31:13,746 [INFO] __main__: Discovered module for virtual_machine: {'name': 'avm-res-azurestackhci-virtualmachineinstance', 'display_name': 'Stack HCI Virtual Machine Instance', 'version': '2.0.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-azurestackhci-virtualmachineinstance/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-azurestackhci-virtualmachineinstance', 'status': 'Available'}
+2025-05-25 21:31:13,746 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_code invoking.
+2025-05-25 21:31:13,746 [INFO] plugins.code_generation: Generating main.tf code for resource: virtual_machine, module: {'name': 'avm-res-azurestackhci-virtualmachineinstance', 'display_name': 'Stack HCI Virtual Machine Instance', 'version': '2.0.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-azurestackhci-virtualmachineinstance/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-azurestackhci-virtualmachineinstance', 'status': 'Available'}
+2025-05-25 21:31:13,747 [INFO] plugins.code_generation: Generated code for virtual_machine:
+module "virtual_machine" {
+  source = "Azure/avm-res-azurestackhci-virtualmachineinstance/azurerm"
+  version = "2.0.0"
+  name = var.virtual_machine_vars.name
+  location = var.virtual_machine_vars.location
+}
+2025-05-25 21:31:13,747 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_code succeeded.
+2025-05-25 21:31:13,747 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000066s
+2025-05-25 21:31:13,747 [INFO] __main__: Generated main.tf code for virtual_machine
+2025-05-25 21:31:13,747 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars invoking.
+2025-05-25 21:31:13,747 [INFO] plugins.tfvars_generator: Generating tfvars for resource: virtual_machine with variables: [{'name': 'name'}, {'name': 'location'}]
+2025-05-25 21:31:13,747 [INFO] plugins.tfvars_generator: Generated tfvars for virtual_machine:
+virtual_machine_vars = {
+  name = "<value>"
+  location = "<value>"
+}
+
+2025-05-25 21:31:13,747 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars succeeded.
+2025-05-25 21:31:13,747 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000051s
+2025-05-25 21:31:13,747 [INFO] __main__: Generated tfvars for virtual_machine
+2025-05-25 21:31:13,747 [INFO] __main__: Processing resource: load_balancer
+2025-05-25 21:31:13,747 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module invoking.
+2025-05-25 21:31:13,747 [INFO] plugins.module_discovery: Finding AVM module for resource: load_balancer
+2025-05-25 21:31:13,747 [INFO] plugins.module_discovery: Found partial match for load_balancer: {'name': 'avm-res-network-loadbalancer', 'display_name': 'Loadbalancer', 'version': '0.4.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-network-loadbalancer/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-network-loadbalancer', 'status': 'Available'}
+2025-05-25 21:31:13,747 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module succeeded.
+2025-05-25 21:31:13,747 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000103s
+2025-05-25 21:31:13,747 [INFO] __main__: Discovered module for load_balancer: {'name': 'avm-res-network-loadbalancer', 'display_name': 'Loadbalancer', 'version': '0.4.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-network-loadbalancer/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-network-loadbalancer', 'status': 'Available'}
+2025-05-25 21:31:13,747 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_code invoking.
+2025-05-25 21:31:13,747 [INFO] plugins.code_generation: Generating main.tf code for resource: load_balancer, module: {'name': 'avm-res-network-loadbalancer', 'display_name': 'Loadbalancer', 'version': '0.4.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-network-loadbalancer/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-network-loadbalancer', 'status': 'Available'}
+2025-05-25 21:31:13,747 [INFO] plugins.code_generation: Generated code for load_balancer:
+module "load_balancer" {
+  source = "Azure/avm-res-network-loadbalancer/azurerm"
+  version = "0.4.0"
+  name = var.load_balancer_vars.name
+  location = var.load_balancer_vars.location
+}
+2025-05-25 21:31:13,747 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_code succeeded.
+2025-05-25 21:31:13,747 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000059s
+2025-05-25 21:31:13,747 [INFO] __main__: Generated main.tf code for load_balancer
+2025-05-25 21:31:13,747 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars invoking.
+2025-05-25 21:31:13,747 [INFO] plugins.tfvars_generator: Generating tfvars for resource: load_balancer with variables: [{'name': 'name'}, {'name': 'location'}]
+2025-05-25 21:31:13,747 [INFO] plugins.tfvars_generator: Generated tfvars for load_balancer:
+load_balancer_vars = {
+  name = "<value>"
+  location = "<value>"
+}
+
+2025-05-25 21:31:13,747 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars succeeded.
+2025-05-25 21:31:13,747 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000046s
+2025-05-25 21:31:13,747 [INFO] __main__: Generated tfvars for load_balancer
+2025-05-25 21:31:13,747 [INFO] __main__: Processing resource: storage_account
+2025-05-25 21:31:13,747 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module invoking.
+2025-05-25 21:31:13,747 [INFO] plugins.module_discovery: Finding AVM module for resource: storage_account
+2025-05-25 21:31:13,747 [INFO] plugins.module_discovery: Found partial match for storage_account: {'name': 'avm-res-storage-storageaccount', 'display_name': 'Storage Account', 'version': '0.6.2', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-storage-storageaccount/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-storage-storageaccount', 'status': 'Available'}
+2025-05-25 21:31:13,747 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module succeeded.
+2025-05-25 21:31:13,747 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000097s
+2025-05-25 21:31:13,747 [INFO] __main__: Discovered module for storage_account: {'name': 'avm-res-storage-storageaccount', 'display_name': 'Storage Account', 'version': '0.6.2', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-storage-storageaccount/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-storage-storageaccount', 'status': 'Available'}
+2025-05-25 21:31:13,747 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_code invoking.
+2025-05-25 21:31:13,747 [INFO] plugins.code_generation: Generating main.tf code for resource: storage_account, module: {'name': 'avm-res-storage-storageaccount', 'display_name': 'Storage Account', 'version': '0.6.2', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-storage-storageaccount/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-storage-storageaccount', 'status': 'Available'}
+2025-05-25 21:31:13,747 [INFO] plugins.code_generation: Generated code for storage_account:
+module "storage_account" {
+  source = "Azure/avm-res-storage-storageaccount/azurerm"
+  version = "0.6.2"
+  name = var.storage_account_vars.name
+  location = var.storage_account_vars.location
+}
+2025-05-25 21:31:13,747 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_code succeeded.
+2025-05-25 21:31:13,747 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000051s
+2025-05-25 21:31:13,747 [INFO] __main__: Generated main.tf code for storage_account
+2025-05-25 21:31:13,747 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars invoking.
+2025-05-25 21:31:13,747 [INFO] plugins.tfvars_generator: Generating tfvars for resource: storage_account with variables: [{'name': 'name'}, {'name': 'location'}]
+2025-05-25 21:31:13,747 [INFO] plugins.tfvars_generator: Generated tfvars for storage_account:
+storage_account_vars = {
+  name = "<value>"
+  location = "<value>"
+}
+
+2025-05-25 21:31:13,747 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars succeeded.
+2025-05-25 21:31:13,747 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000045s
+2025-05-25 21:31:13,747 [INFO] __main__: Generated tfvars for storage_account
+2025-05-25 21:31:13,747 [INFO] __main__: Processing resource: sql_server
+2025-05-25 21:31:13,747 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module invoking.
+2025-05-25 21:31:13,747 [INFO] plugins.module_discovery: Finding AVM module for resource: sql_server
+2025-05-25 21:31:13,748 [INFO] plugins.module_discovery: Found exact match for sql_server: {'name': 'avm-res-sql-server', 'display_name': 'Azure SQL Server', 'version': '0.1.4', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-sql-server/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-sql-server', 'status': 'Available'}
+2025-05-25 21:31:13,748 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module succeeded.
+2025-05-25 21:31:13,748 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000069s
+2025-05-25 21:31:13,748 [INFO] __main__: Discovered module for sql_server: {'name': 'avm-res-sql-server', 'display_name': 'Azure SQL Server', 'version': '0.1.4', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-sql-server/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-sql-server', 'status': 'Available'}
+2025-05-25 21:31:13,748 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_code invoking.
+2025-05-25 21:31:13,748 [INFO] plugins.code_generation: Generating main.tf code for resource: sql_server, module: {'name': 'avm-res-sql-server', 'display_name': 'Azure SQL Server', 'version': '0.1.4', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-sql-server/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-sql-server', 'status': 'Available'}
+2025-05-25 21:31:13,748 [INFO] plugins.code_generation: Generated code for sql_server:
+module "sql_server" {
+  source = "Azure/avm-res-sql-server/azurerm"
+  version = "0.1.4"
+  name = var.sql_server_vars.name
+  location = var.sql_server_vars.location
+}
+2025-05-25 21:31:13,748 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_code succeeded.
+2025-05-25 21:31:13,748 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000049s
+2025-05-25 21:31:13,748 [INFO] __main__: Generated main.tf code for sql_server
+2025-05-25 21:31:13,748 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars invoking.
+2025-05-25 21:31:13,748 [INFO] plugins.tfvars_generator: Generating tfvars for resource: sql_server with variables: [{'name': 'name'}, {'name': 'location'}]
+2025-05-25 21:31:13,748 [INFO] plugins.tfvars_generator: Generated tfvars for sql_server:
+sql_server_vars = {
+  name = "<value>"
+  location = "<value>"
+}
+
+2025-05-25 21:31:13,748 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars succeeded.
+2025-05-25 21:31:13,748 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000044s
+2025-05-25 21:31:13,748 [INFO] __main__: Generated tfvars for sql_server
+2025-05-25 21:31:13,748 [INFO] __main__: Writing main.tf to generated_tf/main.tf
+2025-05-25 21:31:13,750 [INFO] __main__: Writing terraform.tfvars to generated_tf/terraform.tfvars
+2025-05-25 21:31:35,980 [INFO] __main__: Running main pipeline entry point
+2025-05-25 21:31:35,981 [INFO] __main__: Starting pipeline with md_file=resources.md, output_dir=generated_tf
+2025-05-25 21:31:35,981 [INFO] __main__: Adding AzureChatCompletion service to kernel
+2025-05-25 21:31:36,017 [INFO] __main__: Adding plugins to kernel
+2025-05-25 21:31:36,017 [INFO] plugins.module_discovery: Fetching AVM Terraform module catalog from public index ...
+2025-05-25 21:31:36,057 [INFO] plugins.module_discovery: Fetched https://azure.github.io/Azure-Verified-Modules/indexes/terraform/tf-resource-modules/ (318 KB)
+2025-05-25 21:31:36,059 [INFO] __main__: Extracting resources from markdown file: resources.md
+2025-05-25 21:31:36,060 [INFO] semantic_kernel.functions.kernel_function: Function ResourceExtractor-extract invoking.
+2025-05-25 21:31:36,060 [INFO] plugins.resource_extraction: Extracting resources from markdown file: resources.md
+2025-05-25 21:31:36,060 [INFO] plugins.resource_extraction: Extracted resources: ['network_security_group', 'network_interface', 'virtual_machine', 'load_balancer', 'storage_account', 'sql_server']
+2025-05-25 21:31:36,060 [INFO] semantic_kernel.functions.kernel_function: Function ResourceExtractor-extract succeeded.
+2025-05-25 21:31:36,060 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000649s
+2025-05-25 21:31:36,060 [INFO] __main__: Extracted resources: ['network_security_group', 'network_interface', 'virtual_machine', 'load_balancer', 'storage_account', 'sql_server']
+2025-05-25 21:31:36,060 [INFO] __main__: Processing resource: network_security_group
+2025-05-25 21:31:36,060 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module invoking.
+2025-05-25 21:31:36,061 [INFO] plugins.module_discovery: Finding AVM module for resource: network_security_group
+2025-05-25 21:31:36,061 [INFO] plugins.module_discovery: Found partial match for network_security_group: {'name': 'avm-res-network-networksecuritygroup', 'display_name': 'Network Security Group', 'version': '0.4.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-network-networksecuritygroup/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-network-networksecuritygroup', 'status': 'Available'}
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module succeeded.
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000104s
+2025-05-25 21:31:36,061 [INFO] __main__: Discovered module for network_security_group: {'name': 'avm-res-network-networksecuritygroup', 'display_name': 'Network Security Group', 'version': '0.4.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-network-networksecuritygroup/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-network-networksecuritygroup', 'status': 'Available'}
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_code invoking.
+2025-05-25 21:31:36,061 [INFO] plugins.code_generation: Generating main.tf code for resource: network_security_group, module: {'name': 'avm-res-network-networksecuritygroup', 'display_name': 'Network Security Group', 'version': '0.4.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-network-networksecuritygroup/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-network-networksecuritygroup', 'status': 'Available'}
+2025-05-25 21:31:36,061 [INFO] plugins.code_generation: Generated code for network_security_group:
+module "network_security_group" {
+  source = "Azure/avm-res-network-networksecuritygroup/azurerm"
+  version = "0.4.0"
+  name = var.network_security_group_vars.name
+  location = var.network_security_group_vars.location
+}
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_code succeeded.
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000056s
+2025-05-25 21:31:36,061 [INFO] __main__: Generated main.tf code for network_security_group
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars invoking.
+2025-05-25 21:31:36,061 [INFO] plugins.tfvars_generator: Generating tfvars for resource: network_security_group with variables: [{'name': 'name'}, {'name': 'location'}]
+2025-05-25 21:31:36,061 [INFO] plugins.tfvars_generator: Generated tfvars for network_security_group:
+network_security_group_vars = {
+  name = "<value>"
+  location = "<value>"
+}
+
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars succeeded.
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000040s
+2025-05-25 21:31:36,061 [INFO] __main__: Generated tfvars for network_security_group
+2025-05-25 21:31:36,061 [INFO] __main__: Processing resource: network_interface
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module invoking.
+2025-05-25 21:31:36,061 [INFO] plugins.module_discovery: Finding AVM module for resource: network_interface
+2025-05-25 21:31:36,061 [INFO] plugins.module_discovery: Found partial match for network_interface: {'name': 'avm-res-network-networkinterface', 'display_name': 'Network Interface', 'version': '0.1.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-network-networkinterface/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-network-networkinterface', 'status': 'Available'}
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module succeeded.
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000075s
+2025-05-25 21:31:36,061 [INFO] __main__: Discovered module for network_interface: {'name': 'avm-res-network-networkinterface', 'display_name': 'Network Interface', 'version': '0.1.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-network-networkinterface/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-network-networkinterface', 'status': 'Available'}
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_code invoking.
+2025-05-25 21:31:36,061 [INFO] plugins.code_generation: Generating main.tf code for resource: network_interface, module: {'name': 'avm-res-network-networkinterface', 'display_name': 'Network Interface', 'version': '0.1.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-network-networkinterface/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-network-networkinterface', 'status': 'Available'}
+2025-05-25 21:31:36,061 [INFO] plugins.code_generation: Generated code for network_interface:
+module "network_interface" {
+  source = "Azure/avm-res-network-networkinterface/azurerm"
+  version = "0.1.0"
+  name = var.network_interface_vars.name
+  location = var.network_interface_vars.location
+}
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_code succeeded.
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000046s
+2025-05-25 21:31:36,061 [INFO] __main__: Generated main.tf code for network_interface
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars invoking.
+2025-05-25 21:31:36,061 [INFO] plugins.tfvars_generator: Generating tfvars for resource: network_interface with variables: [{'name': 'name'}, {'name': 'location'}]
+2025-05-25 21:31:36,061 [INFO] plugins.tfvars_generator: Generated tfvars for network_interface:
+network_interface_vars = {
+  name = "<value>"
+  location = "<value>"
+}
+
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars succeeded.
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000035s
+2025-05-25 21:31:36,061 [INFO] __main__: Generated tfvars for network_interface
+2025-05-25 21:31:36,061 [INFO] __main__: Processing resource: virtual_machine
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module invoking.
+2025-05-25 21:31:36,061 [INFO] plugins.module_discovery: Finding AVM module for resource: virtual_machine
+2025-05-25 21:31:36,061 [INFO] plugins.module_discovery: Found partial match for virtual_machine: {'name': 'avm-res-azurestackhci-virtualmachineinstance', 'display_name': 'Stack HCI Virtual Machine Instance', 'version': '2.0.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-azurestackhci-virtualmachineinstance/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-azurestackhci-virtualmachineinstance', 'status': 'Available'}
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module succeeded.
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000057s
+2025-05-25 21:31:36,061 [INFO] __main__: Discovered module for virtual_machine: {'name': 'avm-res-azurestackhci-virtualmachineinstance', 'display_name': 'Stack HCI Virtual Machine Instance', 'version': '2.0.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-azurestackhci-virtualmachineinstance/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-azurestackhci-virtualmachineinstance', 'status': 'Available'}
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_code invoking.
+2025-05-25 21:31:36,061 [INFO] plugins.code_generation: Generating main.tf code for resource: virtual_machine, module: {'name': 'avm-res-azurestackhci-virtualmachineinstance', 'display_name': 'Stack HCI Virtual Machine Instance', 'version': '2.0.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-azurestackhci-virtualmachineinstance/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-azurestackhci-virtualmachineinstance', 'status': 'Available'}
+2025-05-25 21:31:36,061 [INFO] plugins.code_generation: Generated code for virtual_machine:
+module "virtual_machine" {
+  source = "Azure/avm-res-azurestackhci-virtualmachineinstance/azurerm"
+  version = "2.0.0"
+  name = var.virtual_machine_vars.name
+  location = var.virtual_machine_vars.location
+}
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_code succeeded.
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000039s
+2025-05-25 21:31:36,061 [INFO] __main__: Generated main.tf code for virtual_machine
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars invoking.
+2025-05-25 21:31:36,061 [INFO] plugins.tfvars_generator: Generating tfvars for resource: virtual_machine with variables: [{'name': 'name'}, {'name': 'location'}]
+2025-05-25 21:31:36,061 [INFO] plugins.tfvars_generator: Generated tfvars for virtual_machine:
+virtual_machine_vars = {
+  name = "<value>"
+  location = "<value>"
+}
+
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars succeeded.
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000038s
+2025-05-25 21:31:36,061 [INFO] __main__: Generated tfvars for virtual_machine
+2025-05-25 21:31:36,061 [INFO] __main__: Processing resource: load_balancer
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module invoking.
+2025-05-25 21:31:36,061 [INFO] plugins.module_discovery: Finding AVM module for resource: load_balancer
+2025-05-25 21:31:36,061 [INFO] plugins.module_discovery: Found partial match for load_balancer: {'name': 'avm-res-network-loadbalancer', 'display_name': 'Loadbalancer', 'version': '0.4.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-network-loadbalancer/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-network-loadbalancer', 'status': 'Available'}
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module succeeded.
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000065s
+2025-05-25 21:31:36,061 [INFO] __main__: Discovered module for load_balancer: {'name': 'avm-res-network-loadbalancer', 'display_name': 'Loadbalancer', 'version': '0.4.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-network-loadbalancer/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-network-loadbalancer', 'status': 'Available'}
+2025-05-25 21:31:36,061 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_code invoking.
+2025-05-25 21:31:36,062 [INFO] plugins.code_generation: Generating main.tf code for resource: load_balancer, module: {'name': 'avm-res-network-loadbalancer', 'display_name': 'Loadbalancer', 'version': '0.4.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-network-loadbalancer/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-network-loadbalancer', 'status': 'Available'}
+2025-05-25 21:31:36,062 [INFO] plugins.code_generation: Generated code for load_balancer:
+module "load_balancer" {
+  source = "Azure/avm-res-network-loadbalancer/azurerm"
+  version = "0.4.0"
+  name = var.load_balancer_vars.name
+  location = var.load_balancer_vars.location
+}
+2025-05-25 21:31:36,062 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_code succeeded.
+2025-05-25 21:31:36,062 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000040s
+2025-05-25 21:31:36,062 [INFO] __main__: Generated main.tf code for load_balancer
+2025-05-25 21:31:36,062 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars invoking.
+2025-05-25 21:31:36,062 [INFO] plugins.tfvars_generator: Generating tfvars for resource: load_balancer with variables: [{'name': 'name'}, {'name': 'location'}]
+2025-05-25 21:31:36,062 [INFO] plugins.tfvars_generator: Generated tfvars for load_balancer:
+load_balancer_vars = {
+  name = "<value>"
+  location = "<value>"
+}
+
+2025-05-25 21:31:36,062 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars succeeded.
+2025-05-25 21:31:36,062 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000032s
+2025-05-25 21:31:36,062 [INFO] __main__: Generated tfvars for load_balancer
+2025-05-25 21:31:36,062 [INFO] __main__: Processing resource: storage_account
+2025-05-25 21:31:36,062 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module invoking.
+2025-05-25 21:31:36,062 [INFO] plugins.module_discovery: Finding AVM module for resource: storage_account
+2025-05-25 21:31:36,062 [INFO] plugins.module_discovery: Found partial match for storage_account: {'name': 'avm-res-storage-storageaccount', 'display_name': 'Storage Account', 'version': '0.6.2', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-storage-storageaccount/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-storage-storageaccount', 'status': 'Available'}
+2025-05-25 21:31:36,062 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module succeeded.
+2025-05-25 21:31:36,062 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000072s
+2025-05-25 21:31:36,062 [INFO] __main__: Discovered module for storage_account: {'name': 'avm-res-storage-storageaccount', 'display_name': 'Storage Account', 'version': '0.6.2', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-storage-storageaccount/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-storage-storageaccount', 'status': 'Available'}
+2025-05-25 21:31:36,062 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_code invoking.
+2025-05-25 21:31:36,062 [INFO] plugins.code_generation: Generating main.tf code for resource: storage_account, module: {'name': 'avm-res-storage-storageaccount', 'display_name': 'Storage Account', 'version': '0.6.2', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-storage-storageaccount/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-storage-storageaccount', 'status': 'Available'}
+2025-05-25 21:31:36,062 [INFO] plugins.code_generation: Generated code for storage_account:
+module "storage_account" {
+  source = "Azure/avm-res-storage-storageaccount/azurerm"
+  version = "0.6.2"
+  name = var.storage_account_vars.name
+  location = var.storage_account_vars.location
+}
+2025-05-25 21:31:36,062 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_code succeeded.
+2025-05-25 21:31:36,062 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000037s
+2025-05-25 21:31:36,062 [INFO] __main__: Generated main.tf code for storage_account
+2025-05-25 21:31:36,062 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars invoking.
+2025-05-25 21:31:36,062 [INFO] plugins.tfvars_generator: Generating tfvars for resource: storage_account with variables: [{'name': 'name'}, {'name': 'location'}]
+2025-05-25 21:31:36,062 [INFO] plugins.tfvars_generator: Generated tfvars for storage_account:
+storage_account_vars = {
+  name = "<value>"
+  location = "<value>"
+}
+
+2025-05-25 21:31:36,062 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars succeeded.
+2025-05-25 21:31:36,062 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000032s
+2025-05-25 21:31:36,062 [INFO] __main__: Generated tfvars for storage_account
+2025-05-25 21:31:36,062 [INFO] __main__: Processing resource: sql_server
+2025-05-25 21:31:36,062 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module invoking.
+2025-05-25 21:31:36,062 [INFO] plugins.module_discovery: Finding AVM module for resource: sql_server
+2025-05-25 21:31:36,062 [INFO] plugins.module_discovery: Found exact match for sql_server: {'name': 'avm-res-sql-server', 'display_name': 'Azure SQL Server', 'version': '0.1.4', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-sql-server/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-sql-server', 'status': 'Available'}
+2025-05-25 21:31:36,062 [INFO] semantic_kernel.functions.kernel_function: Function ModuleDiscoverer-find_module succeeded.
+2025-05-25 21:31:36,062 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000053s
+2025-05-25 21:31:36,062 [INFO] __main__: Discovered module for sql_server: {'name': 'avm-res-sql-server', 'display_name': 'Azure SQL Server', 'version': '0.1.4', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-sql-server/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-sql-server', 'status': 'Available'}
+2025-05-25 21:31:36,062 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_code invoking.
+2025-05-25 21:31:36,062 [INFO] plugins.code_generation: Generating main.tf code for resource: sql_server, module: {'name': 'avm-res-sql-server', 'display_name': 'Azure SQL Server', 'version': '0.1.4', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-sql-server/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-sql-server', 'status': 'Available'}
+2025-05-25 21:31:36,062 [INFO] plugins.code_generation: Generated code for sql_server:
+module "sql_server" {
+  source = "Azure/avm-res-sql-server/azurerm"
+  version = "0.1.4"
+  name = var.sql_server_vars.name
+  location = var.sql_server_vars.location
+}
+2025-05-25 21:31:36,062 [INFO] semantic_kernel.functions.kernel_function: Function CodeGenerator-generate_code succeeded.
+2025-05-25 21:31:36,062 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000036s
+2025-05-25 21:31:36,062 [INFO] __main__: Generated main.tf code for sql_server
+2025-05-25 21:31:36,062 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars invoking.
+2025-05-25 21:31:36,062 [INFO] plugins.tfvars_generator: Generating tfvars for resource: sql_server with variables: [{'name': 'name'}, {'name': 'location'}]
+2025-05-25 21:31:36,062 [INFO] plugins.tfvars_generator: Generated tfvars for sql_server:
+sql_server_vars = {
+  name = "<value>"
+  location = "<value>"
+}
+
+2025-05-25 21:31:36,062 [INFO] semantic_kernel.functions.kernel_function: Function TFVarsGen-generate_tfvars succeeded.
+2025-05-25 21:31:36,062 [INFO] semantic_kernel.functions.kernel_function: Function completed. Duration: 0.000032s
+2025-05-25 21:31:36,062 [INFO] __main__: Generated tfvars for sql_server
+2025-05-25 21:31:36,062 [INFO] __main__: Writing main.tf to generated_tf/main.tf
+2025-05-25 21:31:36,063 [INFO] __main__: Writing terraform.tfvars to generated_tf/terraform.tfvars
