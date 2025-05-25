@@ -1,14 +1,13 @@
 
-from semantic_kernel.functions import kernel_function
-import logging
 
-logger = logging.getLogger(__name__)
+from semantic_kernel.functions import kernel_function
 
 import os
 import requests
 import subprocess
 import socket
 import time
+
 
 class TerraformCodeGenerationAgent:
     @staticmethod
@@ -30,7 +29,7 @@ class TerraformCodeGenerationAgent:
         mcp_host = "localhost"
         mcp_port = 5001
         if not is_port_open(mcp_host, mcp_port):
-            logger.info("MCP server not running, attempting to start MCP server via Docker...")
+            print("[INFO] MCP server not running, attempting to start MCP server via Docker...")
             try:
                 # Remove any existing container using the same port/name to avoid exit status 125
                 subprocess.run([
@@ -43,13 +42,13 @@ class TerraformCodeGenerationAgent:
                 ], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                 for _ in range(10):
                     if is_port_open(mcp_host, mcp_port):
-                        logger.info("MCP server started via Docker.")
+                        print("[INFO] MCP server started via Docker.")
                         break
                     time.sleep(1)
                 else:
-                    logger.warning("MCP server did not start in time, will try direct git clone.")
+                    print("[WARN] MCP server did not start in time, will try direct git clone.")
             except Exception as docker_e:
-                logger.warning(f"Failed to start MCP server via Docker: {docker_e}")
+                print(f"[WARN] Failed to start MCP server via Docker: {docker_e}")
         payload = {
             "function": "git.clone",
             "parameters": {
@@ -65,7 +64,7 @@ class TerraformCodeGenerationAgent:
             result = resp.json()
             return result.get("status") == "ok", result.get("error", "")
         except Exception as e:
-            logger.warning(f"MCP server unavailable, falling back to direct git clone: {e}")
+            print(f"[WARN] MCP server unavailable, falling back to direct git clone: {e}")
             try:
                 subprocess.run([
                     "git", "clone", "--depth", "1", repo_url, local_path
@@ -84,7 +83,7 @@ class TerraformCodeGenerationAgent:
         import glob
         import json
         import re
-        logger.info(f"Generating main.tf code for resource: {resource_name}, module: {module}")
+        print(f"[INFO] Generating main.tf code for resource: {resource_name}, module: {module}")
         code = ""
         # Helper to parse variables from all *.tf files in a Terraform module folder
         def parse_module_variables(module_path):
@@ -131,12 +130,12 @@ class TerraformCodeGenerationAgent:
             import tempfile
             repo_url = module.get("source")
             if not repo_url:
-                logger.warning(f"No source field found for module {resource_name}")
+                print(f"[WARN] No source field found for module {resource_name}")
                 return f"# No source field found for module {resource_name}\n"
             with tempfile.TemporaryDirectory() as tmpdir:
                 success, error = self.mcp_git_clone(repo_url, tmpdir)
                 if not success:
-                    logger.warning(f"Failed to clone module {repo_url}: {error}")
+                    print(f"[WARN] Failed to clone module {repo_url}: {error}")
                     return f"# Failed to clone module {repo_url}: {error}\n"
                 module_vars = parse_module_variables(tmpdir)
                 # Fix source: convert registry url to short source string
@@ -155,13 +154,13 @@ class TerraformCodeGenerationAgent:
                 ])
                 source_line = f'  source = "{source}"' if source else ""
                 code = f'module "{resource_name}" {{\n{source_line}\n{version_line}\n{var_lines}\n}}\n'
-                logger.info(f"Generated module block for {resource_name}:\n{code}")
+                print(f"[INFO] Generated module block for {resource_name}:\n{code}")
                 return code
         else:
             # Not a module, generate resource block
             resource_type = module.get("type", "")
             if not resource_type:
-                logger.warning(f"No resource type specified for {resource_name}")
+                print(f"[WARN] No resource type specified for {resource_name}")
                 return f"# No resource type specified for {resource_name}\n"
             # Get all possible inputs for the resource
             resource_inputs = parse_resource_inputs(module)
@@ -169,7 +168,7 @@ class TerraformCodeGenerationAgent:
                 f'  {v["name"]} = var.{v["name"]}' for v in resource_inputs if "name" in v
             ])
             code = f'resource "{resource_type}" "{resource_name}" {{\n{var_lines}\n}}\n'
-            logger.info(f"Generated resource block for {resource_name}:\n{code}")
+            print(f"[INFO] Generated resource block for {resource_name}:\n{code}")
             return code
 
     @kernel_function(name="generate_variables_tf", description="Generates variables.tf block for a module")
@@ -177,7 +176,7 @@ class TerraformCodeGenerationAgent:
         """
         Generates variables.tf content for a module.
         """
-        logger.info(f"Generating variables.tf for resource: {resource_name}")
+        print(f"[INFO] Generating variables.tf for resource: {resource_name}")
         if not variables or not isinstance(variables, list):
             return ""
         blocks = []
@@ -185,7 +184,7 @@ class TerraformCodeGenerationAgent:
             if isinstance(v, dict) and "name" in v:
                 blocks.append(f'variable "{v["name"]}" {{\n  type = string\n}}')
         code = "\n\n".join(blocks)
-        logger.info(f"Generated variables.tf for {resource_name}:\n{code}")
+        print(f"[INFO] Generated variables.tf for {resource_name}:\n{code}")
         return code
 
     @kernel_function(name="generate_outputs_tf", description="Generates outputs.tf block for a module")
@@ -193,7 +192,7 @@ class TerraformCodeGenerationAgent:
         """
         Generates outputs.tf content for a module.
         """
-        logger.info(f"Generating outputs.tf for resource: {resource_name}")
+        print(f"[INFO] Generating outputs.tf for resource: {resource_name}")
         if not outputs or not isinstance(outputs, list):
             return ""
         blocks = []
@@ -201,6 +200,5 @@ class TerraformCodeGenerationAgent:
             if isinstance(o, dict) and "name" in o:
                 blocks.append(f'output "{o["name"]}" {{\n  value = module.{resource_name}.{o["name"]}\n}}')
         code = "\n\n".join(blocks)
-        logger.info(f"Generated outputs.tf for {resource_name}:\n{code}")
+        print(f"[INFO] Generated outputs.tf for {resource_name}:\n{code}")
         return code
-        blocks = []
