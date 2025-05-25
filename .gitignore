@@ -1,2 +1,3 @@
-semantic_kernel_tfgen/plugins/__pycache__/
-.log
+**/__pycache__/
+.log/
+**/.log
