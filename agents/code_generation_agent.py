@@ -1,6 +1,44 @@
 from utils.llm_utils import AzureOpenAIChat
 
 class CodeGenerationAgent:
+    def fix_code_with_validation(self, resource_name: str, module: dict, validation_output: str, main_code: str, var_code: str, out_code: str) -> tuple:
+        """
+        Use LLM to fix the generated code based on validation errors.
+        Returns (main_code, var_code, out_code) after attempted fix.
+        """
+        prompt = f"""
+You are a Terraform and Azure expert. The following Terraform code for resource '{resource_name}' has validation errors. Your job is to fix the code so that it passes validation. Only output the corrected code blocks, no explanations or markdown.
+
+Validation errors:
+{validation_output}
+
+Current main.tf block:
+{main_code}
+
+Current variables.tf block:
+{var_code}
+
+Current outputs.tf block:
+{out_code}
+"""
+        messages = [
+            {"role": "system", "content": "You are a Terraform and Azure infrastructure expert."},
+            {"role": "user", "content": prompt}
+        ]
+        code = self.llm.chat(messages, max_tokens=2048)
+        # Try to split the code into main, var, and output blocks by simple heuristics
+        main, var, out = main_code, var_code, out_code
+        # Heuristic: look for 'module', 'variable', 'output' keywords
+        import re
+        blocks = re.split(r'(?=^module\s+|^variable\s+|^output\s+)', code, flags=re.MULTILINE)
+        for block in blocks:
+            if block.strip().startswith('module '):
+                main = block.strip()
+            elif block.strip().startswith('variable '):
+                var = block.strip()
+            elif block.strip().startswith('output '):
+                out = out.strip() + '\n' + block.strip()
+        return main, var, out
     def __init__(self):
         self.llm = AzureOpenAIChat()
 
