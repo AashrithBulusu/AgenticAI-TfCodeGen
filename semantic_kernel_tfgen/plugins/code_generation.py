@@ -16,6 +16,7 @@ class TerraformCodeGenerationAgent:
         """
         Clone a git repo using MCP server (via Docker) or fallback to direct git clone.
         Returns (success: bool, error: str or None)
+        If the repo_url is a Terraform Registry module URL, this will fail; caller should pass a real git repo URL.
         """
         mcp_url = os.environ.get("MCP_GIT_SERVER_URL", "http://localhost:5001/invoke")
         def is_port_open(host, port):
@@ -29,10 +30,16 @@ class TerraformCodeGenerationAgent:
         mcp_host = "localhost"
         mcp_port = 5001
         if not is_port_open(mcp_host, mcp_port):
-            logger.info("MCP server not running, starting MCP server via Docker...")
+            logger.info("MCP server not running, attempting to start MCP server via Docker...")
+            try:
+                # Remove any existing container using the same port/name to avoid exit status 125
+                subprocess.run([
+                    "docker", "rm", "-f", "mcp-server-git"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            except Exception:
+                pass  # Ignore errors if container does not exist
             try:
                 subprocess.run([
-                    "docker", "run", "-d", "-p", "5001:5001", "ghcr.io/modelcontextprotocol/mcp-server-git:main"
+                    "docker", "run", "-d", "--name", "mcp-server-git", "-p", "5001:5001", "ghcr.io/modelcontextprotocol/mcp-server-git:main"
                 ], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                 for _ in range(10):
                     if is_port_open(mcp_host, mcp_port):
@@ -67,27 +74,103 @@ class TerraformCodeGenerationAgent:
             except Exception as git_e:
                 return False, f"MCP error: {e}; git error: {git_e}"
 
-    @kernel_function(name="generate_main_tf", description="Generates main.tf code block for module using AVM logic")
+    @kernel_function(name="generate_main_tf", description="Generates main.tf code block for module or resource, clones modules, analyzes variables, and generates blocks with variable assignments.")
     def generate_main_tf(self, resource_name: str, module: dict, variables: list) -> str:
         """
-        Generates a module block for main.tf using AVM module logic, similar to tfcodegen_new.py.
-        - Uses the 'registry' field for the source.
-        - Only includes version if present.
-        - Variables are passed as direct assignments (var.<name>).
+        For each resource:
+        - If module: clone the module using mcp_git_clone, parse variables from the module's code, and generate a module block with all variables assigned.
+        - If not a module: generate a resource block, and assign all possible inputs as variables.
         """
+        import glob
+        import json
+        import re
         logger.info(f"Generating main.tf code for resource: {resource_name}, module: {module}")
-        source = module.get("registry", "")
-        version = module.get("version", "")
-        version_line = f'  version = "{version}"' if version else ""
-        source_line = f'  source = "{source}"' if source else ""
-        var_lines = ""
-        if variables and isinstance(variables, list):
+        code = ""
+        # Helper to parse variables from all *.tf files in a Terraform module folder
+        def parse_module_variables(module_path):
+            tf_files = glob.glob(os.path.join(module_path, "*.tf"))
+            var_blocks = []
+            for tf_file in tf_files:
+                with open(tf_file, "r") as f:
+                    content = f.read()
+                    # Remove commented lines and commented variable blocks
+                    # Remove lines starting with #
+                    lines = content.splitlines()
+                    uncommented_lines = []
+                    in_commented_block = False
+                    for line in lines:
+                        stripped = line.lstrip()
+                        # Detect start of a commented variable block
+                        if stripped.startswith('# variable "'):
+                            in_commented_block = True
+                        if in_commented_block:
+                            # End block on closing }
+                            if stripped.startswith('#') and '}' in stripped:
+                                in_commented_block = False
+                            continue
+                        if stripped.startswith('#'):
+                            continue
+                        uncommented_lines.append(line)
+                    uncommented_content = '\n'.join(uncommented_lines)
+                    var_blocks += re.findall(r'variable\s+"([^"]+)"', uncommented_content)
+            return [{"name": v} for v in set(var_blocks)]
+
+        # Helper to parse resource arguments from registry (module dict)
+        def parse_resource_inputs(module):
+            # If module has 'inputs' key, use it; else fallback to variables param
+            if "inputs" in module and isinstance(module["inputs"], list):
+                return [{"name": v} if isinstance(v, str) else v for v in module["inputs"]]
+            return variables if variables else []
+
+        # Determine if this is a module or a resource (module if registry is not a resource type)
+        registry_url = module.get("registry", "")
+        is_module = not module.get("type") and bool(registry_url)
+
+        if is_module:
+            # Always use the 'source' field for cloning, never the registry URL
+            import tempfile
+            repo_url = module.get("source")
+            if not repo_url:
+                logger.warning(f"No source field found for module {resource_name}")
+                return f"# No source field found for module {resource_name}\n"
+            with tempfile.TemporaryDirectory() as tmpdir:
+                success, error = self.mcp_git_clone(repo_url, tmpdir)
+                if not success:
+                    logger.warning(f"Failed to clone module {repo_url}: {error}")
+                    return f"# Failed to clone module {repo_url}: {error}\n"
+                module_vars = parse_module_variables(tmpdir)
+                # Fix source: convert registry url to short source string
+                registry_url = module.get("registry", "")
+                source = registry_url
+                if registry_url.startswith("https://registry.terraform.io/modules/"):
+                    # Remove prefix and possible /latest or /x.y.z suffix
+                    source = registry_url[len("https://registry.terraform.io/modules/"):]
+                    # Remove trailing /latest or /<version>
+                    source = source.rsplit("/", 1)[0] if source.endswith("/latest") or source.split("/")[-1].replace('.', '').isdigit() else source
+                version = module.get("version", "")
+                version_line = f'  version = "{version}"' if version else ""
+                # Use var.<resource_name>_vars.<varname> for each variable
+                var_lines = "\n".join([
+                    f'  {v["name"]} = var.{resource_name}_vars.{v["name"]}' for v in module_vars if "name" in v
+                ])
+                source_line = f'  source = "{source}"' if source else ""
+                code = f'module "{resource_name}" {{\n{source_line}\n{version_line}\n{var_lines}\n}}\n'
+                logger.info(f"Generated module block for {resource_name}:\n{code}")
+                return code
+        else:
+            # Not a module, generate resource block
+            resource_type = module.get("type", "")
+            if not resource_type:
+                logger.warning(f"No resource type specified for {resource_name}")
+                return f"# No resource type specified for {resource_name}\n"
+            # Get all possible inputs for the resource
+            resource_inputs = parse_resource_inputs(module)
             var_lines = "\n".join([
-                f'  {v["name"]} = var.{v["name"]}' if isinstance(v, dict) and "name" in v else "" for v in variables
+                f'  {v["name"]} = var.{v["name"]}' for v in resource_inputs if "name" in v
             ])
-        code = f'module "{resource_name}" {{\n{source_line}\n{version_line}\n{var_lines}\n}}\n'
-        logger.info(f"Generated code for {resource_name}:\n{code}")
-        return code
+            code = f'resource "{resource_type}" "{resource_name}" {{\n{var_lines}\n}}\n'
+            logger.info(f"Generated resource block for {resource_name}:\n{code}")
+            return code
 
     @kernel_function(name="generate_variables_tf", description="Generates variables.tf block for a module")
     def generate_variables_tf(self, resource_name: str, variables: list) -> str:
@@ -120,3 +203,4 @@ class TerraformCodeGenerationAgent:
         code = "\n\n".join(blocks)
         logger.info(f"Generated outputs.tf for {resource_name}:\n{code}")
         return code
+        blocks = []
