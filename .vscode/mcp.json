@@ -12,7 +12,7 @@
         },
          "git": {
             "command": "docker",
-            "args": ["run", "--rm", "-i", "--mount", "type=bind,src=//Users/aashrithbulusu/Library/CloudStorage/OneDrive-Microsoft/Projects/Initiative/AI For Infra/AgenticAI-TfCodeGen,dst=//Users/aashrithbulusu/Library/CloudStorage/OneDrive-Microsoft/Projects/Initiative/AI For Infra/AgenticAI-TfCodeGen", "mcp/git"]
+            "args": ["run", "--rm", "-i", "--mount", "type=bind,src=//Users/niralverma/ai_agents/AgenticAI-TfCodeGen,dst=//Users/niralverma/ai_agents/AgenticAI-TfCodeGen", "mcp/git"]
         }
     }
 }
