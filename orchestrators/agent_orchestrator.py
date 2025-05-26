@@ -45,7 +45,7 @@ class AgentOrchestrator:
             logger.error(f"[Orchestrator] Failed to extract resources: {e}")
             raise
 
-        max_iterations = 3
+        max_iterations = 5
         # Store per-resource code blocks for healing
         resource_blocks = {}
         for res in resources:

@@ -51,13 +51,70 @@ class ModuleDiscoveryAgent:
         self.module_map = AVMModuleCatalogFetcher.get_terraform_modules()
 
     def find_module(self, resource: str) -> dict:
+        # Robust mapping: try exact, partial, fuzzy, synonym, and display name matches
         resource_key = resource.replace('_', '').replace('-', '').lower()
+        # 1. Exact match (ignoring avm-res- prefix and dashes/underscores)
         for mod in self.module_map.values():
             mod_key = mod['name'].replace('avm-res-', '').replace('-', '').replace('_', '').lower()
             if resource_key == mod_key:
+                print(f"[find_module] Exact match: {resource} -> {mod['name']}")
                 return mod
+        # 2. Partial match (resource is substring of module name)
         for mod in self.module_map.values():
             mod_key = mod['name'].replace('avm-res-', '').replace('-', '').replace('_', '').lower()
             if resource_key in mod_key or mod_key in resource_key:
+                print(f"[find_module] Partial match: {resource} -> {mod['name']}")
                 return mod
+        # 3. Fuzzy match: allow for plural/singular, common Azure synonyms
+        synonyms = {
+            'subnet': ['virtualnetworksubnet', 'subnets'],
+            'manageddisk': ['disk', 'manageddisks'],
+            'appserviceplan': ['serviceplan', 'appserviceplans'],
+            'appservice': ['webapp', 'appservices', 'webapps'],
+            'sqldatabase': ['sql', 'database', 'sqldatabases'],
+            'monitoringdiagnostics': ['diagnosticsetting', 'diagnosticsettings'],
+            'loganalyticsworkspace': ['loganalytics', 'workspace', 'loganalyticsworkspaces'],
+            'appinsights': ['applicationinsights', 'insights'],
+            'recoveryservicesvault': ['recoveryvault', 'vault', 'recoveryservicesvaults'],
+            'backuppolicy': ['backup', 'policy', 'backuppolicies'],
+            'trafficmanager': ['traffic', 'manager', 'trafficmanagers'],
+            'rediscache': ['redis', 'cache', 'rediscaches'],
+            'functionapp': ['function', 'functions', 'functionapps'],
+            # Additional Azure resource synonyms for robustness
+            'storageaccount': ['storage', 'storageaccounts'],
+            'virtualmachine': ['vm', 'virtualmachines'],
+            'networkinterface': ['nic', 'networkinterfaces'],
+            'publicip': ['publicipaddress', 'publicipaddresses'],
+            'keyvault': ['vault', 'keyvaults'],
+            'aks': ['kubernetes', 'kubernetescluster', 'kubernetesclusters'],
+            'vnet': ['virtualnetwork', 'vnets', 'virtualnetworks'],
+            'nsg': ['networksecuritygroup', 'networksecuritygroups'],
+            'lb': ['loadbalancer', 'loadbalancers'],
+            'route': ['routetable', 'routetables'],
+            'dnszone': ['dns', 'dnszones'],
+            'eventhub': ['eventhubs', 'eventhubnamespace', 'eventhubnamespaces'],
+            'cosmosdb': ['cosmos', 'cosmosdbs'],
+            'servicebus': ['servicebuses', 'servicebusnamespace', 'servicebusnamespaces'],
+            'containerregistry': ['acr', 'containerregistries'],
+            'containerapp': ['containerapps'],
+        }
+        for syn, mod_names in synonyms.items():
+            if resource_key == syn or resource_key in mod_names:
+                for mod in self.module_map.values():
+                    mod_key = mod['name'].replace('avm-res-', '').replace('-', '').replace('_', '').lower()
+                    if any(mn in mod_key for mn in [syn] + mod_names):
+                        print(f"[find_module] Synonym/fuzzy match: {resource} -> {mod['name']}")
+                        return mod
+        # 4. Last resort: try if resource is in display_name (case-insensitive, ignore spaces)
+        for mod in self.module_map.values():
+            display_name = mod.get('display_name', '').replace(' ', '').lower()
+            if resource_key in display_name or resource.lower() in display_name:
+                print(f"[find_module] Display name match: {resource} -> {mod['name']}")
+                return mod
+        # 5. Fallback: try case-insensitive match on all fields
+        for mod in self.module_map.values():
+            if resource.lower() in str(mod).lower():
+                print(f"[find_module] Fallback case-insensitive match: {resource} -> {mod['name']}")
+                return mod
+        print(f"[find_module] No match found for resource: {resource}")
         return {}
