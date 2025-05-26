@@ -1,0 +1,43 @@
+2025-05-26 14:51:56,311 [INFO] orchestrators.agent_orchestrator: [Init] Initializing AgentOrchestrator with md_file=./resources.md, output_dir=./generated_tf
+2025-05-26 14:51:56,985 [INFO] orchestrators.agent_orchestrator: [Orchestrator] Starting agent chat pipeline with md_file=./resources.md, output_dir=./generated_tf
+2025-05-26 14:51:56,996 [INFO] orchestrators.agent_orchestrator: [Orchestrator] Extracted resources: ['network_security_group', 'network_interface', 'virtual_machine', 'load_balancer', 'storage_account', 'sql_server', 'subnet', 'private_dns_zone']
+2025-05-26 14:51:56,996 [INFO] orchestrators.agent_orchestrator: [Orchestrator] Code generation/validation attempt 1
+2025-05-26 14:51:56,997 [INFO] orchestrators.agent_orchestrator: [Orchestrator] Processing resource: network_security_group
+2025-05-26 14:51:56,997 [INFO] orchestrators.agent_orchestrator: [Orchestrator] Discovered module for network_security_group: {'name': 'avm-res-network-networksecuritygroup', 'display_name': 'Network Security Group', 'version': '0.4.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-network-networksecuritygroup/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-network-networksecuritygroup', 'status': 'Available'}
+2025-05-26 14:52:05,365 [INFO] orchestrators.agent_orchestrator: [Orchestrator] Processing resource: network_interface
+2025-05-26 14:52:05,366 [INFO] orchestrators.agent_orchestrator: [Orchestrator] Discovered module for network_interface: {'name': 'avm-res-network-networkinterface', 'display_name': 'Network Interface', 'version': '0.1.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-network-networkinterface/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-network-networkinterface', 'status': 'Available'}
+2025-05-26 14:52:16,221 [INFO] orchestrators.agent_orchestrator: [Orchestrator] Processing resource: virtual_machine
+2025-05-26 14:52:16,221 [INFO] orchestrators.agent_orchestrator: [Orchestrator] Discovered module for virtual_machine: {'name': 'avm-res-azurestackhci-virtualmachineinstance', 'display_name': 'Stack HCI Virtual Machine Instance', 'version': '2.0.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-azurestackhci-virtualmachineinstance/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-azurestackhci-virtualmachineinstance', 'status': 'Available'}
+2025-05-26 14:52:25,949 [INFO] orchestrators.agent_orchestrator: [Orchestrator] Processing resource: load_balancer
+2025-05-26 14:52:25,950 [INFO] orchestrators.agent_orchestrator: [Orchestrator] Discovered module for load_balancer: {'name': 'avm-res-network-loadbalancer', 'display_name': 'Loadbalancer', 'version': '0.4.0', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-network-loadbalancer/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-network-loadbalancer', 'status': 'Available'}
+2025-05-26 14:52:37,623 [INFO] orchestrators.agent_orchestrator: [Orchestrator] Processing resource: storage_account
+2025-05-26 14:52:37,624 [INFO] orchestrators.agent_orchestrator: [Orchestrator] Discovered module for storage_account: {'name': 'avm-res-storage-storageaccount', 'display_name': 'Storage Account', 'version': '0.6.2', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-storage-storageaccount/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-storage-storageaccount', 'status': 'Available'}
+2025-05-26 14:52:52,878 [INFO] orchestrators.agent_orchestrator: [Orchestrator] Processing resource: sql_server
+2025-05-26 14:52:52,878 [INFO] orchestrators.agent_orchestrator: [Orchestrator] Discovered module for sql_server: {'name': 'avm-res-sql-server', 'display_name': 'Azure SQL Server', 'version': '0.1.4', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-sql-server/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-sql-server', 'status': 'Available'}
+2025-05-26 14:53:05,271 [INFO] orchestrators.agent_orchestrator: [Orchestrator] Processing resource: subnet
+2025-05-26 14:53:05,271 [INFO] orchestrators.agent_orchestrator: [Orchestrator] Discovered module for subnet: {}
+2025-05-26 14:53:14,488 [INFO] orchestrators.agent_orchestrator: [Orchestrator] Processing resource: private_dns_zone
+2025-05-26 14:53:14,488 [INFO] orchestrators.agent_orchestrator: [Orchestrator] Discovered module for private_dns_zone: {'name': 'avm-res-network-privatednszone', 'display_name': 'Private DNS Zone', 'version': '0.3.3', 'registry': 'https://registry.terraform.io/modules/Azure/avm-res-network-privatednszone/azurerm/latest', 'source': 'https://github.com/Azure/terraform-azurerm-avm-res-network-privatednszone', 'status': 'Available'}
+2025-05-26 14:53:23,784 [INFO] orchestrators.agent_orchestrator: [Orchestrator] Terraform CLI Validation Result: [31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mInvalid registry module source address[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on main.tf line 73, in module "subnet":
+[31m│[0m [0m  73:   source              = [4m"{module_source}"[0m[0m
+[31m│[0m [0m
+[31m│[0m [0mFailed to parse module registry address: a module registry source address
+[31m│[0m [0mmust have either three or four slash-separated components.
+[31m│[0m [0m
+[31m│[0m [0mTerraform assumed that you intended a module registry source address
+[31m│[0m [0mbecause you also set the argument "version", which applies only to registry
+[31m│[0m [0mmodules.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mInvalid version constraint[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on main.tf line 74, in module "subnet":
+[31m│[0m [0m  74:   version             = [4m"{module_version}"[0m[0m
+[31m│[0m [0m
+[31m│[0m [0mThis string does not use correct version constraint syntax.
+[31m╵[0m[0m
+
+2025-05-26 14:53:23,785 [WARNING] orchestrators.agent_orchestrator: [Orchestrator] Code is not valid on attempt 1. Will retry if attempts remain.
