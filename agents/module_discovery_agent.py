@@ -1,5 +1,7 @@
 import re
 import requests
+from urllib.parse import urlparse
+import os
 
 class AVMModuleCatalogFetcher:
     TERRAFORM_URL = "https://azure.github.io/Azure-Verified-Modules/indexes/terraform/tf-resource-modules/"
@@ -118,3 +120,55 @@ class ModuleDiscoveryAgent:
                 return mod
         print(f"[find_module] No match found for resource: {resource}")
         return {}
+
+
+class ModuleGitCloner:
+    def __init__(self, module: dict):
+        self.module = module
+        self.github_token = os.environ.get('GITHUB_TOKEN')  # Set this in your shell
+        self.tf_content = self.fetch_tf_files_content()
+
+    def github_headers(self):
+        headers = {}
+        if self.github_token:
+            headers['Authorization'] = f'token {self.github_token}'
+        return headers
+
+    def fetch_tf_files_content(self) -> str:    
+        git_url = self.module.get('source', '')
+        if not git_url:
+            raise ValueError("Module source URL is missing")
+
+        # Parse the GitHub repo info
+        parsed = urlparse(git_url)
+        if 'github.com' not in parsed.netloc:
+            raise NotImplementedError("Only GitHub repositories are supported in this version.")
+
+        # Extract owner and repo name
+        path_parts = parsed.path.strip('/').split('/')
+        if len(path_parts) < 2:
+            raise ValueError("Invalid GitHub repository URL.")
+        owner, repo = path_parts[0], path_parts[1].replace('.git', '')
+
+        # Get the default branch
+        repo_api_url = f"https://api.github.com/repos/{owner}/{repo}"
+        repo_info = requests.get(repo_api_url, headers=self.github_headers()).json()
+        branch = repo_info.get('default_branch', 'main')
+
+        # List files in the repo root
+        contents_api_url = f"https://api.github.com/repos/{owner}/{repo}/contents?ref={branch}"
+        files = requests.get(contents_api_url, headers=self.github_headers()).json()
+
+        if not isinstance(files, list):
+            # Handle error response from GitHub API
+            error_msg = files.get('message', str(files)) if isinstance(files, dict) else str(files)
+            raise RuntimeError(f"Failed to fetch repo contents from GitHub: {error_msg}")
+
+        tf_content = []
+        for file in files:
+            if isinstance(file, dict) and file.get('name', '').endswith('.tf') and 'variable' in file.get('type', ''):
+                file_content_url = file.get('download_url')
+                if file_content_url:
+                    content = requests.get(file_content_url, headers=self.github_headers()).text
+                    tf_content.append(content)
+        return "\n".join(tf_content)

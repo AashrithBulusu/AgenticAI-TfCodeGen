@@ -1,10 +1,23 @@
+import logging
 from utils.llm_utils import AzureOpenAIChat
 from agents.module_discovery_agent import ModuleDiscoveryAgent
-
+from agents.module_discovery_agent import ModuleGitCloner
 class CodeGenerationAgent:
+    def _log(self, message, level="info"):
+        logger = logging.getLogger("CodeGenerationAgent")
+        if level == "debug":
+            logger.debug(message)
+        elif level == "warning":
+            logger.warning(message)
+        elif level == "error":
+            logger.error(message)
+        else:
+            logger.info(message)
     def __init__(self):
+        logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(name)s: %(message)s')
         self.llm = AzureOpenAIChat()
         self.module_discovery = ModuleDiscoveryAgent()
+        self._log("Initialized CodeGenerationAgent and created AzureOpenAIChat and ModuleDiscoveryAgent instances.")
 
     def fix_code_with_validation(self, resource_name: str, validation_output: str, main_code: str, var_code: str, out_code: str) -> tuple:
         """
@@ -26,11 +39,13 @@ Current variables.tf block:
 Current outputs.tf block:
 {out_code}
 """
+        self._log(f"[fix_code_with_validation] Sending validation errors for resource '{resource_name}' to LLM.")
         messages = [
             {"role": "system", "content": "You are a Terraform and Azure infrastructure expert."},
             {"role": "user", "content": prompt}
         ]
         code = self.llm.chat(messages, max_tokens=2048)
+        self._log(f"[fix_code_with_validation] Received response from LLM for resource '{resource_name}'.", "debug")
         # Try to split the code into main, var, and output blocks by simple heuristics
         main, var, out = main_code, var_code, out_code
         # Heuristic: look for 'module', 'variable', 'output' keywords
@@ -43,28 +58,36 @@ Current outputs.tf block:
                 var = block.strip()
             elif block.strip().startswith('output '):
                 out = out.strip() + '\n' + block.strip()
+        self._log(f"[fix_code_with_validation] Finished splitting LLM output for resource '{resource_name}'.", "debug")
         return main, var, out
 
     def generate_main_tf(self, resource_name: str) -> str:
         module = self.module_discovery.find_module(resource_name)
         if not module:
-            print(f"[generate_main_tf] No module found for resource: {resource_name}, skipping.")
+            self._log(f"[generate_main_tf] No module found for resource: {resource_name}, skipping.", "warning")
             return ""
+        self._log(f"[generate_main_tf] Found module for resource '{resource_name}': {module}")
+        self._log(f"[generate_main_tf] Asking ModuleGitCloner to fetch Terraform files for module '{module}'.")
+        module_git_cloner = ModuleGitCloner(module=module)
+        module_tf_content = module_git_cloner.fetch_tf_files_content()
         prompt = f"""
 You are a Terraform expert. For the given Azure resource module, generate a main.tf block that:
 - Uses a single object variable (e.g., {resource_name}_config) for all module inputs.
 - Maps each module input to the corresponding attribute in the config object (e.g., name = var.{resource_name}_config.name).
 - Uses the correct module source and version from the provided module dict.
 - Output ONLY the Terraform code for the module block. Do NOT include any markdown, comments, explanations, or notes. Do NOT use triple backticks or any other formatting.
+- Use the variables mentioned in the Module variable Terraform Code block below to define the module inputs in the module block.
 
 Resource Name: {resource_name}
-Module: {module}
+Module variable Terraform Code: {module_tf_content}
 """
         messages = [
             {"role": "system", "content": "You are a Terraform and Azure infrastructure expert."},
             {"role": "user", "content": prompt}
         ]
+        self._log(f"[generate_main_tf] Sending prompt to LLM for resource '{resource_name}'.")
         code = self.llm.chat(messages)
+        self._log(f"[generate_main_tf] Received response from LLM for resource '{resource_name}'.", "debug")
         code = code.strip()
         if code.startswith('```'):
             code = code.strip('`').replace('hcl', '').strip()
@@ -74,22 +97,29 @@ Module: {module}
     def generate_variables_tf(self, resource_name: str) -> str:
         module = self.module_discovery.find_module(resource_name)
         if not module:
-            print(f"[generate_variables_tf] No module found for resource: {resource_name}, skipping.")
+            self._log(f"[generate_variables_tf] No module found for resource: {resource_name}, skipping.", "warning")
             return ""
+        self._log(f"[generate_variables_tf] Found module for resource '{resource_name}': {module}")
+        self._log(f"[generate_variables_tf] Asking ModuleGitCloner to fetch Terraform files for module '{module}'.")
+        module_git_cloner = ModuleGitCloner(module=module)
+        module_tf_content = module_git_cloner.fetch_tf_files_content()
         prompt = f"""
 You are a Terraform expert. For the given Azure resource module, generate a variables.tf block that:
 - Defines a single object variable named {resource_name}_config.
 - The object type should include all required and optional input variables for the module, with correct types and a description.
 - Output ONLY the Terraform code for the variable block. Do NOT include any markdown, comments, explanations, or notes. Do NOT use triple backticks or any other formatting.
+- Use the variables mentioned in the Module variable Terraform Code block below to define the the variable block.
 
 Resource Name: {resource_name}
-Module: {module}
+Module variable Terraform Code: {module_tf_content}
 """
         messages = [
             {"role": "system", "content": "You are a Terraform and Azure infrastructure expert."},
             {"role": "user", "content": prompt}
         ]
+        self._log(f"[generate_variables_tf] Sending prompt to LLM for resource '{resource_name}'.")
         code = self.llm.chat(messages)
+        self._log(f"[generate_variables_tf] Received response from LLM for resource '{resource_name}'.", "debug")
         code = code.strip()
         if code.startswith('```'):
             code = code.strip('`').replace('hcl', '').strip()
@@ -99,8 +129,9 @@ Module: {module}
     def generate_outputs_tf(self, resource_name: str) -> str:
         module = self.module_discovery.find_module(resource_name)
         if not module:
-            print(f"[generate_outputs_tf] No module found for resource: {resource_name}, skipping.")
+            self._log(f"[generate_outputs_tf] No module found for resource: {resource_name}, skipping.", "warning")
             return ""
+        self._log(f"[generate_outputs_tf] Found module for resource '{resource_name}': {module}")
         prompt = f"""
 You are a Terraform expert. For the given Azure resource module, generate an outputs.tf block that:
 - Exposes all outputs provided by the module, referencing them from the module block (e.g., value = module.{resource_name}.<output_name>).
@@ -114,7 +145,9 @@ Module: {module}
             {"role": "system", "content": "You are a Terraform and Azure infrastructure expert."},
             {"role": "user", "content": prompt}
         ]
+        self._log(f"[generate_outputs_tf] Sending prompt to LLM for resource '{resource_name}'.")
         code = self.llm.chat(messages)
+        self._log(f"[generate_outputs_tf] Received response from LLM for resource '{resource_name}'.", "debug")
         code = code.strip()
         if code.startswith('```'):
             code = code.strip('`').replace('hcl', '').strip()
