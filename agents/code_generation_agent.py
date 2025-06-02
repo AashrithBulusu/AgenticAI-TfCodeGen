@@ -50,6 +50,7 @@ Current outputs.tf block:
         if not module:
             print(f"[generate_main_tf] No module found for resource: {resource_name}, skipping.")
             return ""
+        module_code = self.get_module_code(module)
         prompt = f"""
 You are a Terraform expert. For the given Azure resource module, generate a main.tf block that:
 - Uses a single object variable (e.g., {resource_name}_config) for all module inputs.
@@ -59,6 +60,7 @@ You are a Terraform expert. For the given Azure resource module, generate a main
 
 Resource Name: {resource_name}
 Module: {module}
+Module Code:\n{module_code}
 """
         messages = [
             {"role": "system", "content": "You are a Terraform and Azure infrastructure expert."},
@@ -76,6 +78,7 @@ Module: {module}
         if not module:
             print(f"[generate_variables_tf] No module found for resource: {resource_name}, skipping.")
             return ""
+        module_code = self.get_module_code(module)
         prompt = f"""
 You are a Terraform expert. For the given Azure resource module, generate a variables.tf block that:
 - Defines a single object variable named {resource_name}_config.
@@ -84,6 +87,7 @@ You are a Terraform expert. For the given Azure resource module, generate a vari
 
 Resource Name: {resource_name}
 Module: {module}
+Module Code:\n{module_code}
 """
         messages = [
             {"role": "system", "content": "You are a Terraform and Azure infrastructure expert."},
@@ -101,6 +105,7 @@ Module: {module}
         if not module:
             print(f"[generate_outputs_tf] No module found for resource: {resource_name}, skipping.")
             return ""
+        module_code = self.get_module_code(module)
         prompt = f"""
 You are a Terraform expert. For the given Azure resource module, generate an outputs.tf block that:
 - Exposes all outputs provided by the module, referencing them from the module block (e.g., value = module.{resource_name}.<output_name>).
@@ -109,6 +114,7 @@ You are a Terraform expert. For the given Azure resource module, generate an out
 
 Resource Name: {resource_name}
 Module: {module}
+Module Code:\n{module_code}
 """
         messages = [
             {"role": "system", "content": "You are a Terraform and Azure infrastructure expert."},
@@ -124,7 +130,7 @@ Module: {module}
         for line in lines:
             if line.strip().startswith('output "'):
                 import re
-                m = re.match(r'output\s+"([^"]+)"', line.strip())
+                m = re.match(r'output\\s+\"([^\"]+)\"', line.strip())
                 if m:
                     orig_name = m.group(1)
                     if orig_name.startswith(f"{resource_name}_"):
@@ -137,3 +143,39 @@ Module: {module}
                 new_lines.append(line)
         code = '\n'.join([line for line in new_lines if not line.strip().startswith('#') and 'Notes:' not in line])
         return code.strip()
+
+    def get_module_code(self, module: dict) -> str:
+        """
+        Clone the module repo (if not already cloned), combine all .tf files into a single string, and return it.
+        """
+        import os
+        import tempfile
+        import shutil
+        import glob
+        import git
+
+        repo_url = module.get('source')
+        if not repo_url:
+            print(f"[get_module_code] No source repo found for module: {module.get('name')}")
+            return ""
+        # Use a temp dir for cloning
+        temp_dir = tempfile.mkdtemp(prefix="avm_module_")
+        try:
+            print(f"[get_module_code] Cloning {repo_url} to {temp_dir}")
+            git.Repo.clone_from(repo_url, temp_dir, depth=1)
+            # Only look for main.tf, variables.tf, outputs.tf in the top-level directory
+            tf_files = []
+            for fname in ["main.tf", "variables.tf", "outputs.tf"]:
+                fpath = os.path.join(temp_dir, fname)
+                if os.path.isfile(fpath):
+                    tf_files.append(fpath)
+            tf_code = ""
+            for tf_file in tf_files:
+                with open(tf_file, "r", encoding="utf-8") as f:
+                    tf_code += f.read() + "\n"
+            return tf_code
+        except Exception as e:
+            print(f"[get_module_code] Error cloning or reading module: {e}")
+            return ""
+        finally:
+            shutil.rmtree(temp_dir, ignore_errors=True)
