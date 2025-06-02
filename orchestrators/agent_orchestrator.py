@@ -62,9 +62,9 @@ class AgentOrchestrator:
                 logger.error(f"[Orchestrator] Failed to discover module for {res}: {e}")
                 continue
 
-            main_code = self.codegen_agent.generate_main_tf(res, module, None)
-            var_code = self.codegen_agent.generate_variables_tf(res, module)
-            out_code = self.codegen_agent.generate_outputs_tf(res, module)
+            main_code = self.codegen_agent.generate_main_tf(res)
+            var_code = self.codegen_agent.generate_variables_tf(res)
+            out_code = self.codegen_agent.generate_outputs_tf(res)
 
             main_tf += main_code + "\n"
             variables_tf += var_code + "\n"

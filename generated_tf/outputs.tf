@@ -57,10 +57,6 @@ output "network_interface_internal_fqdn" {
   value = module.network_interface.internal_fqdn
 }
 
-output "network_interface_applied_dns_servers" {
-  value = module.network_interface.applied_dns_servers
-}
-
 output "network_interface_enable_accelerated_networking" {
   value = module.network_interface.enable_accelerated_networking
 }
@@ -88,32 +84,28 @@ output "virtual_machine_resource_group_name" {
   value = module.virtual_machine.resource_group_name
 }
 
-output "virtual_machine_primary_private_ip_address" {
-  value = module.virtual_machine.primary_private_ip_address
+output "virtual_machine_private_ip_address" {
+  value = module.virtual_machine.private_ip_address
 }
 
-output "virtual_machine_primary_public_ip_address" {
-  value = module.virtual_machine.primary_public_ip_address
-}
-
-output "virtual_machine_os_disk_id" {
-  value = module.virtual_machine.os_disk_id
-}
-
-output "virtual_machine_network_interface_ids" {
-  value = module.virtual_machine.network_interface_ids
+output "virtual_machine_public_ip_address" {
+  value = module.virtual_machine.public_ip_address
 }
 
 output "virtual_machine_admin_username" {
   value = module.virtual_machine.admin_username
 }
 
-output "virtual_machine_admin_password" {
-  value = module.virtual_machine.admin_password
+output "virtual_machine_os_disk_id" {
+  value = module.virtual_machine.os_disk_id
 }
 
-output "virtual_machine_tags" {
-  value = module.virtual_machine.tags
+output "virtual_machine_data_disk_ids" {
+  value = module.virtual_machine.data_disk_ids
+}
+
+output "virtual_machine_network_interface_ids" {
+  value = module.virtual_machine.network_interface_ids
 }
 output "load_balancer_id" {
   value = module.load_balancer.id
@@ -154,12 +146,16 @@ output "storage_account_name" {
   value = module.storage_account.name
 }
 
-output "storage_account_primary_endpoint" {
-  value = module.storage_account.primary_endpoint
+output "storage_account_primary_connection_string" {
+  value = module.storage_account.primary_connection_string
 }
 
-output "storage_account_primary_location" {
-  value = module.storage_account.primary_location
+output "storage_account_primary_access_key" {
+  value = module.storage_account.primary_access_key
+}
+
+output "storage_account_secondary_access_key" {
+  value = module.storage_account.secondary_access_key
 }
 
 output "storage_account_primary_blob_endpoint" {
@@ -178,26 +174,6 @@ output "storage_account_primary_table_endpoint" {
   value = module.storage_account.primary_table_endpoint
 }
 
-output "storage_account_primary_web_endpoint" {
-  value = module.storage_account.primary_web_endpoint
-}
-
-output "storage_account_primary_dfs_endpoint" {
-  value = module.storage_account.primary_dfs_endpoint
-}
-
-output "storage_account_primary_sftp_endpoint" {
-  value = module.storage_account.primary_sftp_endpoint
-}
-
-output "storage_account_secondary_location" {
-  value = module.storage_account.secondary_location
-}
-
-output "storage_account_secondary_endpoint" {
-  value = module.storage_account.secondary_endpoint
-}
-
 output "storage_account_secondary_blob_endpoint" {
   value = module.storage_account.secondary_blob_endpoint
 }
@@ -212,18 +188,6 @@ output "storage_account_secondary_queue_endpoint" {
 
 output "storage_account_secondary_table_endpoint" {
   value = module.storage_account.secondary_table_endpoint
-}
-
-output "storage_account_secondary_web_endpoint" {
-  value = module.storage_account.secondary_web_endpoint
-}
-
-output "storage_account_secondary_dfs_endpoint" {
-  value = module.storage_account.secondary_dfs_endpoint
-}
-
-output "storage_account_secondary_sftp_endpoint" {
-  value = module.storage_account.secondary_sftp_endpoint
 }
 output "sql_server_id" {
   value = module.sql_server.id
@@ -245,10 +209,6 @@ output "sql_server_administrator_password" {
   value = module.sql_server.administrator_password
 }
 
-output "sql_server_version" {
-  value = module.sql_server.version
-}
-
 output "sql_server_location" {
   value = module.sql_server.location
 }
@@ -257,32 +217,10 @@ output "sql_server_resource_group_name" {
   value = module.sql_server.resource_group_name
 }
 
-output "sql_server_identity" {
-  value = module.sql_server.identity
-}
-
 output "sql_server_tags" {
   value = module.sql_server.tags
 }
-output "subnet_id" {
-  value = module.subnet.id
-}
 
-output "subnet_name" {
-  value = module.subnet.name
-}
-
-output "subnet_address_prefix" {
-  value = module.subnet.address_prefix
-}
-
-output "subnet_resource_group_name" {
-  value = module.subnet.resource_group_name
-}
-
-output "subnet_location" {
-  value = module.subnet.location
-}
 output "private_dns_zone_id" {
   value = module.private_dns_zone.id
 }
@@ -291,22 +229,14 @@ output "private_dns_zone_name" {
   value = module.private_dns_zone.name
 }
 
-output "private_dns_zone_resource_group" {
-  value = module.private_dns_zone.resource_group
+output "private_dns_zone_resource_group_name" {
+  value = module.private_dns_zone.resource_group_name
 }
 
 output "private_dns_zone_tags" {
   value = module.private_dns_zone.tags
 }
 
-output "private_dns_zone_zone_type" {
-  value = module.private_dns_zone.zone_type
-}
-
-output "private_dns_zone_max_number_of_record_sets" {
-  value = module.private_dns_zone.max_number_of_record_sets
-}
-
-output "private_dns_zone_number_of_record_sets" {
-  value = module.private_dns_zone.number_of_record_sets
+output "private_dns_zone_zone_name" {
+  value = module.private_dns_zone.zone_name
 }

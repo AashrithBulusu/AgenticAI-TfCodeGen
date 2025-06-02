@@ -1,7 +1,12 @@
 from utils.llm_utils import AzureOpenAIChat
+from agents.module_discovery_agent import ModuleDiscoveryAgent
 
 class CodeGenerationAgent:
-    def fix_code_with_validation(self, resource_name: str, module: dict, validation_output: str, main_code: str, var_code: str, out_code: str) -> tuple:
+    def __init__(self):
+        self.llm = AzureOpenAIChat()
+        self.module_discovery = ModuleDiscoveryAgent()
+
+    def fix_code_with_validation(self, resource_name: str, validation_output: str, main_code: str, var_code: str, out_code: str) -> tuple:
         """
         Use LLM to fix the generated code based on validation errors.
         Returns (main_code, var_code, out_code) after attempted fix.
@@ -39,10 +44,12 @@ Current outputs.tf block:
             elif block.strip().startswith('output '):
                 out = out.strip() + '\n' + block.strip()
         return main, var, out
-    def __init__(self):
-        self.llm = AzureOpenAIChat()
 
-    def generate_main_tf(self, resource_name: str, module: dict, variables: list) -> str:
+    def generate_main_tf(self, resource_name: str) -> str:
+        module = self.module_discovery.find_module(resource_name)
+        if not module:
+            print(f"[generate_main_tf] No module found for resource: {resource_name}, skipping.")
+            return ""
         prompt = f"""
 You are a Terraform expert. For the given Azure resource module, generate a main.tf block that:
 - Uses a single object variable (e.g., {resource_name}_config) for all module inputs.
@@ -64,7 +71,11 @@ Module: {module}
         code = '\n'.join([line for line in code.splitlines() if not line.strip().startswith('#') and 'Notes:' not in line and '<module-source>' not in line and '<module-version>' not in line])
         return code.strip()
 
-    def generate_variables_tf(self, resource_name: str, module: dict) -> str:
+    def generate_variables_tf(self, resource_name: str) -> str:
+        module = self.module_discovery.find_module(resource_name)
+        if not module:
+            print(f"[generate_variables_tf] No module found for resource: {resource_name}, skipping.")
+            return ""
         prompt = f"""
 You are a Terraform expert. For the given Azure resource module, generate a variables.tf block that:
 - Defines a single object variable named {resource_name}_config.
@@ -85,7 +96,11 @@ Module: {module}
         code = '\n'.join([line for line in code.splitlines() if not line.strip().startswith('#') and 'Notes:' not in line])
         return code.strip()
 
-    def generate_outputs_tf(self, resource_name: str, module: dict) -> str:
+    def generate_outputs_tf(self, resource_name: str) -> str:
+        module = self.module_discovery.find_module(resource_name)
+        if not module:
+            print(f"[generate_outputs_tf] No module found for resource: {resource_name}, skipping.")
+            return ""
         prompt = f"""
 You are a Terraform expert. For the given Azure resource module, generate an outputs.tf block that:
 - Exposes all outputs provided by the module, referencing them from the module block (e.g., value = module.{resource_name}.<output_name>).
@@ -108,12 +123,10 @@ Module: {module}
         new_lines = []
         for line in lines:
             if line.strip().startswith('output "'):
-                # Try to extract the output name and rewrite
                 import re
                 m = re.match(r'output\s+"([^"]+)"', line.strip())
                 if m:
                     orig_name = m.group(1)
-                    # If already starts with resource_name, keep, else prefix
                     if orig_name.startswith(f"{resource_name}_"):
                         new_lines.append(line)
                     else:
