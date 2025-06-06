@@ -82,7 +82,12 @@ Module Code:\n{module_code}
         prompt = f"""
 You are a Terraform expert. For the given Azure resource module, generate a variables.tf block that:
 - Defines a single object variable named {resource_name}_config.
-- The object type should include all required and optional input variables for the module, with correct types and a description.
+- The object type should include all required and optional input variables for the module, with correct types.
+- The variable MUST have a heredoc description (using <<DESCRIPTION ... DESCRIPTION) that lists and explains EVERY attribute in the object, including whether it is required or optional, its type, and its purpose. Do NOT use a one-line description.
+- The heredoc description MUST mention EVERY attribute in the object, in the same order as in the object type.
+- The heredoc description MUST always be closed with a line containing only DESCRIPTION (no other characters or brackets on that line). 
+- Never start a new variable block until the heredoc description is closed.
+- The variable block must then be closed after the heredoc is closed with a closing curly bracket on the next line.
 - Output ONLY the Terraform code for the variable block. Do NOT include any markdown, comments, explanations, or notes. Do NOT use triple backticks or any other formatting.
 
 Resource Name: {resource_name}
@@ -98,6 +103,28 @@ Module Code:\n{module_code}
         if code.startswith('```'):
             code = code.strip('`').replace('hcl', '').strip()
         code = '\n'.join([line for line in code.splitlines() if not line.strip().startswith('#') and 'Notes:' not in line])
+        # Ensure heredoc is closed before the variable block ends
+        if '<<DESCRIPTION' in code:
+            heredoc_starts = [i for i, line in enumerate(code.splitlines()) if '<<DESCRIPTION' in line]
+            heredoc_ends = [i for i, line in enumerate(code.splitlines()) if line.strip() == 'DESCRIPTION']
+            if len(heredoc_ends) < len(heredoc_starts):
+                code += '\nDESCRIPTION'
+        # Remove DESCRIPTION lines that appear after a closing curly brace
+        import re
+        code = re.sub(r'\}\s*\nDESCRIPTION', '}', code)
+        # Ensure every DESCRIPTION is followed by a closing }
+        lines = code.splitlines()
+        fixed_lines = []
+        for i, line in enumerate(lines):
+            fixed_lines.append(line)
+            if line.strip() == 'DESCRIPTION':
+                # If next non-empty line is not '}', insert it
+                j = i + 1
+                while j < len(lines) and lines[j].strip() == '':
+                    j += 1
+                if j >= len(lines) or lines[j].strip() != '}':
+                    fixed_lines.append('}')
+        code = '\n'.join(fixed_lines)
         return code.strip()
 
     def generate_outputs_tf(self, resource_name: str) -> str:
