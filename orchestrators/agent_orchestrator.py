@@ -45,14 +45,9 @@ class AgentOrchestrator:
             logger.error(f"[Orchestrator] Failed to extract resources: {e}")
             raise
 
-        # Read full variables.tf to extract variable blocks
         variables_tf_path = os.path.join(self.output_dir, 'variables.tf')
-        variables_tf_content = ""
-        if os.path.exists(variables_tf_path):
-            with open(variables_tf_path, 'r') as f:
-                variables_tf_content = f.read()
 
-        main_tf, variables_tf, outputs_tf, tfvars = "", "", "", ""
+        main_tf, variables_tf, outputs_tf = "", "", ""
 
         for res in resources:
             logger.info(f"[Orchestrator] Processing resource: {res}")
@@ -70,29 +65,20 @@ class AgentOrchestrator:
             variables_tf += var_code + "\n"
             outputs_tf += out_code + "\n"
 
-        with open(variables_tf_path, 'w') as f:
-            f.write(variables_tf)
-
-        with open(variables_tf_path, 'r') as f:
-            variables_tf_content = f.read()
-
-        for res in resources:
-            relevant_vars_block = self.tfvars_agent.extract_resource_variables(res, variables_tf_content)
-            if not relevant_vars_block:
-                logger.warning(f"No variables found for resource {res} in variables.tf")
-                continue
-
-            block = await self.tfvars_agent.generate_tfvars(res, relevant_vars_block)
-            tfvars += block + "\n"
-
+        # Write main, variables, outputs files
         with open(os.path.join(self.output_dir, 'main.tf'), 'w') as f:
             f.write(main_tf)
         with open(os.path.join(self.output_dir, 'variables.tf'), 'w') as f:
             f.write(variables_tf)
         with open(os.path.join(self.output_dir, 'outputs.tf'), 'w') as f:
             f.write(outputs_tf)
-        with open(os.path.join(self.output_dir, 'terraform.tfvars'), 'w') as f:
-            f.write(tfvars)
+
+        # Generate terraform.tfvars using full variables.tf content
+        await self.tfvars_agent.generate_tfvars_file(
+            self.tfvars_agent,
+            variables_tf_path,
+            os.path.join(self.output_dir, 'terraform.tfvars')
+        )
 
         logger.info("Terraform files generated successfully.")
 
@@ -109,6 +95,7 @@ class AgentOrchestrator:
             print(f"LLM Validation Result: {llm_validation_result}")
         except Exception as e:
             logger.error(f"LLM validation failed: {e}")
+
 
 if __name__ == "__main__":
     orchestrator = AgentOrchestrator(md_file="./resources.md", output_dir="./generated_tf")
