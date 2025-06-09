@@ -79,52 +79,92 @@ Module Code:\n{module_code}
             print(f"[generate_variables_tf] No module found for resource: {resource_name}, skipping.")
             return ""
         module_code = self.get_module_code(module)
-        prompt = f"""
+        max_retries = 12
+        code = ""
+        for attempt in range(max_retries):
+            if attempt == 0:
+                prompt = f"""
 You are a Terraform expert. For the given Azure resource module, generate a variables.tf block that:
 - Defines a single object variable named {resource_name}_config.
 - The object type should include all required and optional input variables for the module, with correct types.
-- The variable MUST have a heredoc description (using <<DESCRIPTION ... DESCRIPTION) that lists and explains EVERY attribute in the object, including whether it is required or optional, its type, and its purpose. Do NOT use a one-line description.
-- The heredoc description MUST mention EVERY attribute in the object, in the same order as in the object type.
-- The heredoc description MUST always be closed with a line containing only DESCRIPTION (no other characters or brackets on that line). 
-- Never start a new variable block until the heredoc description is closed.
-- The variable block must then be closed after the heredoc is closed with a closing curly bracket on the next line.
-- Output ONLY the Terraform code for the variable block. Do NOT include any markdown, comments, explanations, or notes. Do NOT use triple backticks or any other formatting.
+- For EACH attribute in the object (including nested and map/object attributes), add a comment on the same line (using #) that explains:
+    - What the attribute does (purpose)
+    - Its type
+    - Whether it is required or optional
+    - Any default value or valid values, if applicable
+- The comment must be placed immediately after the attribute definition, on the same line.
+- For nested objects or maps, describe their structure and all their attributes in detail, using inline comments for each nested attribute as well.
+- After the object type, add a single-line description for the variable (e.g., description = "Configuration object for the Azure {resource_name} resource.").
+- Do NOT include any heredoc descriptions, markdown, explanations, or notes. Do NOT use triple backticks or any other formatting.
+- Output ONLY the Terraform code for the variable block.
+- Do NOT add any blank lines between attributes or blocks. The output should be compact.
 
 Resource Name: {resource_name}
 Module: {module}
-Module Code:\n{module_code}
+Module Code:
+{module_code}
 """
-        messages = [
-            {"role": "system", "content": "You are a Terraform and Azure infrastructure expert."},
-            {"role": "user", "content": prompt}
-        ]
-        code = self.llm.chat(messages)
-        code = code.strip()
-        if code.startswith('```'):
-            code = code.strip('`').replace('hcl', '').strip()
-        code = '\n'.join([line for line in code.splitlines() if not line.strip().startswith('#') and 'Notes:' not in line])
-        # Ensure heredoc is closed before the variable block ends
-        if '<<DESCRIPTION' in code:
-            heredoc_starts = [i for i, line in enumerate(code.splitlines()) if '<<DESCRIPTION' in line]
-            heredoc_ends = [i for i, line in enumerate(code.splitlines()) if line.strip() == 'DESCRIPTION']
-            if len(heredoc_ends) < len(heredoc_starts):
-                code += '\nDESCRIPTION'
-        # Remove DESCRIPTION lines that appear after a closing curly brace
+            else:
+                prompt = f"""
+The following variable block is incomplete and cut off. Continue generating ONLY the remaining content to complete the block, starting exactly where it left off. Do not repeat any previous lines. Output ONLY the Terraform code, no markdown or comments. Do NOT add any blank lines between attributes or blocks.
+
+Current incomplete variable block:
+{code}
+"""
+            messages = [
+                {"role": "system", "content": "You are a Terraform and Azure infrastructure expert. Always generate a FULL, non-truncated variable block with inline comments for every attribute and a single-line description at the end. If the block is cut off, CONTINUE generating until the block is closed."},
+                {"role": "user", "content": prompt}
+            ]
+            new_code = self.llm.chat(messages)
+            new_code = new_code.strip()
+            if attempt == 0:
+                code = new_code
+            else:
+                code += "\n" + new_code
+
+            # Remove any markdown code block markers (``` or ```hcl) from the output
+            lines = code.splitlines()
+            cleaned_lines = [line for line in lines if not line.strip() in ("```", "```hcl")]
+            code = "\n".join(cleaned_lines).strip()
+
+            # Heuristic: check if all braces are closed and block ends with }
+            open_braces = code.count('{')
+            close_braces = code.count('}')
+            if open_braces == close_braces and code.strip().endswith('}'):
+                break
+
+        # --- Deduplicate variable blocks and descriptions ---
         import re
-        code = re.sub(r'\}\s*\nDESCRIPTION', '}', code)
-        # Ensure every DESCRIPTION is followed by a closing }
+        var_blocks = re.findall(r'(variable\s+"[^"]+"\s*{[\s\S]+?^})', code, flags=re.MULTILINE)
+        if var_blocks:
+            seen = set()
+            deduped = []
+            for block in var_blocks:
+                m = re.match(r'variable\s+"([^"]+)"', block)
+                if m:
+                    varname = m.group(1)
+                    if varname not in seen:
+                        deduped.append(block.strip())
+                        seen.add(varname)
+            code = "\n".join(deduped)
+        else:
+            code = code.strip()
+
+        # Remove repeated description lines
         lines = code.splitlines()
-        fixed_lines = []
-        for i, line in enumerate(lines):
-            fixed_lines.append(line)
-            if line.strip() == 'DESCRIPTION':
-                # If next non-empty line is not '}', insert it
-                j = i + 1
-                while j < len(lines) and lines[j].strip() == '':
-                    j += 1
-                if j >= len(lines) or lines[j].strip() != '}':
-                    fixed_lines.append('}')
-        code = '\n'.join(fixed_lines)
+        desc_seen = set()
+        final_lines = []
+        for line in lines:
+            if line.strip().startswith("# Description:"):
+                if line.strip() in desc_seen:
+                    continue
+                desc_seen.add(line.strip())
+            # Remove consecutive blank lines and all blank lines between attributes
+            if line.strip() == "":
+                continue
+            final_lines.append(line)
+        code = "\n".join(final_lines)
+
         return code.strip()
 
     def generate_outputs_tf(self, resource_name: str) -> str:
