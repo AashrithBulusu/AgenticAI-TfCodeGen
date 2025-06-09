@@ -1,7 +1,7 @@
 network_security_group_config = {
-  location            = "eastus"
+  location            = "East US"
   name                = "example-nsg"
-  resource_group_name = "example-rg"
+  resource_group_name = "example-resource-group"
   tags = {
     environment = "production"
     owner       = "team-network"
@@ -10,225 +10,221 @@ network_security_group_config = {
     create = "40m"
     delete = "20m"
     read   = "10m"
-    update = "35m"
+    update = "25m"
   }
   lock = {
     kind = "CanNotDelete"
     name = "example-lock"
   }
   role_assignments = {
-    "assignment1" = {
-      role_definition_id_or_name          = "Contributor"
-      principal_id                        = "00000000-0000-0000-0000-000000000001"
-      description                         = "Role assignment for Contributor"
-      skip_service_principal_aad_check    = true
-      condition                           = "resource.type == 'Microsoft.Network/networkSecurityGroups'"
-      condition_version                   = "2.0"
+    admin_role = {
+      role_definition_id_or_name             = "Contributor"
+      principal_id                           = "00000000-0000-0000-0000-000000000001"
+      description                            = "Admin role assignment"
+      skip_service_principal_aad_check       = true
+      condition                              = "resource.type == 'Microsoft.Network/networkSecurityGroups'"
+      condition_version                      = "2.0"
       delegated_managed_identity_resource_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/example-identity"
-      principal_type                      = "User"
+      principal_type                         = "User"
     }
-    "assignment2" = {
-      role_definition_id_or_name          = "Reader"
-      principal_id                        = "00000000-0000-0000-0000-000000000002"
-      description                         = null
-      skip_service_principal_aad_check    = false
-      condition                           = null
-      condition_version                   = null
+    reader_role = {
+      role_definition_id_or_name             = "Reader"
+      principal_id                           = "00000000-0000-0000-0000-000000000002"
+      description                            = "Reader role assignment"
+      skip_service_principal_aad_check       = false
+      condition                              = null
+      condition_version                      = null
       delegated_managed_identity_resource_id = null
-      principal_type                      = "Group"
+      principal_type                         = "Group"
     }
   }
   diagnostic_settings = {
-    "diagnostic1" = {
-      name                              = "example-diagnostic"
-      log_categories                    = ["NetworkSecurityGroupEvent", "NetworkSecurityGroupRuleCounter"]
-      log_groups                        = ["allLogs"]
-      metric_categories                 = ["AllMetrics"]
-      log_analytics_destination_type    = "Dedicated"
-      workspace_resource_id             = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-rg/providers/Microsoft.OperationalInsights/workspaces/example-workspace"
-      storage_account_resource_id       = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-rg/providers/Microsoft.Storage/storageAccounts/examplestorage"
+    diagnostics1 = {
+      name                          = "example-diagnostics"
+      log_categories                = ["NetworkSecurityGroupEvent", "NetworkSecurityGroupRuleCounter"]
+      log_groups                    = ["allLogs"]
+      metric_categories             = ["AllMetrics"]
+      log_analytics_destination_type = "AzureDiagnostics"
+      workspace_resource_id         = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-rg/providers/Microsoft.OperationalInsights/workspaces/example-workspace"
+      storage_account_resource_id   = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-rg/providers/Microsoft.Storage/storageAccounts/examplestorage"
       event_hub_authorization_rule_resource_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-rg/providers/Microsoft.EventHub/namespaces/example-namespace/authorizationRules/example-rule"
-      event_hub_name                    = "example-eventhub"
-      marketplace_partner_resource_id   = null
+      event_hub_name                = "example-eventhub"
+      marketplace_partner_resource_id = null
     }
-    "diagnostic2" = {
-      name                              = null
-      log_categories                    = []
-      log_groups                        = ["allLogs"]
-      metric_categories                 = ["AllMetrics"]
-      log_analytics_destination_type    = "AzureDiagnostics"
-      workspace_resource_id             = null
-      storage_account_resource_id       = null
+    diagnostics2 = {
+      name                          = "example-diagnostics-2"
+      log_categories                = ["NetworkSecurityGroupEvent"]
+      log_groups                    = ["allLogs"]
+      metric_categories             = ["AllMetrics"]
+      log_analytics_destination_type = "Dedicated"
+      workspace_resource_id         = null
+      storage_account_resource_id   = null
       event_hub_authorization_rule_resource_id = null
-      event_hub_name                    = null
-      marketplace_partner_resource_id   = null
+      event_hub_name                = null
+      marketplace_partner_resource_id = null
     }
   }
 }
 
 network_interface_config = {
-  location                          = "eastus"
-  name                              = "example-nic"
-  resource_group_name               = "example-resource-group"
-  accelerated_networking_enabled    = true
-  dns_servers                       = ["8.8.8.8", "8.8.4.4"]
-  edge_zone                         = "example-edge-zone"
-  internal_dns_name_label           = "example-dns-label"
-  ip_forwarding_enabled             = true
-  tags                              = { environment = "production", owner = "team-a" }
+  location                       = "eastus"
+  name                           = "my-network-interface"
+  resource_group_name            = "my-resource-group"
+  accelerated_networking_enabled = true
+  dns_servers                    = ["8.8.8.8", "8.8.4.4"]
+  edge_zone                      = "edge-zone-1"
+  internal_dns_name_label        = "internal-dns-label"
+  ip_forwarding_enabled          = true
+  tags                           = {
+    environment = "production"
+    owner       = "team-a"
+  }
   ip_configurations = {
     ipconfig1 = {
-      name                                      = "ipconfig1"
-      private_ip_address_allocation             = "Static"
-      private_ip_address_version                = "IPv4"
-      private_ip_address                        = "10.0.0.4"
-      public_ip_address_id                      = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-resource-group/providers/Microsoft.Network/publicIPAddresses/example-pip"
-      gateway_load_balancer_frontend_ip_configuration_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-resource-group/providers/Microsoft.Network/loadBalancers/example-lb/frontendIPConfigurations/example-frontend"
-      subnet_id                                 = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-resource-group/providers/Microsoft.Network/virtualNetworks/example-vnet/subnets/example-subnet"
-      primary                                   = true
+      name                                               = "ipconfig1"
+      private_ip_address_allocation                      = "Static"
+      gateway_load_balancer_frontend_ip_configuration_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.Network/loadBalancers/my-load-balancer/frontendIPConfigurations/my-frontend-ip"
+      primary                                            = true
+      private_ip_address                                 = "10.0.0.4"
+      private_ip_address_version                         = "IPv4"
+      public_ip_address_id                               = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.Network/publicIPAddresses/my-public-ip"
+      subnet_id                                          = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.Network/virtualNetworks/my-vnet/subnets/my-subnet"
     }
     ipconfig2 = {
-      name                                      = "ipconfig2"
-      private_ip_address_allocation             = "Dynamic"
-      private_ip_address_version                = "IPv6"
-      private_ip_address                        = null
-      public_ip_address_id                      = null
+      name                                               = "ipconfig2"
+      private_ip_address_allocation                      = "Dynamic"
       gateway_load_balancer_frontend_ip_configuration_id = null
-      subnet_id                                 = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-resource-group/providers/Microsoft.Network/virtualNetworks/example-vnet/subnets/example-subnet"
-      primary                                   = false
+      primary                                            = false
+      private_ip_address                                 = null
+      private_ip_address_version                         = "IPv6"
+      public_ip_address_id                               = null
+      subnet_id                                          = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.Network/virtualNetworks/my-vnet/subnets/my-subnet"
     }
   }
   load_balancer_backend_address_pool_association = {
     lbpool1 = {
-      load_balancer_backend_address_pool_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-resource-group/providers/Microsoft.Network/loadBalancers/example-lb/backendAddressPools/example-pool"
+      load_balancer_backend_address_pool_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.Network/loadBalancers/my-load-balancer/backendAddressPools/my-backend-pool"
       ip_configuration_name                 = "ipconfig1"
     }
   }
   application_gateway_backend_address_pool_association = {
-    application_gateway_backend_address_pool_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-resource-group/providers/Microsoft.Network/applicationGateways/example-ag/backendAddressPools/example-ag-pool"
+    application_gateway_backend_address_pool_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.Network/applicationGateways/my-app-gateway/backendAddressPools/my-backend-pool"
     ip_configuration_name                       = "ipconfig1"
   }
   application_security_group_ids = [
-    "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-resource-group/providers/Microsoft.Network/applicationSecurityGroups/example-asg1",
-    "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-resource-group/providers/Microsoft.Network/applicationSecurityGroups/example-asg2"
+    "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.Network/applicationSecurityGroups/my-asg"
   ]
   nat_rule_association = {
     natrule1 = {
-      nat_rule_id           = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-resource-group/providers/Microsoft.Network/loadBalancers/example-lb/inboundNatRules/example-nat-rule"
+      nat_rule_id           = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.Network/loadBalancers/my-load-balancer/inboundNatRules/my-nat-rule"
       ip_configuration_name = "ipconfig1"
     }
   }
   network_security_group_ids = [
-    "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-resource-group/providers/Microsoft.Network/networkSecurityGroups/example-nsg1",
-    "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-resource-group/providers/Microsoft.Network/networkSecurityGroups/example-nsg2"
+    "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.Network/networkSecurityGroups/my-nsg"
   ]
   lock = {
     kind = "CanNotDelete"
-    name = "example-lock"
+    name = "my-lock"
   }
 }
 
 virtual_machine_config = {
-  name                        = "my-vm"
-  location                    = "East US"
-  resource_group_name         = "my-resource-group"
-  admin_username              = "adminuser"
   admin_password              = "P@ssw0rd123!"
-  custom_location_id          = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.CustomLocation/customLocations/my-custom-location"
-  image_id                    = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.Compute/images/my-image"
-  memory_mb                   = 16384
-  v_cpu_count                 = 4
-  os_type                     = "Linux"
-  dynamic_memory              = true
-  dynamic_memory_min          = 1024
-  dynamic_memory_max          = 16384
-  dynamic_memory_buffer       = 25
-  secure_boot_enabled         = true
-  logical_network_id          = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.Network/virtualNetworks/my-vnet"
-  private_ip_address          = "10.0.0.4"
-  tags                        = { "environment" = "production", "owner" = "team-a" }
-  nic_tags                    = { "role" = "frontend", "project" = "project-x" }
+  admin_username              = "adminuser"
+  custom_location_id          = "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/myResourceGroup/providers/Microsoft.CustomLocation/customLocations/myCustomLocation"
+  image_id                    = "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGallery/images/myImage"
+  location                    = "eastus"
+  logical_network_id          = "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/myResourceGroup/providers/Microsoft.Network/logicalNetworks/myLogicalNetwork"
+  name                        = "my-vm-name"
+  resource_group_name         = "myResourceGroup"
+  auto_upgrade_minor_version  = true
   data_disk_params = {
-    "disk1" = {
-      name        = "data-disk-1"
+    disk1 = {
+      name        = "dataDisk1"
       diskSizeGB  = 128
       dynamic     = true
-      tags        = { "tier" = "gold" }
-      containerId = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.Storage/storageAccounts/my-storage-account"
+      tags        = { environment = "production", owner = "admin" }
+      containerId = "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount"
     }
-    "disk2" = {
-      name        = "data-disk-2"
+    disk2 = {
+      name        = "dataDisk2"
       diskSizeGB  = 256
       dynamic     = false
-      tags        = { "tier" = "silver" }
+      tags        = { environment = "staging", owner = "developer" }
+      containerId = null
     }
   }
-  domain_to_join              = "mydomain.local"
-  domain_join_user_name       = "domainadmin"
+  domain_join_extension_tags  = { environment = "production", role = "domain-join" }
   domain_join_password        = "DomainP@ssw0rd!"
-  domain_target_ou            = "OU=Servers,DC=mydomain,DC=local"
-  domain_join_extension_tags  = { "extension" = "domain-join", "version" = "1.0" }
-  auto_upgrade_minor_version  = true
+  domain_join_user_name       = "domainAdmin"
+  domain_target_ou            = "OU=Servers,DC=example,DC=com"
+  domain_to_join              = "example.com"
+  dynamic_memory              = true
+  dynamic_memory_buffer       = 25
+  dynamic_memory_max          = 16384
+  dynamic_memory_min          = 1024
   enable_telemetry            = true
   http_proxy                  = "http://proxy.example.com:8080"
   https_proxy                 = "https://proxy.example.com:8443"
-  no_proxy                    = ["localhost", "127.0.0.1", "example.com"]
-  trusted_ca                  = "-----BEGIN CERTIFICATE-----\nMIID...END CERTIFICATE-----"
-  type_handler_version        = "1.4"
-  user_storage_id             = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.Storage/storageAccounts/user-storage"
   linux_ssh_config = {
     publicKeys = [
       {
         keyData = "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEArandomkeydata"
         path    = "/home/adminuser/.ssh/authorized_keys"
-      }
-    ]
-  }
-  windows_ssh_config = {
-    publicKeys = [
+      },
       {
-        keyData = "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEArandomkeydata"
-        path    = "C:\\Users\\adminuser\\.ssh\\authorized_keys"
+        keyData = "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAnotherRandomKeyData"
+        path    = "/home/adminuser/.ssh/id_rsa.pub"
       }
     ]
   }
   lock = {
-    level = "CanNotDelete"
-    notes = "This lock prevents accidental deletion of the VM."
+    kind = "ReadOnly"
+    name = "vm-lock"
   }
-  backup_policy_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.RecoveryServices/vaults/my-backup-vault/backupPolicies/my-policy"
-  diagnostics_profile = {
-    boot_diagnostics = {
-      enabled     = true
-      storage_uri = "https://mydiagstorage.blob.core.windows.net/"
-    }
+  managed_identities = {
+    system_assigned          = true
+    user_assigned_resource_ids = ["/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myIdentity"]
   }
-  availability_set_id             = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.Compute/availabilitySets/my-availability-set"
-  proximity_placement_group_id    = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.Compute/proximityPlacementGroups/my-ppg"
-  ultra_ssd_enabled               = true
-  eviction_policy                 = "Deallocate"
-  priority                        = "Spot"
-  max_price                       = 0.05
-  scheduled_events_profile = {
-    terminate_notification = {
-      enabled             = true
-      not_before_timeout  = "PT5M"
-    }
+  memory_mb                  = 8192
+  nic_tags                   = { environment = "production", role = "network-interface" }
+  no_proxy                   = ["localhost", "127.0.0.1"]
+  os_type                    = "Windows"
+  private_ip_address         = "10.0.0.4"
+  private_ip_address_version = "IPv4"
+  processor_count            = 4
+  public_ip_address_id       = "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/myResourceGroup/providers/Microsoft.Network/publicIPAddresses/myPublicIP"
+  public_ip_address_tags     = { environment = "production", role = "public-ip" }
+  require_guest_provision_signal = true
+  secure_boot_enabled        = true
+  storage_account_tags       = { environment = "production", role = "storage-account" }
+  tags                       = { environment = "production", owner = "admin" }
+  time_zone                  = "Pacific Standard Time"
+  use_custom_location        = true
+  vm_size                    = "Standard_D2s_v3"
+  vnet_id                    = "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/myVNet"
+  vnet_subnet_id             = "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/myVNet/subnets/mySubnet"
+  windows_boot_diagnostics_enabled = true
+  windows_configuration = {
+    enableAutomaticUpdates = true
+    provisionVmAgent       = true
+    timeZone               = "Pacific Standard Time"
   }
 }
 
 load_balancer_config = {
-  location              = "eastus"
+  location              = "East US"
   name                  = "my-load-balancer"
   resource_group_name   = "my-resource-group"
   edge_zone             = null
   sku                   = "Standard"
   sku_tier              = "Regional"
-  tags                  = { environment = "production", owner = "team-a" }
+  tags                  = { environment = "production", team = "devops" }
   frontend_ip_configurations = {
     frontend1 = {
       name                                      = "frontend-ip-config-1"
-      frontend_private_ip_address               = "10.0.0.5"
+      frontend_private_ip_address               = "10.0.0.4"
       frontend_private_ip_address_version       = "IPv4"
       frontend_private_ip_address_allocation    = "Static"
       frontend_private_ip_subnet_resource_id    = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.Network/virtualNetworks/my-vnet/subnets/my-subnet"
@@ -240,9 +236,9 @@ load_balancer_config = {
   }
   backend_address_pools = {
     backend1 = {
-      name                        = "backend-pool-1"
+      name                       = "backend-pool-1"
       virtual_network_resource_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.Network/virtualNetworks/my-vnet"
-      tunnel_interfaces           = {
+      tunnel_interfaces          = {
         tunnel1 = {
           identifier = 1
           type       = "IPSec"
@@ -254,48 +250,47 @@ load_balancer_config = {
   }
   lb_rules = {
     rule1 = {
-      name                           = "lb-rule-1"
-      frontend_ip_configuration_name = "frontend-ip-config-1"
-      protocol                       = "Tcp"
-      frontend_port                  = 80
-      backend_port                   = 8080
-      backend_address_pool_resource_ids = ["/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.Network/loadBalancers/my-load-balancer/backendAddressPools/backend-pool-1"]
-      probe_resource_id              = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.Network/loadBalancers/my-load-balancer/probes/my-probe"
-      enable_floating_ip             = false
-      idle_timeout_in_minutes        = 5
-      load_distribution              = "Default"
+      name                              = "lb-rule-1"
+      frontend_ip_configuration_name    = "frontend-ip-config-1"
+      protocol                          = "Tcp"
+      frontend_port                     = 80
+      backend_port                      = 80
+      backend_address_pool_object_names = ["backend-pool-1"]
+      probe_object_name                 = "probe-1"
+      enable_floating_ip                = false
+      idle_timeout_in_minutes           = 5
+      load_distribution                 = "SourceIP"
     }
   }
   lb_probes = {
     probe1 = {
-      name                  = "my-probe"
-      protocol              = "Tcp"
-      port                  = 80
-      request_path          = null
-      interval_in_seconds   = 5
-      number_of_probes      = 2
+      name                = "probe-1"
+      protocol            = "Http"
+      port                = 80
+      interval_in_seconds = 10
+      probe_threshold     = 2
+      request_path        = "/health"
     }
   }
   inbound_nat_rules = {
-    natrule1 = {
+    nat1 = {
       name                           = "nat-rule-1"
       frontend_ip_configuration_name = "frontend-ip-config-1"
       protocol                       = "Tcp"
       frontend_port                  = 22
       backend_port                   = 22
-      backend_ip_configuration_id    = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.Network/networkInterfaces/my-nic/ipConfigurations/ipconfig1"
       enable_floating_ip             = false
       idle_timeout_in_minutes        = 4
     }
   }
   outbound_rules = {
     outbound1 = {
-      name                           = "outbound-rule-1"
-      frontend_ip_configuration_name = "frontend-ip-config-1"
-      backend_address_pool_resource_ids = ["/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.Network/loadBalancers/my-load-balancer/backendAddressPools/backend-pool-1"]
-      protocol                       = "All"
-      idle_timeout_in_minutes        = 4
-      enable_tcp_reset               = true
+      name                              = "outbound-rule-1"
+      frontend_ip_configuration_name    = "frontend-ip-config-1"
+      backend_address_pool_object_names = ["backend-pool-1"]
+      protocol                          = "All"
+      idle_timeout_in_minutes           = 4
+      allocated_outbound_ports          = 1024
     }
   }
 }
@@ -303,13 +298,13 @@ load_balancer_config = {
 storage_account_config = {
   account_replication_type          = "LRS"
   account_tier                      = "Standard"
-  location                          = "eastus"
-  name                              = "mystorageaccount"
+  location                          = "East US"
+  name                              = "mystorageaccount123"
   resource_group_name               = "my-resource-group"
   access_tier                       = "Hot"
   account_kind                      = "StorageV2"
   allow_nested_items_to_be_public   = true
-  allowed_copy_scope                = "Private"
+  allowed_copy_scope                = "Azure"
   cross_tenant_replication_enabled  = true
   default_to_oauth_authentication   = true
   edge_zone                         = "edge-zone-1"
@@ -319,10 +314,10 @@ storage_account_config = {
   large_file_share_enabled          = true
   min_tls_version                   = "TLS1_2"
   nfsv3_enabled                     = true
-  public_network_access_enabled     = true
+  public_network_access_enabled     = false
   queue_encryption_key_type         = "Account"
   sftp_enabled                      = true
-  shared_access_key_enabled         = true
+  shared_access_key_enabled         = false
   table_encryption_key_type         = "Service"
   tags                              = {
     environment = "production"
@@ -343,45 +338,41 @@ storage_account_config = {
   blob_properties = {
     change_feed_enabled           = true
     change_feed_retention_in_days = 7
-    default_service_version       = "2021-08-06"
+    default_service_version       = "2020-06-12"
     last_access_time_enabled      = true
-    container_delete_retention_policy = {
+    versioning_enabled            = true
+    delete_retention_policy = {
       days = 30
     }
-    versioning_enabled = true
   }
-  queue_properties = {
-    logging = {
-      delete                = true
-      read                  = true
-      write                 = true
-      retention_policy_days = 7
-    }
-    hour_metrics = {
-      enabled               = true
-      include_apis          = true
-      retention_policy_days = 30
-    }
-    minute_metrics = {
-      enabled               = true
-      include_apis          = true
-      retention_policy_days = 7
-    }
+  container_delete_retention_policy = {
+    days = 15
   }
-  share_properties = {
-    delete_retention_policy = {
-      days = 14
+  cors_rules = [
+    {
+      allowed_headers    = ["x-ms-meta-*", "x-ms-blob-type"]
+      allowed_methods    = ["GET", "POST", "PUT"]
+      allowed_origins    = ["https://example.com", "https://anotherexample.com"]
+      exposed_headers    = ["x-ms-meta-*", "x-ms-request-id"]
+      max_age_in_seconds = 3600
     }
+  ]
+  delete_retention_policy = {
+    days = 14
+  }
+  immutability_policy = {
+    state  = "Locked"
+    period = 90
   }
 }
 
 sql_server_config = {
-  location                                     = "eastus"
+  location                                     = "East US"
   name                                         = "my-sql-server"
   resource_group_name                          = "my-resource-group"
-  server_version                               = "12.0"
+  server_version                               = "14.0"
   administrator_login                          = "adminuser"
-  administrator_login_password                 = "P@ssw0rd123"
+  administrator_login_password                 = "P@ssw0rd123!"
   connection_policy                            = "Redirect"
   express_vulnerability_assessment_enabled     = true
   outbound_network_restriction_enabled         = true
@@ -389,19 +380,19 @@ sql_server_config = {
   public_network_access_enabled                = false
   tags                                         = {
     environment = "production"
-    owner       = "team-a"
+    team        = "devops"
   }
-  transparent_data_encryption_key_vault_key_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.KeyVault/vaults/my-key-vault/keys/my-key"
+  transparent_data_encryption_key_vault_key_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.KeyVault/vaults/my-keyvault/keys/my-key"
 
   azuread_administrator = {
     login_username              = "aadadminuser"
     object_id                   = "00000000-0000-0000-0000-000000000000"
     azuread_authentication_only = true
-    tenant_id                   = "00000000-0000-0000-0000-000000000000"
+    tenant_id                   = "11111111-1111-1111-1111-111111111111"
   }
 
   identity = {
-    type                     = "SystemAssigned,UserAssigned"
+    type                       = "SystemAssigned,UserAssigned"
     user_assigned_resource_ids = [
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity1",
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity2"
@@ -416,125 +407,102 @@ sql_server_config = {
   role_assignments = {
     "role1" = {
       role_definition_id_or_name             = "Contributor"
-      principal_id                           = "00000000-0000-0000-0000-000000000000"
-      description                            = "Role assignment for Contributor"
+      principal_id                           = "22222222-2222-2222-2222-222222222222"
+      description                            = "Role assignment for SQL Server management"
       skip_service_principal_aad_check       = true
       condition                              = "resource.type == 'Microsoft.Sql/servers'"
       condition_version                      = "2.0"
       delegated_managed_identity_resource_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.ManagedIdentity/userAssignedIdentities/delegated-identity"
-      principal_type                         = "ServicePrincipal"
     }
     "role2" = {
       role_definition_id_or_name             = "Reader"
-      principal_id                           = "11111111-1111-1111-1111-111111111111"
-      description                            = null
-      skip_service_principal_aad_check       = false
-      condition                              = null
-      condition_version                      = null
-      delegated_managed_identity_resource_id = null
-      principal_type                         = "User"
+      principal_id                           = "33333333-3333-3333-3333-333333333333"
     }
   }
 
   diagnostic_settings = {
-    "diagnostic1" = {
-      name                                     = "sql-server-diagnostic"
-      log_categories                           = ["SQLSecurityAuditEvents", "SQLInsights"]
-      log_groups                               = ["allLogs"]
-      metric_categories                        = ["AllMetrics"]
-      log_analytics_destination_type           = "Dedicated"
-      log_analytics_workspace_id              = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.OperationalInsights/workspaces/my-log-workspace"
-      event_hub_authorization_rule_id         = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.EventHub/namespaces/my-eventhub/authorizationRules/my-rule"
-      event_hub_name                          = "my-eventhub"
-      storage_account_id                      = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.Storage/storageAccounts/my-storage-account"
-      storage_account_key                     = "my-storage-account-key"
-      storage_account_sas_token               = "my-storage-account-sas-token"
+    "diag1" = {
+      name                          = "sql-server-diagnostics"
+      log_categories                = ["SQLSecurityAuditEvents", "SQLInsights"]
+      log_groups                    = ["allLogs"]
+      metric_categories             = ["AllMetrics"]
+      log_analytics_destination_type = "Dedicated"
+      workspace_resource_id         = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.OperationalInsights/workspaces/my-log-analytics"
+      storage_account_id            = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.Storage/storageAccounts/mystorageaccount"
+      event_hub_authorization_rule_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.EventHub/namespaces/myeventhubnamespace/authorizationRules/myauthrule"
+      event_hub_name                = "myeventhub"
     }
-  }
-
-  timeouts = {
-    create = "30m"
-    update = "20m"
-    delete = "15m"
   }
 }
 
 private_dns_zone_config = {
   domain_name         = "example.private"
-  resource_group_name = "example-rg"
+  resource_group_name = "example-resource-group"
   tags = {
     environment = "production"
-    owner       = "team-a"
+    owner       = "team-example"
   }
   soa_record = {
     email        = "admin@example.private"
     expire_time  = 2592000
-    minimum_ttl  = 30
+    minimum_ttl  = 15
     refresh_time = 7200
     retry_time   = 600
-    ttl          = 7200
+    ttl          = 3600
     tags = {
       managed_by = "terraform"
     }
   }
   virtual_network_links = {
-    vnet1 = {
-      vnetlinkname     = "vnet1-link"
-      vnetid           = "/subscriptions/12345678-1234-1234-1234-123456789abc/resourceGroups/example-rg/providers/Microsoft.Network/virtualNetworks/vnet1"
+    vnet-link-1 = {
+      vnetlinkname     = "vnet-link-1"
+      vnetid           = "/subscriptions/12345678-1234-1234-1234-123456789abc/resourceGroups/example-resource-group/providers/Microsoft.Network/virtualNetworks/example-vnet"
       autoregistration = true
       tags = {
-        purpose = "link"
-      }
-    }
-    vnet2 = {
-      vnetlinkname     = "vnet2-link"
-      vnetid           = "/subscriptions/12345678-1234-1234-1234-123456789abc/resourceGroups/example-rg/providers/Microsoft.Network/virtualNetworks/vnet2"
-      autoregistration = false
-      tags = {
-        purpose = "link"
+        purpose = "link-to-vnet"
       }
     }
   }
   a_records = {
     record1 = {
-      name                = "web"
-      resource_group_name = "example-rg"
+      name                = "record1"
+      resource_group_name = "example-resource-group"
       zone_name           = "example.private"
       ttl                 = 3600
       records             = ["10.0.0.1", "10.0.0.2"]
       tags = {
-        role = "frontend"
+        type = "A-record"
       }
     }
   }
   aaaa_records = {
     record1 = {
-      name                = "web-ipv6"
-      resource_group_name = "example-rg"
+      name                = "record1"
+      resource_group_name = "example-resource-group"
       zone_name           = "example.private"
       ttl                 = 3600
-      records             = ["2001:db8::1", "2001:db8::2"]
+      records             = ["2001:0db8:85a3:0000:0000:8a2e:0370:7334"]
       tags = {
-        role = "frontend"
+        type = "AAAA-record"
       }
     }
   }
   cname_records = {
     record1 = {
-      name                = "alias"
-      resource_group_name = "example-rg"
+      name                = "record1"
+      resource_group_name = "example-resource-group"
       zone_name           = "example.private"
       ttl                 = 3600
-      record              = "web.example.private"
+      record              = "alias.example.private"
       tags = {
-        alias_for = "web"
+        type = "CNAME-record"
       }
     }
   }
   mx_records = {
     record1 = {
-      name                = "@"
-      resource_group_name = "example-rg"
+      name                = "mail"
+      resource_group_name = "example-resource-group"
       zone_name           = "example.private"
       ttl                 = 3600
       records = {
@@ -548,26 +516,26 @@ private_dns_zone_config = {
         }
       }
       tags = {
-        role = "mail"
+        type = "MX-record"
       }
     }
   }
   txt_records = {
     record1 = {
-      name                = "verification"
-      resource_group_name = "example-rg"
+      name                = "record1"
+      resource_group_name = "example-resource-group"
       zone_name           = "example.private"
       ttl                 = 3600
       records             = ["v=spf1 include:example.com ~all"]
       tags = {
-        purpose = "email-verification"
+        type = "TXT-record"
       }
     }
   }
   srv_records = {
     record1 = {
       name                = "_sip._tcp"
-      resource_group_name = "example-rg"
+      resource_group_name = "example-resource-group"
       zone_name           = "example.private"
       ttl                 = 3600
       records = [
@@ -585,19 +553,37 @@ private_dns_zone_config = {
         }
       ]
       tags = {
-        service = "sip"
+        type = "SRV-record"
       }
     }
   }
   ptr_records = {
     record1 = {
-      name                = "1.0.10.in-addr.arpa"
-      resource_group_name = "example-rg"
+      name                = "1.0.0.10.in-addr.arpa"
+      resource_group_name = "example-resource-group"
       zone_name           = "example.private"
       ttl                 = 3600
-      records             = ["web.example.private"]
+      records             = ["example.private"]
       tags = {
-        reverse_lookup = "true"
+        type = "PTR-record"
+      }
+    }
+  }
+  caa_records = {
+    record1 = {
+      name                = "record1"
+      resource_group_name = "example-resource-group"
+      zone_name           = "example.private"
+      ttl                 = 3600
+      records = [
+        {
+          flags = 0
+          tag   = "issue"
+          value = "letsencrypt.org"
+        }
+      ]
+      tags = {
+        type = "CAA-record"
       }
     }
   }
