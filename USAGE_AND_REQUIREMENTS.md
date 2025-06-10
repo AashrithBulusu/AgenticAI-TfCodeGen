@@ -1,67 +1,88 @@
 
-## Codebase Flow Diagram
 
-Below is a detailed Mermaid diagram showing the flow of the codebase, the main agents, and their key functions:
+This project uses several tools and dependencies to support Terraform code generation, validation, and analysis. Below is a list of requirements and instructions on how to set up and use the codebase.
 
-```mermaid
-flowchart TD
-    subgraph Main
-        M1[main.py]
-        M2[AgentOrchestrator]
-    end
-    M1 -->|validation_only| VAgent[ValidationAgent.validate_code]
-    M1 -->|validation_only| LLMVAgent[LLMValidationAgent.validate_code]
-    M1 -->|else| M2
-    M2 --> REAgent[ResourceExtractionAgent.extract]
-    M2 --> MDAgent[ModuleDiscoveryAgent.find_module]
-    M2 --> CGAgent[CodeGenerationAgent]
-    M2 --> TFVAgent[TFVarsGeneratorAgent.generate_tfvars_file]
-    M2 --> VAgent2[ValidationAgent.validate_code]
-    M2 --> LLMVAgent2[LLMValidationAgent.validate_code]
-    REAgent -->|resources| MDAgent
-    MDAgent -->|module| CGAgent
-    CGAgent -->|main.tf| Out1[main.tf]
-    CGAgent -->|variables.tf| Out2[variables.tf]
-    CGAgent -->|outputs.tf| Out3[outputs.tf]
-    TFVAgent -->|terraform.tfvars| Out4[terraform.tfvars]
-    VAgent2 -->|validation results| LLMVAgent2
-    LLMVAgent2 -->|AI Review| Out5[validations/AI Review and Summary.md]
-    VAgent -->|validation results| LLMVAgent
-    LLMVAgent -->|AI Review| Out6[validations/AI Review and Explanation.md]
-    
-    subgraph Agents
-        REAgent
-        MDAgent
-        CGAgent
-        TFVAgent
-        VAgent
-        LLMVAgent
-        VAgent2
-        LLMVAgent2
-    end
-    subgraph Outputs
-        Out1
-        Out2
-        Out3
-        Out4
-        Out5
-        Out6
-    end
-    
-    CGAgent -.->|fix_code_with_validation| CGAgent
-    CGAgent -.->|generate_main_tf| Out1
-    CGAgent -.->|generate_variables_tf| Out2
-    CGAgent -.->|generate_outputs_tf| Out3
-    TFVAgent -.->|generate_tfvars_for_block| Out4
+## Python Requirements
+
+Install the required Python packages:
+
+```bash
+pip install -r requirements.txt
 ```
 
-**Legend:**
-- **main.py**: Entry point, parses arguments and runs either validation or full pipeline.
-- **AgentOrchestrator**: Coordinates the pipeline, calling each agent in sequence.
-- **ResourceExtractionAgent**: Extracts resource names from `resources.md`.
-- **ModuleDiscoveryAgent**: Maps resource names to Terraform modules.
-- **CodeGenerationAgent**: Generates `main.tf`, `variables.tf`, and `outputs.tf`.
-- **TFVarsGeneratorAgent**: Generates `terraform.tfvars` from variables.
-- **ValidationAgent**: Runs tflint, tfsec, terraform fmt, and validate.
-- **LLMValidationAgent**: Uses LLM to review and explain validation results.
-- **Outputs**: Generated files and validation reports.
+## Terraform Requirements
+
+- [Terraform](https://www.terraform.io/downloads.html): Infrastructure as Code tool.
+- [tflint](https://github.com/terraform-linters/tflint): Linter for Terraform files.
+- [tfsec](https://github.com/aquasecurity/tfsec): Security scanner for Terraform code.
+- [tffmt](https://github.com/antonbabenko/tffmt): Formatter for Terraform files (optional, for formatting).
+
+
+### Install these tools on Windows (using Chocolatey):
+
+```powershell
+choco install terraform
+choco install tflint
+choco install tfsec
+choco install tffmt
+```
+
+If you do not have [Chocolatey](https://chocolatey.org/install), follow the installation instructions on their respective GitHub pages:
+- [Terraform](https://www.terraform.io/downloads.html)
+- [tflint](https://github.com/terraform-linters/tflint)
+- [tfsec](https://github.com/aquasecurity/tfsec)
+- [tffmt](https://github.com/antonbabenko/tffmt)
+
+
+## Usage Instructions
+
+1. **Clone the repository** and navigate to the project directory.
+2. **Install Python dependencies**:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Install Terraform and related tools** as described above.
+
+### Code Generation
+
+To generate Terraform code, run:
+
+```bash
+python main.py
+```
+
+The generated Terraform files will appear in the `generated_tf/` directory.
+
+
+### Validation Only
+
+To validate existing Terraform code (without generating new code), you can use the following command:
+
+```bash
+python main.py --validation_only "<path/to/terraform/directory>"
+```
+
+This command will:
+- Run `tflint` to lint the Terraform code.
+- Run `tfsec` to check for security issues.
+- Run `terraform validate` to validate the configuration.
+- Run `tffmt` to format the code (if enabled in the script).
+
+**Outputs:**
+- Linting results (tflint) will be displayed in the terminal and/or saved in the `validations/` directory.
+- Security scan results (tfsec) will be displayed and/or saved in the `validations/` directory.
+- Validation results (terraform validate) will be shown in the terminal and/or saved in the `validations/` directory.
+- Formatted files (if tffmt is run) will update the Terraform files in place.
+
+You can also use the scripts in the `agents/` or `plugins/` directories for more advanced validation or custom workflows.
+
+## Additional Notes
+
+- Ensure you have the correct versions of each tool as required by your infrastructure policies.
+- For more details, refer to the documentation of each tool.
+
+---
+
+*This file was auto-generated to help you set up and use the codebase efficiently.*
