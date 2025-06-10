@@ -84,15 +84,22 @@ class AgentOrchestrator:
 
         try:
             validation_result = self.validation_agent.validate_code(self.output_dir)
-            logger.info(f"Terraform CLI Validation Result: {validation_result}")
-            print(f"Terraform CLI Validation Result: {validation_result}")
+            logger.info(f"Terraform - Linting Result: {validation_result}")
+            print(f"Terraform - Linting Result: {validation_result}")
         except Exception as e:
-            logger.error(f"Terraform CLI validation failed: {e}")
+            validation_result = "Validation failed - see logs for details."
+            logger.error(f"Terraform - Linting failed: {e}")
 
         try:
-            llm_validation_result = self.llm_validation_agent.validate_code(self.output_dir)
+            llm_validation_result = self.llm_validation_agent.validate_code(self.output_dir, validation_result)
             logger.info(f"LLM Validation Result: {llm_validation_result}")
             print(f"LLM Validation Result: {llm_validation_result}")
+            validations_dir = os.path.join(self.output_dir, "validations")
+            os.makedirs(validations_dir, exist_ok=True)
+            llm_review_path = os.path.join(validations_dir, "AI Review and Summary.md")
+            with open(llm_review_path, "w") as f:
+                f.write(f"# AI Review and Summary\n\n{llm_validation_result}\n")
+            logger.info(f"LLM validation result written to {llm_review_path}")
         except Exception as e:
             logger.error(f"LLM validation failed: {e}")
 

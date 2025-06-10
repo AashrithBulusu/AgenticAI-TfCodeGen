@@ -1,128 +1,87 @@
+terraform {
+  required_version = ">= 1.9, < 2.0"
+  required_providers {
+    azapi = {
+      source  = "azure/azapi"
+      version = "~> 2.0"
+    }
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 4.0"
+    }
+  }
+}
+
+provider "azurerm" {
+  subscription_id = "0000000-0000-00000-000000"
+  features {
+    resource_group {
+      prevent_deletion_if_contains_resources = false
+    }
+  }
+}
+
+# This is required for resource modules
 data "azurerm_resource_group" "rg" {
   name = var.resource_group_name
 }
 
-# required AVM resources interfaces
-resource "azurerm_management_lock" "this" {
-  count = var.lock != null ? 1 : 0
-
-  lock_level = var.lock.kind
-  name       = coalesce(var.lock.name, "lock-${var.lock.kind}")
-  scope      = azapi_resource.virtual_machine.id
-  notes      = var.lock.kind == "CanNotDelete" ? "Cannot delete the resource or its child resources." : "Cannot delete or modify the resource or its child resources."
-}
-
-resource "azurerm_role_assignment" "this" {
-  for_each = var.role_assignments
-
-  principal_id                           = each.value.principal_id
-  scope                                  = azapi_resource.virtual_machine.id
-  condition                              = each.value.condition
-  condition_version                      = each.value.condition_version
-  delegated_managed_identity_resource_id = each.value.delegated_managed_identity_resource_id
-  role_definition_id                     = strcontains(lower(each.value.role_definition_id_or_name), lower(local.role_definition_resource_substring)) ? each.value.role_definition_id_or_name : null
-  role_definition_name                   = strcontains(lower(each.value.role_definition_id_or_name), lower(local.role_definition_resource_substring)) ? null : each.value.role_definition_id_or_name
-  skip_service_principal_aad_check       = each.value.skip_service_principal_aad_check
-}
-
-resource "azapi_resource" "hybrid_compute_machine" {
-  type = "Microsoft.HybridCompute/machines@2023-10-03-preview"
-  body = {
-    kind = "HCI",
-    properties = {
-      agentUpgrade = {
-        correlationId          = null
-        desiredVersion         = null
-        enableAutomaticUpgrade = null
-      }
-      clientPublicKey = null
-      cloudMetadata   = {}
-      licenseProfile = {
-        esuProfile = {
-          licenseAssignmentState = null
-        }
-      }
-      mssqlDiscovered = null
-      osProfile = {
-        linuxConfiguration = {
-          patchSettings = {
-            assessmentMode = null
-            patchMode      = null
-          }
-        }
-        windowsConfiguration = {
-          patchSettings = {
-            assessmentMode = null
-            patchMode      = null
-          }
-        }
-      }
-      osType = null
-      serviceStatuses = {
-        extensionService = {
-          startupType = null
-          status      = null
-        }
-        guestConfigurationService = {
-          startupType = null
-          status      = null
-        }
-      }
-      vmId = null
-    }
-  }
-  location  = var.location
-  name      = var.name
+data "azapi_resource" "customlocation" {
+  type      = "Microsoft.ExtendedLocation/customLocations@2021-08-15"
+  name      = var.custom_location_name
   parent_id = data.azurerm_resource_group.rg.id
-  tags      = var.tags
-
-  identity {
-    type = "SystemAssigned"
-  }
-
-  lifecycle {
-    ignore_changes = [
-      body.properties.agentUpgrade,
-      body.properties.clientPublicKey,
-      body.properties.cloudMetadata,
-      body.properties.extensions,
-      body.properties.licenseProfile,
-      body.properties.locationData,
-      body.properties.locationData.city,
-      body.properties.locationData.countryOrRegion,
-      body.properties.locationData.district,
-      body.properties.locationData.name,
-      body.properties.mssqlDiscovered,
-      body.properties.osProfile,
-      body.properties.osType,
-      body.properties.parentClusterResourceId,
-      body.properties.privateLinkScopeResourceId,
-      body.properties.serviceStatuses,
-      body.properties.vmId,
-      identity[0].identity_ids,
-    ]
-  }
 }
 
-resource "azapi_resource" "virtual_machine" {
-  type = "Microsoft.AzureStackHCI/virtualMachineInstances@2023-09-01-preview"
-  body = {
-    extendedLocation = {
-      type = "CustomLocation"
-      name = var.custom_location_id
-    }
-    properties = local.virtual_machine_properties_all
-  }
-  name      = "default" # value must be 'default' per 2023-09-01-preview
-  parent_id = azapi_resource.hybrid_compute_machine.id
+data "azapi_resource" "vm_image" {
+  type      = var.is_marketplace_image ? "Microsoft.AzureStackHCI/marketplaceGalleryImages@2023-09-01-preview" : "Microsoft.AzureStackHCI/galleryImages@2023-09-01-preview"
+  name      = var.image_name
+  parent_id = data.azurerm_resource_group.rg.id
+}
 
-  timeouts {
-    create = "2h"
-  }
+data "azapi_resource" "logical_network" {
+  type      = "Microsoft.AzureStackHCI/logicalNetworks@2023-09-01-preview"
+  name      = var.logical_network_name
+  parent_id = data.azurerm_resource_group.rg.id
+}
 
-  lifecycle {
-    ignore_changes = [
-      body.properties.storageProfile.vmConfigStoragePathId,
-    ]
-  }
+# This is the module call
+# Do not specify location here due to the randomization above.
+# Leaving location as `null` will cause the module to use the resource group location
+# with a data source.
+module "test" {
+  source = "Azure/avm-res-azurestackhci-virtualmachineinstance/azurerm"
+  version = "2.0.0"
+
+  enable_telemetry      = var.enable_telemetry
+  resource_group_name   = var.resource_group_name
+  location              = data.azurerm_resource_group.rg.location
+  custom_location_id    = data.azapi_resource.customlocation.id
+  name                  = var.name
+  image_id              = data.azapi_resource.vm_image.id
+  logical_network_id    = data.azapi_resource.logical_network.id
+  admin_username        = var.vm_admin_username
+  admin_password        = "Password1234!"
+  v_cpu_count           = var.v_cpu_count
+  memory_mb             = var.memory_mb
+  dynamic_memory        = var.dynamic_memory
+  dynamic_memory_max    = var.dynamic_memory_max
+  dynamic_memory_min    = var.dynamic_memory_min
+  dynamic_memory_buffer = var.dynamic_memory_buffer
+  data_disk_params      = var.data_disk_params
+  private_ip_address    = var.private_ip_address
+  domain_to_join        = var.domain_to_join
+  domain_target_ou      = var.domain_target_ou
+  domain_join_user_name = var.domain_join_user_name
+  domain_join_password  = "doambrfuh&fr3223Z"
+
+
+  # # Optional block to configure a proxy server for your VM
+  # http_proxy = "http://username:password@proxyserver.contoso.com:3128"
+  # https_proxy = "https://username:password@proxyserver.contoso.com:3128"
+  # no_proxy = [
+  #     "localhost",
+  #     "127.0.0.1"
+  # ]
+  # trusted_ca = "-----BEGIN CERTIFICATE-----....-----END CERTIFICATE-----"
+
 }

@@ -1,0 +1,38 @@
+[0m  [1mtimings[0m
+  
+[0m[0m  [2mdisk i/o            [0m 1.188458ms
+[0m[0m  [2mparsing             [0m 7.579457ms
+[0m[0m  [2madaptation          [0m 1.159917ms
+[0m[0m  [2mchecks              [0m 3.232625ms
+[0m[0m  [2mtotal               [0m 13.160457ms
+[0m
+[0m  [1mcounts[0m
+  
+[0m[0m  [2mmodules downloaded  [0m 0
+[0m[0m  [2mmodules processed   [0m 2
+[0m[0m  [2mblocks processed    [0m 81
+[0m[0m  [2mfiles read          [0m 11
+[0m
+[0m  [1mresults[0m
+  
+[0m[0m  [2mpassed              [0m 0
+[0m[0m  [2mignored             [0m 0
+[0m[0m  [2mcritical            [0m 0
+[0m[0m  [2mhigh                [0m 0
+[0m[0m  [2mmedium              [0m 0
+[0m[0m  [2mlow                 [0m 0
+[0m
+[0m
+[32m[1mNo problems detected!
+
+[0m
+======================================================
+tfsec is joining the Trivy family
+
+tfsec will continue to remain available 
+for the time being, although our engineering 
+attention will be directed at Trivy going forward.
+
+You can read more here: 
+https://github.com/aquasecurity/tfsec/discussions/1994
+======================================================

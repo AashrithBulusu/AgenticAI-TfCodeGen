@@ -179,64 +179,32 @@ output "virtual_machine_v_cpu_count" {
 output "virtual_machine_windows_ssh_config" {
   value = module.virtual_machine.windows_ssh_config
 }
-output "load_balancer_id" {
-  value = module.load_balancer.id
+output "load_balancer_azurerm_lb" {
+  value = module.load_balancer.azurerm_lb
+}
+
+output "load_balancer_azurerm_lb_backend_address_pool" {
+  value = module.load_balancer.azurerm_lb_backend_address_pool
+}
+
+output "load_balancer_azurerm_lb_nat_rule" {
+  value = module.load_balancer.azurerm_lb_nat_rule
+}
+
+output "load_balancer_azurerm_public_ip" {
+  value = module.load_balancer.azurerm_public_ip
 }
 
 output "load_balancer_name" {
   value = module.load_balancer.name
 }
 
-output "load_balancer_resource_group_name" {
-  value = module.load_balancer.resource_group_name
+output "load_balancer_resource" {
+  value = module.load_balancer.resource
 }
 
-output "load_balancer_location" {
-  value = module.load_balancer.location
-}
-
-output "load_balancer_frontend_ip_configurations" {
-  value = module.load_balancer.frontend_ip_configurations
-}
-
-output "load_balancer_backend_address_pools" {
-  value = module.load_balancer.backend_address_pools
-}
-
-output "load_balancer_backend_address_pool_addresses" {
-  value = module.load_balancer.backend_address_pool_addresses
-}
-
-output "load_balancer_nat_rules" {
-  value = module.load_balancer.nat_rules
-}
-
-output "load_balancer_nat_pools" {
-  value = module.load_balancer.nat_pools
-}
-
-output "load_balancer_outbound_rules" {
-  value = module.load_balancer.outbound_rules
-}
-
-output "load_balancer_probes" {
-  value = module.load_balancer.probes
-}
-
-output "load_balancer_rules" {
-  value = module.load_balancer.rules
-}
-
-output "load_balancer_sku" {
-  value = module.load_balancer.sku
-}
-
-output "load_balancer_sku_tier" {
-  value = module.load_balancer.sku_tier
-}
-
-output "load_balancer_tags" {
-  value = module.load_balancer.tags
+output "load_balancer_resource_id" {
+  value = module.load_balancer.resource_id
 }
 output "storage_account_containers" {
   value = module.storage_account.containers
@@ -260,6 +228,7 @@ output "storage_account_queues" {
 
 output "storage_account_resource" {
   value = module.storage_account.resource
+  sensitive = true
 }
 
 output "storage_account_resource_id" {
@@ -273,82 +242,110 @@ output "storage_account_shares" {
 output "storage_account_tables" {
   value = module.storage_account.tables
 }
-output "sql_server_resource" {
-  value = module.sql_server.resource
+output "sql_server_id" {
+  value = module.sql_server.id
 }
 
-output "sql_server_resource_databases" {
-  value = module.sql_server.resource_databases
+output "sql_server_name" {
+  value = module.sql_server.name
 }
 
-output "sql_server_resource_elasticpools" {
-  value = module.sql_server.resource_elasticpools
+output "sql_server_fully_qualified_domain_name" {
+  value = module.sql_server.fully_qualified_domain_name
 }
 
-output "sql_server_resource_id" {
-  value = module.sql_server.resource_id
+output "sql_server_administrator_login" {
+  value = module.sql_server.administrator_login
 }
 
-output "sql_server_resource_name" {
-  value = module.sql_server.resource_name
+output "sql_server_administrator_login_password" {
+  value = module.sql_server.administrator_login_password
 }
 
-output "sql_server_private_endpoints" {
-  value = module.sql_server.private_endpoints
+output "sql_server_location" {
+  value = module.sql_server.location
+}
+
+output "sql_server_resource_group_name" {
+  value = module.sql_server.resource_group_name
+}
+
+output "sql_server_version" {
+  value = module.sql_server.version
+}
+
+output "sql_server_connection_policy" {
+  value = module.sql_server.connection_policy
+}
+
+output "sql_server_express_vulnerability_assessment_enabled" {
+  value = module.sql_server.express_vulnerability_assessment_enabled
+}
+
+output "sql_server_minimum_tls_version" {
+  value = module.sql_server.minimum_tls_version
+}
+
+output "sql_server_outbound_network_restriction_enabled" {
+  value = module.sql_server.outbound_network_restriction_enabled
+}
+
+output "sql_server_primary_user_assigned_identity_id" {
+  value = module.sql_server.primary_user_assigned_identity_id
+}
+
+output "sql_server_public_network_access_enabled" {
+  value = module.sql_server.public_network_access_enabled
+}
+
+output "sql_server_tags" {
+  value = module.sql_server.tags
+}
+
+output "sql_server_transparent_data_encryption_key_vault_key_id" {
+  value = module.sql_server.transparent_data_encryption_key_vault_key_id
 }
 
 output "private_dns_zone_name" {
   value = module.private_dns_zone.name
 }
 
-output "private_dns_zone_id" {
-  value = module.private_dns_zone.id
+output "private_dns_zone_resource" {
+  value = module.private_dns_zone.resource
 }
 
-output "private_dns_zone_resource_group_name" {
-  value = module.private_dns_zone.resource_group_name
+output "private_dns_zone_resource_id" {
+  value = module.private_dns_zone.resource_id
 }
 
-output "private_dns_zone_tags" {
-  value = module.private_dns_zone.tags
+output "private_dns_zone_a_record_outputs" {
+  value = module.private_dns_zone.a_record_outputs
 }
 
-output "private_dns_zone_soa_record" {
-  value = module.private_dns_zone.soa_record
+output "private_dns_zone_aaaa_record_outputs" {
+  value = module.private_dns_zone.aaaa_record_outputs
 }
 
-output "private_dns_zone_virtual_network_links" {
-  value = module.private_dns_zone.virtual_network_links
+output "private_dns_zone_cname_record_outputs" {
+  value = module.private_dns_zone.cname_record_outputs
 }
 
-output "private_dns_zone_a_records" {
-  value = module.private_dns_zone.a_records
+output "private_dns_zone_mx_record_outputs" {
+  value = module.private_dns_zone.mx_record_outputs
 }
 
-output "private_dns_zone_aaaa_records" {
-  value = module.private_dns_zone.aaaa_records
+output "private_dns_zone_ptr_record_outputs" {
+  value = module.private_dns_zone.ptr_record_outputs
 }
 
-output "private_dns_zone_cname_records" {
-  value = module.private_dns_zone.cname_records
+output "private_dns_zone_srv_record_outputs" {
+  value = module.private_dns_zone.srv_record_outputs
 }
 
-output "private_dns_zone_mx_records" {
-  value = module.private_dns_zone.mx_records
+output "private_dns_zone_txt_record_outputs" {
+  value = module.private_dns_zone.txt_record_outputs
 }
 
-output "private_dns_zone_ptr_records" {
-  value = module.private_dns_zone.ptr_records
-}
-
-output "private_dns_zone_srv_records" {
-  value = module.private_dns_zone.srv_records
-}
-
-output "private_dns_zone_txt_records" {
-  value = module.private_dns_zone.txt_records
-}
-
-output "private_dns_zone_role_assignments" {
-  value = module.private_dns_zone.role_assignments
+output "private_dns_zone_virtual_network_link_outputs" {
+  value = module.private_dns_zone.virtual_network_link_outputs
 }

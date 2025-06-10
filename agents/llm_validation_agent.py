@@ -24,8 +24,7 @@ If there are issues, explain them. If valid, say 'Valid'.
   - AI Explanation of Linting Issues and how to Fix.
     - Provide a detailed summary of each linting issue found, including how to fix it.
 
-- Return the result in markdown format with appropriate headings. do not Use ```markdown blocks, just use markdown headings and lists.
-- Generate just the markdown content, no additional backticks.
+- Return the result in markdown format with appropriate headings. DO not Use ```markdown blocks.
 
 source code : {code_str}
 
