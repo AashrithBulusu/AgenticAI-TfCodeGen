@@ -30,7 +30,7 @@ class ValidationAgent:
             f.write(tflint_output)
 
         # tfsec
-        tfsec_result = subprocess.run(['tfsec', '--no-color'], cwd=directory, capture_output=True, text=True)
+        tfsec_result = subprocess.run(['tfsec'], cwd=directory, capture_output=True, text=True)
         tfsec_output = self._clean_output(tfsec_result.stdout + tfsec_result.stderr)
         tfsec_file = os.path.join(validations_dir, f'tfsec_{timestamp}.txt')
         with open(tfsec_file, 'w', encoding='utf-8') as f:

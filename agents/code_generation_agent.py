@@ -13,7 +13,10 @@ class CodeGenerationAgent:
         """
         prompt = f"""
 You are a Terraform and Azure expert. The following Terraform code for resource '{resource_name}' has validation errors. Your job is to fix the code so that it passes validation. Only output the corrected code blocks, no explanations or markdown.
-
+- Do NOT include any markdown, comments, explanations, or notes. Do NOT use triple backticks or any other formatting.
+- Do NOT include any heredoc descriptions, markdown, explanations, or notes. Do NOT use triple backticks or any other formatting.
+- Output ONLY the Terraform code for the variable block.
+- Do NOT add any blank lines between attributes or blocks. The output should be compact.
 Validation errors:
 {validation_output}
 
@@ -56,7 +59,12 @@ You are a Terraform expert. For the given Azure resource module, generate a main
 - Uses a single object variable (e.g., {resource_name}_config) for all module inputs.
 - Maps each module input to the corresponding attribute in the config object (e.g., name = var.{resource_name}_config.name).
 - Uses the correct module source and version from the provided module dict.
-- Output ONLY the Terraform code for the module block. Do NOT include any markdown, comments, explanations, or notes. Do NOT use triple backticks or any other formatting.
+- Do NOT include any markdown, comments, explanations, or notes. Do NOT use triple backticks or any other formatting.
+- Do NOT include any heredoc descriptions, markdown, explanations, or notes. Do NOT use triple backticks or any other formatting.
+- Output ONLY the Terraform code for the variable block.
+- Do NOT add any blank lines between attributes or blocks. The output should be compact.
+- Only refer to the variables from the module Code to build the module block, do not include any other variables or resources.
+- Do not keep any variables in this output, only the module block.
 
 Resource Name: {resource_name}
 Module: {module}
@@ -98,6 +106,14 @@ You are a Terraform expert. For the given Azure resource module, generate a vari
 - Do NOT include any heredoc descriptions, markdown, explanations, or notes. Do NOT use triple backticks or any other formatting.
 - Output ONLY the Terraform code for the variable block.
 - Do NOT add any blank lines between attributes or blocks. The output should be compact.
+- When generating code, always place any inline comment (description) immediately after the code on the same line.
+- Do not split comments or descriptions across multiple lines. If a comment is too long, keep it concise and ensure it fits on a single line.
+    - correct: `attribute = value # This is a comment`
+    - incorrect: `attribute = value \n # This is a comment`
+    - incorrect: `attribute = value # This is a very long comment 
+    that should be concise and fit on one line`
+- Never use the backtick character (`) anywhere in the output. Do not use triple backticks or any other markdown formatting.
+- Only output valid Terraform code. Do not use any markdown, code block markers, or special formatting characters.
 
 Resource Name: {resource_name}
 Module: {module}
@@ -218,7 +234,6 @@ Module Code:\n{module_code}
         import os
         import tempfile
         import shutil
-        import glob
         import git
 
         repo_url = module.get('source')
