@@ -59,7 +59,7 @@ module "test" {
   name                  = var.name
   image_id              = data.azapi_resource.vm_image.id
   logical_network_id    = data.azapi_resource.logical_network.id
-  admin_username        = var.vm_admin_username
+  admin_username        = "adminuser"
   admin_password        = "Password1234!"
   v_cpu_count           = var.v_cpu_count
   memory_mb             = var.memory_mb
@@ -71,7 +71,7 @@ module "test" {
   private_ip_address    = var.private_ip_address
   domain_to_join        = var.domain_to_join
   domain_target_ou      = var.domain_target_ou
-  domain_join_user_name = var.domain_join_user_name
+  domain_join_user_name = "domainadmin"
   domain_join_password  = "doambrfuh&fr3223Z"
 
 
