@@ -24,3 +24,6 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+
+# Ignore generated_tf folder in root
+**/generated_tf/*
