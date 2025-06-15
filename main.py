@@ -22,8 +22,7 @@ if __name__ == "__main__":
         llm_agent = LLMValidationAgent()
         llm_result = llm_agent.validate_code(args.directory, result)
         print("\nLLM Validation Results:\n" + llm_result)
-        workspace_root = os.path.abspath(os.path.join(args.directory, '..'))
-        validations_dir = os.path.join(workspace_root, 'validations')
+        validations_dir = os.path.join(args.directory, 'validations')
         os.makedirs(validations_dir, exist_ok=True)
         output_file = os.path.join(validations_dir, "AI Review and Explanation.md")
         with open(output_file, "w") as f:

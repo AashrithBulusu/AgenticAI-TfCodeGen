@@ -9,9 +9,8 @@ class ValidationAgent:
         return re.sub(r'[^\x00-\x7F]+', '', text)
 
     def validate_code(self, directory: str) -> str:
-        # Ensure validations directory exists (at workspace root)
-        workspace_root = os.path.abspath(os.path.join(directory, '..'))
-        validations_dir = os.path.join(workspace_root, 'validations')
+        # Ensure validations directory exists inside the given directory
+        validations_dir = os.path.join(directory, 'validations')
         os.makedirs(validations_dir, exist_ok=True)
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
 
@@ -30,7 +29,7 @@ class ValidationAgent:
             f.write(tflint_output)
 
         # tfsec
-        tfsec_result = subprocess.run(['tfsec'], cwd=directory, capture_output=True, text=True)
+        tfsec_result = subprocess.run(['tfsec', '--no-color'], cwd=directory, capture_output=True, text=True)
         tfsec_output = self._clean_output(tfsec_result.stdout + tfsec_result.stderr)
         tfsec_file = os.path.join(validations_dir, f'tfsec_{timestamp}.txt')
         with open(tfsec_file, 'w', encoding='utf-8') as f:
@@ -57,5 +56,4 @@ class ValidationAgent:
             f"tflint output saved to: {tflint_file}\n"
             f"tfsec output saved to: {tfsec_file}\n"
         )
-        print(summary)
-        return results
+        return summary

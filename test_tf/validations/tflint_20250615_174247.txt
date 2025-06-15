@@ -1,0 +1,30 @@
+4 issue(s) found:
+
+Warning: [Fixable] variable "vm_admin_password" is declared but not used (terraform_unused_declarations)
+
+  on variables.tf line 39:
+  39: variable "vm_admin_password" {
+
+Reference: https://github.com/terraform-linters/tflint-ruleset-terraform/blob/v0.12.0/docs/rules/terraform_unused_declarations.md
+
+Warning: [Fixable] variable "domain_join_password" is declared but not used (terraform_unused_declarations)
+
+  on variables.tf line 55:
+  55: variable "domain_join_password" {
+
+Reference: https://github.com/terraform-linters/tflint-ruleset-terraform/blob/v0.12.0/docs/rules/terraform_unused_declarations.md
+
+Warning: [Fixable] variable "domain_join_user_name" is declared but not used (terraform_unused_declarations)
+
+  on variables.tf line 62:
+  62: variable "domain_join_user_name" {
+
+Reference: https://github.com/terraform-linters/tflint-ruleset-terraform/blob/v0.12.0/docs/rules/terraform_unused_declarations.md
+
+Warning: [Fixable] variable "vm_admin_username" is declared but not used (terraform_unused_declarations)
+
+  on variables.tf line 138:
+ 138: variable "vm_admin_username" {
+
+Reference: https://github.com/terraform-linters/tflint-ruleset-terraform/blob/v0.12.0/docs/rules/terraform_unused_declarations.md
+

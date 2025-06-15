@@ -173,32 +173,52 @@ output "azurestackhci_virtual_machine_user_storage_id" {
 }
 
 output "azurestackhci_virtual
-output "load_balancer_azurerm_lb" {
-  value = module.load_balancer.azurerm_lb
-}
-
-output "load_balancer_azurerm_lb_backend_address_pool" {
-  value = module.load_balancer.azurerm_lb_backend_address_pool
-}
-
-output "load_balancer_azurerm_lb_nat_rule" {
-  value = module.load_balancer.azurerm_lb_nat_rule
-}
-
-output "load_balancer_azurerm_public_ip" {
-  value = module.load_balancer.azurerm_public_ip
+output "load_balancer_id" {
+  value = module.load_balancer.id
 }
 
 output "load_balancer_name" {
   value = module.load_balancer.name
 }
 
-output "load_balancer_resource" {
-  value = module.load_balancer.resource
+output "load_balancer_resource_group_name" {
+  value = module.load_balancer.resource_group_name
 }
 
-output "load_balancer_resource_id" {
-  value = module.load_balancer.resource_id
+output "load_balancer_frontend_ip_configuration" {
+  value = module.load_balancer.frontend_ip_configuration
+}
+
+output "load_balancer_backend_address_pool" {
+  value = module.load_balancer.backend_address_pool
+}
+
+output "load_balancer_backend_address_pool_address" {
+  value = module.load_balancer.backend_address_pool_address
+}
+
+output "load_balancer_network_interface_backend_address_pool_association" {
+  value = module.load_balancer.network_interface_backend_address_pool_association
+}
+
+output "load_balancer_probe" {
+  value = module.load_balancer.probe
+}
+
+output "load_balancer_rule" {
+  value = module.load_balancer.rule
+}
+
+output "load_balancer_nat_rule" {
+  value = module.load_balancer.nat_rule
+}
+
+output "load_balancer_outbound_rule" {
+  value = module.load_balancer.outbound_rule
+}
+
+output "load_balancer_nat_pool" {
+  value = module.load_balancer.nat_pool
 }
 output "storage_account_containers" {
   value = module.storage_account.containers
@@ -222,7 +242,6 @@ output "storage_account_queues" {
 
 output "storage_account_resource" {
   value = module.storage_account.resource
-  sensitive = true
 }
 
 output "storage_account_resource_id" {
@@ -236,26 +255,74 @@ output "storage_account_shares" {
 output "storage_account_tables" {
   value = module.storage_account.tables
 }
-output "sql_server_resource" {
-  value = module.sql_server.resource
+output "sql_server_id" {
+  value = module.sql_server.id
 }
 
-output "sql_server_resource_databases" {
-  value = module.sql_server.resource_databases
+output "sql_server_name" {
+  value = module.sql_server.name
 }
 
-output "sql_server_resource_elasticpools" {
-  value = module.sql_server.resource_elasticpools
+output "sql_server_fully_qualified_domain_name" {
+  value = module.sql_server.fully_qualified_domain_name
 }
 
-output "sql_server_resource_id" {
-  value = module.sql_server.resource_id
+output "sql_server_administrator_login" {
+  value = module.sql_server.administrator_login
 }
 
-output "sql_server_resource_name" {
-  value = module.sql_server.resource_name
+output "sql_server_administrator_login_password" {
+  value = module.sql_server.administrator_login_password
 }
 
-output "sql_server_private_endpoints" {
-  value = module.sql_server.private_endpoints
+output "sql_server_connection_policy" {
+  value = module.sql_server.connection_policy
+}
+
+output "sql_server_express_vulnerability_assessment_enabled" {
+  value = module.sql_server.express_vulnerability_assessment_enabled
+}
+
+output "sql_server_minimum_tls_version" {
+  value = module.sql_server.minimum_tls_version
+}
+
+output "sql_server_outbound_network_restriction_enabled" {
+  value = module.sql_server.outbound_network_restriction_enabled
+}
+
+output "sql_server_primary_user_assigned_identity_id" {
+  value = module.sql_server.primary_user_assigned_identity_id
+}
+
+output "sql_server_public_network_access_enabled" {
+  value = module.sql_server.public_network_access_enabled
+}
+
+output "sql_server_tags" {
+  value = module.sql_server.tags
+}
+
+output "sql_server_transparent_data_encryption_key_vault_key_id" {
+  value = module.sql_server.transparent_data_encryption_key_vault_key_id
+}
+
+output "sql_server_azuread_administrator" {
+  value = module.sql_server.azuread_administrator
+}
+
+output "sql_server_identity" {
+  value = module.sql_server.identity
+}
+
+output "sql_server_management_lock" {
+  value = module.sql_server.management_lock
+}
+
+output "sql_server_role_assignment" {
+  value = module.sql_server.role_assignment
+}
+
+output "sql_server_monitor_diagnostic_setting" {
+  value = module.sql_server.monitor_diagnostic_setting
 }
